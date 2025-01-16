@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "name": "2 Columns",
+    "tooltip": "Creates two columns",
+    "type": "WIDGET",
+    "icon": "text-icon"
+  },
+  "html": {
+    "nodes": [
+      {
+        "element": "div",
+        "attributes": {
+          "className": {"value":"horizontal"}
+        },
+        "style": {},
+        "children": [1,2],
+        "metadata": {
+          "draggable": true,
+          "droppable": true,
+          "childDirection": "horizontal",
+          "selectable": true
+        }
+      },
+      {
+        "element": "div",
+        "attributes": {
+          "className": {"value":"vertical"}
+        },
+        "style": {},
+        "children": [],
+        "metadata": {
+          "draggable": true,
+          "droppable": true,
+          "childDirection": "vertical",
+          "selectable": true
+        }
+      },
+      {
+        "element": "div",
+        "attributes": {
+          "className": {"value":"vertical"}
+        },
+        "style": {},
+        "children": [],
+        "metadata": {
+          "draggable": true,
+          "droppable": true,
+          "childDirection": "vertical",
+          "selectable": true
+        }
+      }
+    ]
+  }
+}

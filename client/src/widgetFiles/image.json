@@ -1,0 +1,37 @@
+{
+    "metadata": {
+        "name": "Image",
+        "tooltip": "A place to upload and display an Image",
+        "type": "WIDGET",
+        "icon": "image-icon"
+      },
+      "html": {
+        "nodes": [
+          {
+            "element": "div",
+            "attributes": {
+              "className": {"value": "elementContainer"}
+            },
+            "style": {},
+            "children": [1],
+            "metadata": {
+              "draggable": true,
+              "selectable": true
+            }
+          },
+          {
+            "element": "img",
+            "attributes": {
+              "className": {"value": "image"},
+              "src": {
+                "value":"https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
+              }
+            },
+            "style": {},
+            "metadata": {
+              "primary": true
+            }
+          }
+        ]
+      }
+}

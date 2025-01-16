@@ -1,0 +1,93 @@
+{
+    "metadata": {
+      "name": "3 Columns",
+      "tooltip": "Creates three columns",
+      "type": "WIDGET",
+      "icon": "text-icon"
+    },
+    "html": {
+      "nodes": [
+        {
+          "element": "div",
+          "attributes": {
+            "className": {"value": "horizontal"}
+          },
+          "style": {},
+          "children": [1,2,3],
+          "metadata": {
+            "droppable": true,
+            "draggable": true,
+            "childDirection": "horizontal",
+            "selectable": true
+          }
+        },
+        {
+          "element": "div",
+          "attributes": {
+            "className": {"value":"vertical"}
+          },
+          "style": {
+            "flex-grow": {
+                "value": "",
+                "input": {
+                    "type": "text",
+                    "displayName": "Relative Size"
+                }
+            }
+          },
+          "children": [],
+          "metadata": {
+            "droppable": true,
+            "draggable": true,
+            "childDirection": "vertical",
+            "selectable": true
+          }
+        },
+        {
+          "element": "div",
+          "attributes": {
+            "className": {"value":"vertical"}
+          },
+          "style": {
+            "flex-grow": {
+                "value": "",
+                "input": {
+                    "type": "text",
+                    "displayName": "Relative Size"
+                }
+            }
+        },
+          "children": [],
+          "metadata": {
+            "droppable": true,
+            "draggable": true,
+            "childDirection": "vertical",
+            "selectable": true
+          }
+        },
+        {
+            "element": "div",
+            "attributes": {
+              "className": {"value":"vertical"}
+            },
+            "style": {
+
+            "flex-grow": {
+                "value": "",
+                "input": {
+                    "type": "text",
+                    "displayName": "Relative Size"
+                }
+            }
+            },
+            "children": [],
+            "metadata": {
+              "droppable": true,
+              "draggable": true,
+              "childDirection": "vertical",
+              "selectable": true
+            }
+          }
+      ]
+    }
+  }

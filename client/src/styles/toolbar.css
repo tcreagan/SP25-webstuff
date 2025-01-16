@@ -1,0 +1,48 @@
+.toolbar {
+    
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #C8C8C8;  
+    padding: 1rem; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .toolbar-button {
+    background-color: #3b82f6;  
+    color: white;
+    padding: 0.5rem 1rem;  
+    border-radius: 0.25rem;  
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;  
+  }
+  
+  .toolbar-button:last-child {
+    margin-right: 0;  
+  }
+  
+  .toolbar-button-icon {
+    font-size: 1.15rem;  
+    margin-right: 0.5rem;  
+  }
+  
+  .toolbar-save-continue {
+    position: relative;
+    background-color: #059669; 
+  }
+  
+  .icon-base {
+    position: relative;
+    z-index: 10;
+  }
+  
+  .icon-overlay {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    
+    z-index: 11;
+  }

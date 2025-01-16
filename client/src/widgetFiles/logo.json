@@ -1,0 +1,35 @@
+{
+    "metadata": {
+        "name": "Logo",
+        "tooltip": "Your own Logo goes here!",
+        "type": "WIDGET",
+        "icon": "logo-icon"
+      },
+      "html": {
+        "nodes": [
+          {
+            "element": "div",
+            "attributes": {
+              "className": {"value": "elementContainer"}
+            },
+            "style": {},
+            "children": [1],
+            "metadata": {
+              "draggable": true,
+              "selectable": true
+            }
+          },
+          {
+            "element": "img",
+            "attributes": {
+              "className": {"value": "logo"},
+              "src": {"value":"https://media.istockphoto.com/id/1331491686/vector/element-design.jpg?s=612x612&w=0&k=20&c=QIMRS2IPiQyyTZJR_G1JAjH_ErBBkrDPtQe2GBNgm2w="}
+            },
+            "style": {},
+            "metadata": {
+              "selectable": true
+            }
+          }
+        ]
+      }
+}

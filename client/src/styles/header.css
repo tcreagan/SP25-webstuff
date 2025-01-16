@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5; /* Example background color */
+    height: 70px;
+  }
+  
+  .header-left, .header-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-title h1 {
+    margin-right: 10px;
+  }
+  
+  .permalink {
+    color: #007bff; /* Example link color */
+  }
+  
+  .permalink a {
+    text-decoration: underline;
+  }
+  
+ 
+  

@@ -1,0 +1,19 @@
+.widget {
+    /*border: 2px solid white; */
+    border-radius: 25px 25px 25px 25px;
+    padding: 20px; 
+    margin-bottom: 16px;  
+    background-color: grey;
+  }
+  
+.widget:hover {
+    border: 2px solid black; 
+    padding: 20px; 
+    margin-bottom: 16px;  
+    background-color: lightgrey;
+    cursor: pointer;
+}
+
+
+ 
+  

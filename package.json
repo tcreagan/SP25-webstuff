@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "dompurify": "^3.1.0",
+    "js-beautify": "^1.15.1",
+    "prismjs": "^1.29.0"
+  },
+  "devDependencies": {
+    "@types/dompurify": "^3.0.5",
+    "@types/js-beautify": "^1.14.3",
+    "@types/prismjs": "^1.26.3"
+  }
+}

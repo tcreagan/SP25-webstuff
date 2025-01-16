@@ -1,0 +1,38 @@
+{
+    "metadata": {
+        "name": "Audio",
+        "tooltip": "An place to upload and display your audio file",
+        "type": "WIDGET",
+        "icon": "audio-icon"
+      }, 
+      "html": {
+        "nodes": [
+          {
+            "element": "div",
+            "attributes": {
+              "className": {"value": "audioContainer", "readonly": true}
+            },
+            "style": {},
+            "children": [1],
+            "metadata": {
+              "draggable": true,
+              "selectable": true
+            }
+          },
+          {
+            "element": "audio",
+            "attributes": {
+              "className": {"value": "audio", "readonly": true},
+              "src": {"value": "https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav"},
+              "type": {"value": "audio/wav", "hidden": true},
+              "controls": {"value": "true"}
+            },
+            "style": {},
+            "metadata": {
+              "selectable": true,
+              "primary": true
+            }
+          }
+        ]
+      }
+}

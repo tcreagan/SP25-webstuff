@@ -1,0 +1,100 @@
+{
+    "metadata": {
+        "name": "Text Box",
+        "tooltip": "A simple textbox",
+        "type": "WIDGET",
+        "icon": "text-icon"
+    },
+    "html": {
+        "nodes": [
+            {
+                "element": "p",
+                "style": {
+                    "text-align": {
+                        "value": "",
+                        "input": {
+                            "type": "select",
+                            "displayName": "Text Align",
+                            "options": [
+                                {"value": "", "text": "Default"},
+                                {"value": "start", "text": "Left"},
+                                {"value": "center", "text": "Center"},
+                                {"value": "end", "text": "Right"}
+                            ]
+                        }
+                    },
+
+                    "font-family": {
+                        "value":"",
+                        "input":{
+                            "type": "select",
+                            "displayName": "Font",
+                            "options":[
+                                {"value": "", "text": "Default"},
+                                {"value": "inherit", "text": "Default"},
+                                {"value": "Arial", "text": "Arial"},
+                                {"value": "Verdana", "text": "Verdana"},
+                                {"value": "Times New Roman", "text": "Times New Roman"},
+                                {"value": "Courier New", "text": "Courier New"}
+                            ]
+                        }
+                    },
+
+                    "font-size": {
+                        "value":"",
+                        "input":{
+                            "type": "select",
+                            "displayName": "Font Size",
+                            "options":[
+                                {"value": "", "text": "Default"},
+                                {"value": ".5rem", "text": "Very Small"},
+                                {"value": ".8rem", "text": "Small"},
+                                {"value": "1.1rem", "text": "Medium"},
+                                {"value": "1.5rem", "text": "Large"},
+                                {"value": "1.8rem", "text": "Very Large"}
+                            ]
+                        }
+                    },
+
+                    "font-weight": {
+                        "value":"",
+                        "input":{
+                            "type": "select",
+                            "displayName": "Font Weight",
+                            "options":[
+                                {"value": "", "text": "Default"},
+                                {"value": "50", "text": "Lighter"},
+                                {"value": "100", "text": "Light"},
+                                {"value": "200", "text": "Normal"},
+                                {"value": "400", "text": "Bold"},
+                                {"value": "600", "text": "Bolder"}
+                            ]
+                        }
+                    },
+                    "color":{
+                        "value": "",
+                        "input": {
+                            "type": "color",
+                            "displayName": "Text Color"
+                        }
+                    }
+                },
+                "attributes": {
+                    "text": {
+                        "value":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                        "suppress": true,
+                        "input": {
+                            "type": "textarea"
+                        }
+                    },
+                    "className": {"value":"textbox"}
+                },
+                "metadata":{
+                    "selectable": true,
+                    "editable": true,
+                    "draggable": true
+                }
+            }
+        ]
+    }
+}

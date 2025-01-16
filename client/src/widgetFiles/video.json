@@ -1,0 +1,45 @@
+{
+    "metadata": {
+        "name": "Video",
+        "tooltip": "A place to upload and display your video",
+        "type": "WIDGET",
+        "icon": "video-icon"
+      },
+      "html": {
+        "nodes": [
+          {
+            "element": "div",
+            "attributes": {
+              "className": {
+                "value": "videoContainer"
+              }
+            },
+            "style": {},
+            "children": [1],
+            "metadata": {
+              "draggable": true,
+              "selectable": true
+            }
+          },
+          {
+            "element": "iframe",
+            "attributes": {
+              "className": {
+                "value": "video"
+              },
+              "src": {
+                "value":"https://www.youtube.com/embed/ezsH2zebsYE"
+              },
+              "autoplay": {
+                "value":"true"
+              }
+            },
+            "style": {},
+            "metadata": {
+              "selectable": true,
+              "primary": true
+            }
+          }
+        ]
+      }
+}

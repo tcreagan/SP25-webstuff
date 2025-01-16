@@ -1,0 +1,56 @@
+.modal-code-container {
+    display: flex;
+    flex-grow: 1; 
+}
+
+.html-modal-code {
+    margin-right: 5px;
+}   
+
+.modal-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 32px;
+    line-height: 16px;
+    background: none;
+    color: white;
+    cursor: pointer;
+}
+
+.css-modal-code {
+    margin-left: 5px;
+}
+
+.html-modal-code, .css-modal-code {
+    background-color: black;
+    color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    flex: 1;
+}
+
+.html-modal-header, .css-modal-header {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    color: #fff;
+   
+}
+
+
+.css-modal-header {
+    padding-left: 5px;
+}
+
+.html-modal-header {
+    padding-right: 5px;
+
+}

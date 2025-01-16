@@ -1,0 +1,15 @@
+@use "Editor";
+
+.App {
+  text-align: center;
+}
+
+
+div.widget{
+  background-color: lightgray;
+  user-select: none;
+  &:hover{
+    cursor: pointer;
+    background-color: gray;
+  }
+}

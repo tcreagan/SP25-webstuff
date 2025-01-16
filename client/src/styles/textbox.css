@@ -1,0 +1,21 @@
+.textbox textarea {
+        width: 50%;
+        height: 150px;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid grey;
+        border-radius: 4px;
+        background-color: lightgrey;
+        resize: none;
+    }
+    
+.textbox input[type=text]{
+        width: 50%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid black;
+        border-radius: 4px;
+        background-color: gray;
+        color: black;
+    }

@@ -1,0 +1,224 @@
+div.element-attributes,
+div.element-style{
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  div.element-attribute-input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 5px;
+    div.attribute-label-container{
+      display: flex;
+      flex-basis: 0;
+      flex-grow: 1;
+      justify-content: start;
+    }
+    input,textarea, select{
+      display: flex;
+      flex-basis: 0;
+      flex-grow: 2.5;
+    }
+    input,textarea{
+        &:read-only{
+            color: gray;
+          }
+    }
+  }
+}
+
+//thea
+//styling for menu pages
+.style-sidebar {
+  z-index: 5;
+  height: 100%;
+  right: 1px;
+  width: 85%;
+  background-color: #333;
+  color: white;
+  bottom: 0;
+}
+
+//contains menu and tabs as a whole
+.sidebar-container{
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  
+  gap: 16px; 
+  padding: 16px;  
+  background-color: #333;  
+  color: #333;
+  
+  top: 0px;
+  position: sticky;
+}
+
+.grid-item {
+  display: flex;  
+  justify-content: center;  
+  position: relative;  
+  overflow: hidden;  
+}
+
+.sidebar-header {
+  padding: 8px;
+  border-bottom: 1px solid #444; 
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  // top: 0;
+  // position: sticky;
+}
+
+//styling for file tabs on menu 
+.sidebar-controls {
+  height: 40%;
+  justify-content: center;
+  z-index: 0; 
+  width: 20%; 
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+}
+
+//also styling for the file tabs for the menu
+.sidebar-control {
+  background-color: #333;
+  width: 100%;  
+  height: 60px; //make relative using rem 
+  border-radius: 25px 0px 0px 25px; 
+  margin: 10px 0px 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition:.5s ease-in;
+  &:hover{
+      background-color: aqua;
+      cursor: pointer;
+      width: max(255%, 210px);    
+  }
+}
+
+.sidebar-text {
+  width: 60%;
+  z-index: 2;
+  margin: 0px 60px 0px 0px;
+  color:#333;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.TemplateIcon{
+  width: 25%;
+  min-width: 30px;
+  display: block;
+  margin: 0px 0px 0px 25px; 
+  z-index: 3;
+}
+
+.template-text{
+  padding: 0% 15% 0% 0%;
+  margin: 0% 5% 0% 0%;
+}
+
+//Block Icon and Text
+.BlocksIcon{
+  min-width: 40px;
+  z-index: 3;
+  width: 30%;
+  display: block;
+  margin: 0px 0px 0px 20px;
+}
+
+//Element Icon a
+.ElementIcon{
+  min-width: 40px;
+  z-index: 3;
+  width: 30%;
+  display: block;
+  margin: 0px 0px 0px 20px;
+}
+
+//Mapping Icon 
+.MappingIcon{
+  min-width: 40px;
+  z-index: 3;
+  width: 30%;
+  display: block;
+  margin: 0px 0px 0px 20px;
+}
+
+//Settings Icon and Text
+.SettingsIcon{
+  min-width: 40px;
+  z-index: 3;
+  width: 30%;
+  display: block;
+  margin: 0px 0px 0px 20px;
+}
+
+//SEO Icon 
+.SEOIcon{
+  min-width: 40px;
+  z-index: 3;
+  width: 30%;
+  display: block;
+  margin: 0px 0px 0px 20px;
+}
+
+//not currently being used, will be used when the collapsable functionality is implemented
+.collapsed .style-sidebar {
+  width: 0;  
+  overflow: hidden;
+}
+
+//css for element sidebar
+.element-sidebar-dropdown {
+  padding: 5px;
+  margin: 5px;
+}
+
+//for the entirety of the font color div
+.font-color-whole{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+  margin: 5px;
+  height: 20px;
+}
+
+.font-color-text{
+  padding: 0px 5px 0px 12px
+}
+
+.font-size{
+  margin: 0px 55px 0px 0px 
+}
+
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));  
+  grid-gap: 20px;  
+  overflow-y: scroll;  
+  padding: 10px; 
+  max-height: 100vh;  
+}
+
+.image-gallery img {
+  width: 100%;  
+  height: 100%;  
+  border-radius: 4px;  
+}
+
+ .image-gallery img:hover {
+  cursor: pointer;  
+  transform: scale(1.05);  
+   
+}
+ 
+ 
