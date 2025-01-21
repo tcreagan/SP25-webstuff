@@ -8,5 +8,11 @@
     "@types/dompurify": "^3.0.5",
     "@types/js-beautify": "^1.14.3",
     "@types/prismjs": "^1.26.3"
-  }
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  } // scripts came from chat gpt
 }
