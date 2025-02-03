@@ -83,3 +83,53 @@ export async function getEventLogsHandler(req: Request, res: Response) {
     return res.status(500).json({ error: 'Error fetching event logs' });
   }
 }
+
+//Chat gpt generated 
+//needs review
+//adding Server Sent Event Stream Handler 
+
+const eventStream = new EventEmitter();
+
+// SSE handler for streaming event logs
+export async function streamEventLogsHandler(req: Request, res: Response) {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();  // Send headers to establish the SSE connection
+
+  const sendEventLog = (eventLog: any) => {
+    res.write(`data: ${JSON.stringify(eventLog)}\n\n`);
+  };
+
+  // Attach listener to the event stream
+  eventStream.on('new_event', sendEventLog);
+
+  // Clean up when the connection is closed
+  req.on('close', () => {
+    eventStream.removeListener('new_event', sendEventLog);
+    res.end();
+  });
+}
+
+// Overwrite the logEvent function to emit events via SSE
+export async function logEvent(userId: number, eventType: string, eventLog: string): Promise<void> {
+  // Log the event in the database (as before)
+  const eventTypeResult = await dbConnector.runQuery(
+    `SELECT id FROM Event_Type WHERE name = ?`, 
+    [eventType]
+  );
+
+  if (eventTypeResult.length === 0) {
+    throw new Error(`Event type ${eventType} not found`);
+  }
+
+  const eventTypeId = eventTypeResult[0].id;
+
+  const sql = `INSERT INTO Event (occurred_time, event_log, event_type_id, user_id) 
+               VALUES (NOW(), ?, ?, ?)`;
+  await dbConnector.runQuery(sql, [eventLog, eventTypeId, userId]);
+
+  // Emit the event to the SSE clients
+  const newEvent = { userId, eventType, eventLog, timestamp: new Date() };
+  eventStream.emit('new_event', newEvent);
+}
