@@ -56,3 +56,40 @@ export function authenticateJWT(req: any, res: any, next: any) {
     res.status(401).json({ error: 'Unauthorized' });
   }
 }
+
+//Chat GPT generated 
+//needs to be reviewed
+import { Request, Response } from 'express';
+import { registerUser, loginUser } from './authController';
+
+// Handler to register a new user
+export async function registerUserHandler(req: Request, res: Response) {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  try {
+    await registerUser(email, password);
+    return res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error registering user' });
+  }
+}
+
+// Handler to log in a user and generate a JWT token
+export async function loginUserHandler(req: Request, res: Response) {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  try {
+    const token = await loginUser(email, password);
+    return res.status(200).json({ token });
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid email or password' });
+  }
+}
