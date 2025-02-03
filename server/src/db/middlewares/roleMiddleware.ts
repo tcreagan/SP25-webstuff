@@ -22,3 +22,15 @@ export function requireRole(requiredRole: string) {
     }
   };
 }
+// more genrated code
+//needs review
+//admin check needs to check event routes
+export function requireAdmin(req: Request, res: Response, next: NextFunction) {
+  const userRole = req.user.role;  // Assuming role is stored in the JWT token
+
+  if (userRole !== 'admin') {
+    return res.status(403).json({ error: 'Access denied' });
+  }
+
+  next();
+}
