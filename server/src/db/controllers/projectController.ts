@@ -1,4 +1,5 @@
 import dbConnector from '../dbConnector';
+import { logEvent } from './eventController';
 //Chat GPT generated 
 //fix SQL because it is not exactly right, there are more parameters
 //result also need to be double checked
@@ -96,5 +97,29 @@ export async function getProjectDetailsHandler(req: Request, res: Response) {
     return res.status(200).json(project);
   } catch (error) {
     return res.status(500).json({ error: 'Error fetching project details' });
+  }
+}
+//Chat GPT generated 
+//needs review
+import { logEvent } from './eventController';
+
+// Handler for creating a new project (extended to log the event)
+export async function createProjectHandler(req: Request, res: Response) {
+  const { projectName } = req.body;
+  const ownerId = req.user.userId;  // User ID from JWT payload
+
+  if (!projectName) {
+    return res.status(400).json({ error: 'Project name is required' });
+  }
+
+  try {
+    const projectId = await createProject(ownerId, projectName);
+
+    // Log the event (PROJECT_CREATED)
+    await logEvent(ownerId, 'PROJECT_CREATED', `User ${ownerId} created project ${projectName}`);
+
+    return res.status(201).json({ message: 'Project created', projectId });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error creating project' });
   }
 }
