@@ -41,3 +41,60 @@ export async function getProjectDetails(projectId: number): Promise<any> {
   const result = await dbConnector.runQuery(sql, [projectId]);
   return result[0]; // Return the first record (project details)
 }
+//Chat GPT code generated 
+//code is generalized API route connections are probably slightly different
+import { Request, Response } from 'express';
+import { createProject, assignProjectPermissions, createPage, getProjectDetails } from './projectController';
+
+// Handler for creating a new project
+export async function createProjectHandler(req: Request, res: Response) {
+  const { projectName, defaultRead, defaultWrite, admin } = req.body;
+  const ownerId = parseInt(req.params.userId);  // Assuming userId is passed in URL params
+
+  if (!projectName) {
+    return res.status(400).json({ error: 'Project name is required' });
+  }
+
+  try {
+    const projectId = await createProject(ownerId, projectName);
+
+    // Assign default project permissions (for owner/admin)
+    await assignProjectPermissions(projectId, defaultRead, defaultWrite, admin);
+
+    return res.status(201).json({ message: 'Project created', projectId });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error creating project' });
+  }
+}
+
+// Handler for adding a page to a project
+export async function createPageHandler(req: Request, res: Response) {
+  const projectId = parseInt(req.params.projectId);
+  const { content } = req.body;
+
+  if (!content) {
+    return res.status(400).json({ error: 'Page content is required' });
+  }
+
+  try {
+    const pageId = await createPage(projectId, content);
+    return res.status(201).json({ message: 'Page created', pageId });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error creating page' });
+  }
+}
+
+// Handler for fetching project details
+export async function getProjectDetailsHandler(req: Request, res: Response) {
+  const projectId = parseInt(req.params.projectId);
+
+  try {
+    const project = await getProjectDetails(projectId);
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    return res.status(200).json(project);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error fetching project details' });
+  }
+}
