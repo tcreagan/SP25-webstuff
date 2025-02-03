@@ -133,3 +133,42 @@ export async function logEvent(userId: number, eventType: string, eventLog: stri
   const newEvent = { userId, eventType, eventLog, timestamp: new Date() };
   eventStream.emit('new_event', newEvent);
 }
+//Chat GPT generated 
+//needs review 
+//advanced filtering, SQL is probably wrong
+
+// Handler to fetch event logs (extended with time range filtering)
+export async function getEventLogsHandler(req: Request, res: Response) {
+  const { userId, eventType, startDate, endDate } = req.query;
+  let sql = `SELECT e.id, e.occurred_time, e.event_log, et.name AS event_type, u.email AS user_email 
+             FROM Event e
+             JOIN Event_Type et ON e.event_type_id = et.id
+             JOIN User u ON e.user_id = u.id`;
+
+  const params: any[] = [];
+
+  // Add filters for user, event type, and time range
+  if (userId) {
+    sql += ` WHERE e.user_id = ?`;
+    params.push(userId);
+  }
+
+  if (eventType) {
+    sql += userId ? ` AND et.name = ?` : ` WHERE et.name = ?`;
+    params.push(eventType);
+  }
+
+  if (startDate && endDate) {
+    sql += eventType || userId ? ` AND` : ` WHERE`;
+    sql += ` e.occurred_time BETWEEN ? AND ?`;
+    params.push(startDate, endDate);
+  }
+
+  try {
+    const eventLogs = await dbConnector.runQuery(sql, params);
+    return res.status(200).json(eventLogs);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error fetching event logs' });
+  }
+}
+
