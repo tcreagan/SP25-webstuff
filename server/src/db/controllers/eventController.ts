@@ -2,6 +2,8 @@
 //needs to be reviewed 
 //sql is wrong but probably the closest to the right
 import dbConnector from '../dbConnector';
+import ( Request, Response } from 'express';
+import { getEventTypes, getEventLogs } from './eventController';
 
 // 1. Log an event
 export async function logEvent(userId: number, eventType: string, eventLog: string): Promise<void> {
@@ -52,4 +54,32 @@ export async function getEventLogs(userId?: number, eventType?: string): Promise
 
   const result = await dbConnector.runQuery(sql, params);
   return result;
+}
+
+//Chat Gpt generated 
+//needs review 
+
+// Handler to get all event types
+export async function getEventTypesHandler(req: Request, res: Response) {
+  try {
+    const eventTypes = await getEventTypes();
+    return res.status(200).json(eventTypes);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error fetching event types' });
+  }
+}
+
+// Handler to fetch event logs (filtered by user or event type)
+export async function getEventLogsHandler(req: Request, res: Response) {
+  const { userId, eventType } = req.query;
+
+  try {
+    const eventLogs = await getEventLogs(
+      userId ? parseInt(userId as string) : undefined,
+      eventType as string
+    );
+    return res.status(200).json(eventLogs);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error fetching event logs' });
+  }
 }
