@@ -60,14 +60,51 @@ const buildRouter = (con: DBConnector): Router => {
   /**
    * Routes not used for the time being
    */
+  //gpt helped 
+  router.patch("/:id", (req, res) => {
+     try {
+      const id = parseInt(req.params.id);
 
-  // router.patch("/:id", (req, res) => {
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid event ID" });
+      }
 
-  // })
+      let record = await Event.find(id);
 
-  // router.delete("/:id", (req, res) => {
+      if (!record) {
+        return res.sendStatus(404);
+      }
 
-  // })
+      // Update the record with fields from req.body
+      Object.assign(record, req.body);
+      await record.save();
+
+      res.json(record.columns);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update event" });
+    }
+  })
+
+  router.delete("/:id", (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid event ID" });
+      }
+
+      let record = await Event.find(id);
+
+      if (!record) {
+        return res.sendStatus(404);
+      }
+
+      await record.destroy();
+      res.sendStatus(204);  // 204 No Content on successful deletion
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete event" });
+    }
+  })
 
   return router
 }
