@@ -45,3 +45,81 @@ export async function setPagePermissions(projectPermissionId: number, pageId: nu
   `;
   await dbConnector.runQuery(sql, [projectPermissionId, pageId, canRead, canWrite, canRead, canWrite]);
 }
+
+//Chat GPT generated 
+//needs to be reviewed
+import { Request, Response } from 'express';
+import { createPage, getPagesForProject, getPageDetails, updatePageContent, deletePage, setPagePermissions } from './pageController';
+
+// Handler for creating a new page
+export async function createPageHandler(req: Request, res: Response) {
+  const projectId = parseInt(req.params.projectId);
+  const { content } = req.body;
+
+  if (!content) {
+    return res.status(400).json({ error: 'Page content is required' });
+  }
+
+  try {
+    const pageId = await createPage(projectId, content);
+    return res.status(201).json({ message: 'Page created', pageId });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error creating page' });
+  }
+}
+
+// Handler for fetching all pages in a project
+export async function getPagesHandler(req: Request, res: Response) {
+  const projectId = parseInt(req.params.projectId);
+
+  try {
+    const pages = await getPagesForProject(projectId);
+    return res.status(200).json(pages);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error fetching pages' });
+  }
+}
+
+// Handler for fetching a specific page's details
+export async function getPageDetailsHandler(req: Request, res: Response) {
+  const pageId = parseInt(req.params.pageId);
+
+  try {
+    const page = await getPageDetails(pageId);
+    if (!page) {
+      return res.status(404).json({ error: 'Page not found' });
+    }
+    return res.status(200).json(page);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error fetching page details' });
+  }
+}
+
+// Handler for updating a page's content
+export async function updatePageHandler(req: Request, res: Response) {
+  const pageId = parseInt(req.params.pageId);
+  const { content } = req.body;
+
+  if (!content) {
+    return res.status(400).json({ error: 'Page content is required' });
+  }
+
+  try {
+    await updatePageContent(pageId, content);
+    return res.status(200).json({ message: 'Page updated' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error updating page' });
+  }
+}
+
+// Handler for deleting a page
+export async function deletePageHandler(req: Request, res: Response) {
+  const pageId = parseInt(req.params.pageId);
+
+  try {
+    await deletePage(pageId);
+    return res.status(200).json({ message: 'Page deleted' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error deleting page' });
+  }
+}
