@@ -448,3 +448,61 @@ export class Model {
   // #endregion
 
 }
+// gpt generated 
+//needs review
+// used for ensuring that multiple operations are atomic
+
+  static async transaction<T>(callback: () => Promise<T>): Promise<T> {
+    try {
+      await Model.DbConnector.beginTransaction();  // Start transaction
+      const result = await callback();  // Run the callback with the transaction
+      await Model.DbConnector.commit();  // Commit the transaction if successful
+      return result;
+    } catch (error) {
+      await Model.DbConnector.rollback();  // Rollback the transaction on error
+      logError(error);
+      throw new Error(`Transaction failed: ${error.message}`);
+    }
+  }
+}
+// gpt generated 
+// needs review
+// used to bult insert, update, and delete
+
+  /**
+   * Insert multiple records at once (bulk insert)
+   */
+  public static async bulkInsert<T extends Model>(this: ModelConstructor<T>, records: Partial<T>[]): Promise<void> {
+    const tableName = this.tableName();
+    if (tableName) {
+      await Model.DbConnector.createMany(tableName, records);
+    } else {
+      throw new Error('Table name is not defined');
+    }
+  }
+
+  /**
+   * Update multiple records at once (bulk update)
+   */
+  public static async bulkUpdate<T extends Model>(this: ModelConstructor<T>, records: Partial<T>[]): Promise<void> {
+    const tableName = this.tableName();
+    if (tableName) {
+      await Model.DbConnector.updateMany(tableName, records);
+    } else {
+      throw new Error('Table name is not defined');
+    }
+  }
+
+  /**
+   * Delete multiple records at once (bulk delete)
+   */
+  public static async bulkDelete<T extends Model>(this: ModelConstructor<T>, ids: number[]): Promise<void> {
+    const tableName = this.tableName();
+    if (tableName) {
+      await Model.DbConnector.deleteMany(tableName, ids);
+    } else {
+      throw new Error('Table name is not defined');
+    }
+  }
+
+
