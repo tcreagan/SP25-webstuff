@@ -4,6 +4,8 @@
 import dbConnector from '../dbConnector';
 import ( Request, Response } from 'express';
 import { getEventTypes, getEventLogs } from './eventController';
+import * as eventService from '../services/eventService'
+import { logError } from '../utils/logger'
 
 // 1. Log an event
 export async function logEvent(userId: number, eventType: string, eventLog: string): Promise<void> {
@@ -172,3 +174,35 @@ export async function getEventLogsHandler(req: Request, res: Response) {
   }
 }
 
+//gpt generated
+//needs review
+//used to get all events, and retrieve event by Id
+export async function getAllEvents(req: Request, res: Response) {
+  try {
+    const events = await eventService.getAllEvents();
+    if (!events || events.length === 0) {
+      return res.status(404).json({ error: 'No events found' });
+    }
+    res.status(200).json(events);
+  } catch (error) {
+    logError(error);
+    res.status(500).json({ error: 'Failed to retrieve events' });
+  }
+}
+
+export async function getEventById(req: Request, res: Response) {
+  try {
+    const eventId = parseInt(req.params.id);
+    if (isNaN(eventId)) {
+      return res.status(400).json({ error: 'Invalid event ID' });
+    }
+    const event = await eventService.getEventById(eventId);
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+    res.status(200).json(event);
+  } catch (error) {
+    logError(error);
+    res.status(500).json({ error: 'Failed to retrieve event' });
+  }
+}
