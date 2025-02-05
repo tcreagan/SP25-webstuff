@@ -341,13 +341,12 @@ export class Model {
    * @param data 
    * @returns 
    */
-  static create<T extends Model>(this: ModelConstructor<T>, data: Partial<T>) {
-    let instance = new this;
-    for (let [key, value] of Object.entries(data)) {
-        const k = key as keyof T;
-        instance[k] = value as T[typeof k];
-    }
-
+//improved create function with gpt
+  static create<T extends Model>(this: ModelConstructor<T>, data: Partial<T>): T {
+    let instance = new this();
+    Object.entries(data).forEach(([key, value]) => {
+      (instance as any)[key] = value;
+    });
     return instance;
   }
 
