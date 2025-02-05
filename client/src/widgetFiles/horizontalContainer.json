@@ -12,7 +12,35 @@
         "attributes": {
           "className": {"value": "horizontal"}
         },
-        "style": {},
+        "style": {
+        "background-color":{
+          "value": "",
+          "input": {
+            "type": "color",
+            "displayName": "Background Color 3"
+          }
+      },
+      "border-color":{
+          "value":"",
+          "input": {
+              "type": "color",
+              "displayName": "Border Color"
+          }
+      },
+      "border-style":{
+          "value":"",
+          "input": {
+              "type": "border-style",
+              "displayName": "Border Style"
+          }
+      },
+      "border-width":{
+          "value":"",
+          "input": {
+              "type": "size",
+              "displayName": "Border Thickness"
+          }
+      }},
         "children": [
         ],
         "metadata": {

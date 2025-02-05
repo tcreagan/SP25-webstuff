@@ -26,7 +26,36 @@
         "attributes": {
           "className": {"value":"vertical"}
         },
-        "style": {},
+        "style": {            
+          "background-color":{
+          "value": "",
+          "input": {
+            "type": "color",
+            "displayName": "Background Color 1"
+          }
+      },
+      "border-color":{
+          "value":"",
+          "input": {
+              "type": "color",
+              "displayName": "Border Color"
+          }
+      },
+      "border-style":{
+          "value":"",
+          "input": {
+              "type": "border-style",
+              "displayName": "Border Style"
+          }
+      },
+      "border-width":{
+          "value":"",
+          "input": {
+              "type": "size",
+              "displayName": "Border Thickness"
+          }
+      }
+    },
         "children": [],
         "metadata": {
           "draggable": true,
@@ -40,7 +69,36 @@
         "attributes": {
           "className": {"value":"vertical"}
         },
-        "style": {},
+        "style": {            
+          "background-color":{
+          "value": "",
+          "input": {
+            "type": "color",
+            "displayName": "Background Color 2"
+          }
+      },
+      "border-color":{
+          "value":"",
+          "input": {
+              "type": "color",
+              "displayName": "Border Color"
+          }
+      },
+      "border-style":{
+          "value":"",
+          "input": {
+              "type": "border-style",
+              "displayName": "Border Style"
+          }
+      },
+      "border-width":{
+          "value":"",
+          "input": {
+              "type": "size",
+              "displayName": "Border Thickness"
+          }
+      }
+    },
         "children": [],
         "metadata": {
           "draggable": true,
