@@ -236,38 +236,41 @@ export class Model {
    * a new record will be added. if it has been created, then the existing record will be updated
    * @returns True if saved successfully and false if not
    */
-  async save():Promise<boolean>{
-    if(this.validate()){
-      const saveProps:{[key:string]:any} = {}
-  
-      Object.keys(this).forEach(key => {
-        if(Reflect.getMetadata(MDKeys.isColumn, this, key) &&
-           !Reflect.getMetadata(MDKeys.isGenerated, this, key)){
-            saveProps[key] = this[key as keyof this]
-           }
-      })
-  
-      if(this.isSaved){
-        const res:Partial<this> = await Model.DbConnector.update(this.tableName, saveProps)
-        if(res){
-          Object.assign(this, res)
-          return true
-        }
-  
-        return false
-      }
-      else{
-        const res:Partial<this> = await Model.DbConnector.create(this.tableName, saveProps)
-        if(res){
-          Object.assign(this, res)
-          return true
-        }
-  
-        return false
-      }
-    }
+  async save(): Promise<boolean> {
+    try {
+      if (this.validate()) {
+        const saveProps: { [key: string]: any } = {};
 
-    return false;
+        Object.keys(this).forEach(key => {
+          if (Reflect.getMetadata(MDKeys.isColumn, this, key) && !Reflect.getMetadata(MDKeys.isGenerated, this, key)) {
+            saveProps[key] = this[key as keyof this];
+          }
+        });
+
+        if (this.isSaved) {
+          const res: Partial<this> = await Model.DbConnector.update(this.tableName, saveProps);
+          if (res) {
+            Object.assign(this, res);
+            return true;
+          }
+
+          throw new Error('Failed to update record');
+        } else {
+          const res: Partial<this> = await Model.DbConnector.create(this.tableName, saveProps);
+          if (res) {
+            Object.assign(this, res);
+            return true;
+          }
+
+          throw new Error('Failed to create record');
+        }
+      }
+
+      return false;
+    } catch (error) {
+      logError(error);  // Log error for debugging
+      throw new Error(`Error saving ${this.tableName}: ${error.message}`);
+    }
   }
 
   async delete(): Promise<void> {
