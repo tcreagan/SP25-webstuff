@@ -11,7 +11,22 @@ export class User extends Model{
   @Column
   @Required
   email?:string
+  //gpt generated 
+  //validates email
+  // Override the validate() method from Model.ts for custom rules
+  validate(): boolean {
+    // Call the base validate method for required fields
+    const isValid = super.validate();
 
+    // Add custom validation (e.g., ensure email format)
+    if (this.email && !this.email.includes('@')) {
+      this.errors.email = ['Invalid email format'];
+      return false;
+    }
+
+    return isValid;
+  }
+  
   @Column
   @Required
   password_hash?:string
