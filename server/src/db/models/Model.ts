@@ -270,9 +270,16 @@ export class Model {
     return false;
   }
 
-  async delete(){
-    if(this.id){
-      await Model.DbConnector.delete(this.tableName, this.id)
+  async delete(): Promise<void> {
+    try {
+      if (this.id) {
+        await Model.DbConnector.delete(this.tableName, this.id);
+      } else {
+        throw new Error('Model instance has no ID, cannot delete.');
+      }
+    } catch (error) {
+      logError(error);
+      throw new Error(`Error deleting ${this.tableName}: ${error.message}`);
     }
   }
 
