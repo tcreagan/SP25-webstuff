@@ -110,3 +110,41 @@ const buildRouter = (con: DBConnector): Router => {
 }
 
 export default buildRouter;
+/* 
+gpt generated code that could possibly be better than original and works with new eventController functions
+import express, { Router } from 'express';
+import { getEvents, getEventById, createEvent, updateEvent, deleteEvent } from '../controllers/eventController';
+import { validateEvent, validateEventId } from '../validators/eventValidator';  // Assuming validation functions
+
+const router = express.Router();
+
+/**
+ * GET /api/Events - Get all events
+ */
+router.get('/', getEvents);
+
+/**
+ * GET /api/Events/:id - Get an event by ID
+ */
+router.get('/:id', validateEventId, getEventById);
+
+/**
+ * PUT /api/Events/new - Create a new event
+ */
+router.put('/new', validateEvent, createEvent);
+
+/**
+ * PATCH /api/Events/:id - Update an event
+ */
+router.patch('/:id', validateEventId, validateEvent, updateEvent);
+
+/**
+ * DELETE /api/Events/:id - Delete an event
+ */
+router.delete('/:id', validateEventId, deleteEvent);
+
+export default router;
+
+
+
+*/
