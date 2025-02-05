@@ -84,5 +84,15 @@ import { Models } from "../db/initConnection"
     record.delete()
     res.sendStatus(200)
   })
+//gpt generated
+//used to authenticate user login
+// Route to create a new project (authenticated users only)
+router.post('/', authenticateJWT, requireProjectPermission('write'), createProjectHandler);
+
+// Route to add a page to a project (authenticated users only)
+router.post('/:projectId/pages', authenticateJWT, requireProjectPermission('write'), createPageHandler);
+
+// Route to fetch project details (authenticated users only)
+router.get('/:projectId', authenticateJWT, requireProjectPermission('read'), getProjectDetailsHandler);
 
 export default router;
