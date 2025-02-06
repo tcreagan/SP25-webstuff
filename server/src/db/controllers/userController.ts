@@ -159,26 +159,34 @@ export async function listUsersHandler(req: Request, res: Response) {
 // consider creating a separate controller for organization
 import bcrypt from 'bcrypt';
 import { User } from '../models/User';
+import { registerSchema
 
 export async function registerUser(req: Request, res: Response) {
-  const { email, password } = req.body;
-
-  // Check if user already exists
-  const existingUser = await User.where({ email });
-  if (existingUser.length > 0) {
-    return res.status(400).json({ error: 'User already exists' });
-  }
-
-  // Hash the password using bcrypt
-  const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
-
-  // Create new user
-  const newUser = new User();
-  newUser.email = email;
-  newUser.password_hash = passwordHash;
-
-  await newUser.save(); // user is saved to the database
+  try {
+    // Validate the request body using Joi
+    //gpt helped
+    const { error } = registerSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+    const { email, password } = req.body; 
+  
+    // Check if user already exists
+    const existingUser = await User.where({ email });
+    if (existingUser.length > 0) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+  
+    // Hash the password using bcrypt
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+  
+    // Create new user
+    const newUser = new User();
+    newUser.email = email;
+    newUser.password_hash = passwordHash;
+  
+    await newUser.save(); // user is saved to the database
 
   // Send success response
     return res.status(201).json({ message: 'User registered successfully' });
