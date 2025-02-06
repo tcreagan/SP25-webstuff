@@ -11,6 +11,11 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
+  // Check if token is blacklisted
+  if (isTokenBlacklisted(token)) {
+    return res.status(403).json({ error: 'Token is invalidated, please log in again' });
+  }
+  
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;  // Attach user info to request
