@@ -213,3 +213,12 @@ export async function loginUser(req: Request, res: Response) {
 
   return res.status(200).json({ message: 'Login successful', token });
 }
+
+//gpt generated 
+// needs review
+// user logout code
+export async function logoutUser(req: Request, res: Response) {
+  // Clear the JWT token from the cookie
+  res.clearCookie('token');
+  return res.status(200).json({ message: 'Logout successful' });
+}
