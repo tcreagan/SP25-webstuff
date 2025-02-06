@@ -180,7 +180,12 @@ export async function registerUser(req: Request, res: Response) {
 
   await newUser.save(); // user is saved to the database
 
-  return res.status(201).json({ message: 'User registered successfully' });
+  // Send success response
+    return res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'An error occurred during registration' });
+  }
 }
 
 //gpt generated 
