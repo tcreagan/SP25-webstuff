@@ -204,27 +204,39 @@ import jwt from 'jsonwebtoken';
 
 
 export async function loginUser(req: Request, res: Response) {
-  const { email, password } = req.body;
+  try {
+    // Validate the request body using Joi
+    const { error } = loginSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
 
-  // Find the user by email
-  const user = await User.findByEmail(email);
-  if (!user) {
-    return res.status(400).json({ error: 'Invalid email or password' });
+    const { email, password } = req.body;
+
+    // Find the user by email
+    const user = await User.findByEmail(email);
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid email or password' });
+    }
+
+    // Compare the password with the hashed password
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+    if (!validPassword) {
+      return res.status(400).json({ error: 'Invalid email or password' });
+    }
+
+    // Generate JWT
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Store token in HTTP-only cookie
+    res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
+
+    // Return success message and token
+    return res.status(200).json({ message: 'Login successful', token });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'An error occurred during login' });
   }
-
-  // Compare the password with the hashed password
-  const validPassword = await bcrypt.compare(password, user.password_hash);
-  if (!validPassword) {
-    return res.status(400).json({ error: 'Invalid email or password' });
-  }
-
-  // Generate JWT (or session token)
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-  // Store token in an HTTP-only cookie (secure and prevents XSS)
-  res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
-
-  return res.status(200).json({ message: 'Login successful', token });
 }
 
 //gpt generated 
