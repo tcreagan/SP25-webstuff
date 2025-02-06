@@ -243,7 +243,15 @@ export async function loginUser(req: Request, res: Response) {
 // needs review
 // user logout code
 export async function logoutUser(req: Request, res: Response) {
-  // Clear the JWT token from the cookie
-  res.clearCookie('token');
-  return res.status(200).json({ message: 'Logout successful' });
+  try {
+    // Clear the JWT token from the HTTP-only cookie
+    res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
+
+    // Return success message
+    return res.status(200).json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'An error occurred during logout' });
+  }
 }
+
