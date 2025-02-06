@@ -260,7 +260,9 @@ export async function logoutUser(req: Request, res: Response) {
     }
 
     // Clear the JWT token from the cookie
+     // Clear the access token and refresh token from the cookies
     res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
+    res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'Strict' });
 
     return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
