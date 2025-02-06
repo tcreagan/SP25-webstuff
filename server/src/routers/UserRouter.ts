@@ -108,4 +108,7 @@ router.post('/register', registerUser);
 // POST /login - User login route
 router.post('/login', loginUser);
 
+// POST /logout - User logout route
+router.post('/logout', logoutUser);
+
 export default router
