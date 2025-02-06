@@ -13,9 +13,12 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;  // Attach user info to the request
-    next();  // Continue to the next middleware or route handler
+    req.user = decoded;  // Attach user info to request
+    next();
   } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).json({ error: 'Session expired, please log in again' });
+    }
     return res.status(403).json({ error: 'Invalid token' });
   }
 }
