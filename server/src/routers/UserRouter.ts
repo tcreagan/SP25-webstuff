@@ -101,6 +101,7 @@ router.get('/:userId', getUserDetailsHandler);
 // Route to list all users (optional)
 router.get('/', listUsersHandler);
 
+//gpt generated 
 
 // POST /register - User registration route
 router.post('/register', registerUser);
@@ -108,7 +109,7 @@ router.post('/register', registerUser);
 // POST /login - User login route
 router.post('/login', loginUser);
 
-// POST /logout - User logout route
-router.post('/logout', logoutUser);
+// POST /logout - User logout route (only for authenticated users)
+router.post('/logout', authenticateJWT, logoutUser);
 
 export default router
