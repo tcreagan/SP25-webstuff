@@ -155,7 +155,8 @@ export async function listUsersHandler(req: Request, res: Response) {
 }
 //gpt generated 
 //needs review 
-// code for user registration
+// code for user registration 
+// consider creating a separate controller for organization
 import bcrypt from 'bcrypt';
 import { User } from '../models/User';
 
@@ -180,4 +181,35 @@ export async function registerUser(req: Request, res: Response) {
   await newUser.save(); // user is saved to the database
 
   return res.status(201).json({ message: 'User registered successfully' });
+}
+
+//gpt generated 
+// needs review
+// code for user login
+// consider creating separate controller
+import jwt from 'jsonwebtoken';
+
+
+export async function loginUser(req: Request, res: Response) {
+  const { email, password } = req.body;
+
+  // Find the user by email
+  const user = await User.findByEmail(email);
+  if (!user) {
+    return res.status(400).json({ error: 'Invalid email or password' });
+  }
+
+  // Compare the password with the hashed password
+  const validPassword = await bcrypt.compare(password, user.password_hash);
+  if (!validPassword) {
+    return res.status(400).json({ error: 'Invalid email or password' });
+  }
+
+  // Generate JWT (or session token)
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+  // Store token in an HTTP-only cookie (secure and prevents XSS)
+  res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
+
+  return res.status(200).json({ message: 'Login successful', token });
 }
