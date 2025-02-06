@@ -153,3 +153,31 @@ export async function listUsersHandler(req: Request, res: Response) {
     return res.status(500).json({ error: 'Error listing users' });
   }
 }
+//gpt generated 
+//needs review 
+// code for user registration
+import bcrypt from 'bcrypt';
+import { User } from '../models/User';
+
+export async function registerUser(req: Request, res: Response) {
+  const { email, password } = req.body;
+
+  // Check if user already exists
+  const existingUser = await User.where({ email });
+  if (existingUser.length > 0) {
+    return res.status(400).json({ error: 'User already exists' });
+  }
+
+  // Hash the password using bcrypt
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(password, saltRounds);
+
+  // Create new user
+  const newUser = new User();
+  newUser.email = email;
+  newUser.password_hash = passwordHash;
+
+  await newUser.save(); // user is saved to the database
+
+  return res.status(201).json({ message: 'User registered successfully' });
+}
