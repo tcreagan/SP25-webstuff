@@ -227,8 +227,9 @@ export async function loginUser(req: Request, res: Response) {
 
     // Generate JWT
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+    //Generate Access Token (short)
     const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    //Generate Access Token (long)
     const refreshToken = jwt.sign({ userId: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
     
     // Store both tokens in HTTP-only cookies
