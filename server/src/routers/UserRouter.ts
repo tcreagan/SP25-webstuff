@@ -102,4 +102,7 @@ router.get('/:userId', getUserDetailsHandler);
 router.get('/', listUsersHandler);
 
 
+// POST /register - User registration route
+router.post('/register', registerUser);
+
 export default router
