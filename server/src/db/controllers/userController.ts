@@ -242,16 +242,23 @@ export async function loginUser(req: Request, res: Response) {
 //gpt generated 
 // needs review
 // user logout code
+import { addTokenToBlacklist } from '../utils/tokenBlacklist';
+
 export async function logoutUser(req: Request, res: Response) {
   try {
-    // Clear the JWT token from the HTTP-only cookie
+    const token = req.cookies.token;
+
+    // Add the token to the blacklist
+    if (token) {
+      addTokenToBlacklist(token);
+    }
+
+    // Clear the JWT token from the cookie
     res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
 
-    // Return success message
     return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'An error occurred during logout' });
   }
 }
-
