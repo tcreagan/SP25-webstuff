@@ -1,6 +1,7 @@
 //gpt generated 
 // needs review
 // checks if incoming requests contrain valid JWT 
+//gpt calls this authenticateJWT.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
