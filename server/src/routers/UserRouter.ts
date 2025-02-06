@@ -112,4 +112,7 @@ router.post('/login', loginUser);
 // POST /logout - User logout route (only for authenticated users)
 router.post('/logout', authenticateJWT, logoutUser);
 
+// POST /refresh-token - Refresh access token using refresh token
+router.post('/refresh-token', refreshAccessToken);
+
 export default router
