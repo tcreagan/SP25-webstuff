@@ -83,5 +83,23 @@ import { Models } from "../db/initConnection";
     record.delete()
     res.sendStatus(200)
   })
+// gpt generated 
+// needs review 
+import { createUserHandler, assignUserRoleHandler, getUserDetailsHandler, listUsersHandler } from '../controllers/userController';
+
+const router = Router();
+
+// Route to create a new user
+router.post('/', createUserHandler);
+
+// Route to assign a role to a user
+router.post('/:userId/roles/:roleId', assignUserRoleHandler);
+
+// Route to get user details (including roles)
+router.get('/:userId', getUserDetailsHandler);
+
+// Route to list all users (optional)
+router.get('/', listUsersHandler);
+
 
 export default router
