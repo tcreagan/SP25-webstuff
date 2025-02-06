@@ -86,3 +86,70 @@ async function listUsers(): Promise<any[]> {
     throw error;
   }
 }
+//gpt generated 
+//needs review
+// handler functions that respond to API requests by calling user operations above
+import { Request, Response } from 'express';
+import { createUser, assignUserRole, getUserDetails, listUsers } from '../dbConnector'; // User operations
+
+// 1. Handler to create a new user
+export async function createUserHandler(req: Request, res: Response) {
+  const { email, passwordHash } = req.body;
+
+  if (!email || !passwordHash) {
+    return res.status(400).json({ error: 'Email and password hash are required' });
+  }
+
+  try {
+    const newUserId = await createUser(email, passwordHash);
+    return res.status(201).json({ message: 'User created', userId: newUserId });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error creating user' });
+  }
+}
+
+// 2. Handler to assign a role to a user
+export async function assignUserRoleHandler(req: Request, res: Response) {
+  const userId = parseInt(req.params.userId);
+  const roleId = parseInt(req.params.roleId);
+
+  if (!userId || !roleId) {
+    return res.status(400).json({ error: 'User ID and Role ID are required' });
+  }
+
+  try {
+    await assignUserRole(userId, roleId);
+    return res.status(200).json({ message: `Role ${roleId} assigned to user ${userId}` });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error assigning role' });
+  }
+}
+
+// 3. Handler to get user details
+export async function getUserDetailsHandler(req: Request, res: Response) {
+  const userId = parseInt(req.params.userId);
+
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID is required' });
+  }
+
+  try {
+    const userDetails = await getUserDetails(userId);
+    if (!userDetails) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    return res.status(200).json(userDetails);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error fetching user details' });
+  }
+}
+
+// 4. Handler to list all users (optional)
+export async function listUsersHandler(req: Request, res: Response) {
+  try {
+    const users = await listUsers();
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error listing users' });
+  }
+}
