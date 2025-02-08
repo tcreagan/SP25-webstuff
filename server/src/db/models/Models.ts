@@ -12,7 +12,7 @@ import { SitePermission } from "./SitePermissions";
 import { User } from "./User";
 import { UserType } from "./UserType";
 import { Widget } from "./Widget";
-
+//need to add a session model 
 export function ModelBuilder(connector:DBConnector) {
   Model.DbConnector = connector;
   return {
