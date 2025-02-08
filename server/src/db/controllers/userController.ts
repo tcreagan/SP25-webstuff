@@ -231,6 +231,13 @@ export async function loginUser(req: Request, res: Response) {
     const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     //Generate Access Token (long)
     const refreshToken = jwt.sign({ userId: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+
+    // Store the new session in the database
+    const session = new Session();
+    session.user_id = user.id;
+    session.refresh_token = refreshToken;
+    session.expires_at = new Date(Date.now() + (7 * 24 * 60 * 60 * 1000));  // 7 days expiration
+    await session.save();
     
     // Store both tokens in HTTP-only cookies
     res.cookie('token', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
