@@ -249,6 +249,8 @@ export async function loginUser(req: Request, res: Response) {
 // needs review
 // user logout code
 import { addTokenToBlacklist } from '../utils/tokenBlacklist';
+import redisClient from '../utils/redisClient';
+
 
 export async function logoutUser(req: Request, res: Response) {
   try {
@@ -259,6 +261,17 @@ export async function logoutUser(req: Request, res: Response) {
       addTokenToBlacklist(token);
     }
 
+    const refreshToken = req.cookies.refreshToken;
+    // Blacklist the refresh token
+    if (refreshToken) {
+      const decoded: any = jwt.decode(refreshToken);
+      const expiry = decoded.exp;  // Expiration time of the refresh token
+      await redisClient.set(refreshToken, 'blacklisted', {
+        EX: expiry - Math.floor(Date.now() / 1000),  // Set expiration to match token expiry
+      });
+    }
+    //need to figure out what the difference is between the two functions above
+    
     // Clear the JWT token from the cookie
      // Clear the access token and refresh token from the cookies
     res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
