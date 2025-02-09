@@ -93,20 +93,40 @@
                             "displayName": "Border Color"
                         }
                     },
-                    "border-style":{
+                    "border-style": {
                         "value":"",
-                        "input": {
-                            "type": "border-style",
-                            "displayName": "Border Style"
+                        "input":{
+                        "type": "select",
+                        "displayName": "Border Style",
+                        "options":[
+                           {"value": "none", "text": "None"},
+                           {"value": "solid", "text": "Solid"},
+                           {"value": "double", "text": "Double"},
+                           {"value": "dotted", "text": "Dotted"},
+                           {"value": "dashed", "text": "Dashed"},
+                           {"value": "groove", "text": "Grooved"},
+                           {"value": "ridge", "text": "Ridged"},
+                           {"value": "inset", "text": "Inset"},
+                           {"value": "outset", "text": "Outset"},
+                           {"value": "hidden", "text": "Hidden"}
+                          ]
                         }
-                    },
-                    "border-width":{
+                      },    
+                      "border-width": {
                         "value":"",
-                        "input": {
-                            "type": "size",
-                            "displayName": "Border Thickness"
+                        "input":{
+                        "type": "select",
+                        "displayName": "Border Thickness",
+                        "options":[
+                           {"value": "0px", "text": "Invisible"},
+                           {"value": "1px", "text": "Extra Thin"},
+                           {"value": "2.5px", "text": "Thin"},
+                           {"value": "3.5px", "text": "Standard"},
+                           {"value": "4.5px", "text": "Thick"},
+                           {"value": "6px", "text": "Extra Thick"}
+                          ]
                         }
-                    }
+                      }
                 },
                 "attributes":{
                     "text": {"value":"Sub Heading 1"},
