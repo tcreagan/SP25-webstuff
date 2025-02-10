@@ -155,3 +155,47 @@ const Editor: React.FC = () => {
 };
 
 export default Editor;
+
+//gpt 
+//review 
+//layout selector in editor so it can switch between layouts
+import React, { useState } from 'react';
+import ContainerEditor from './ContainerEditor';
+import CardEditor from './CardEditor';
+import LayeredEditor from './LayeredEditor';
+
+export const Editor = () => {
+  const [layoutType, setLayoutType] = useState('container');  // Default layout type
+  const [isPreview, setIsPreview] = useState(false);  // Preview Mode Toggle
+
+  // Change Layout Type
+  const handleLayoutChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLayoutType(e.target.value);
+  };
+
+  // Toggle Preview Mode
+  const togglePreview = () => setIsPreview(!isPreview);
+
+  return (
+    <div id="editor-window" className={`editor ${isPreview ? 'preview-mode' : ''}`}>
+      {/* Layout Selector */}
+      <div className="controls">
+        <select onChange={handleLayoutChange} value={layoutType}>
+          <option value="container">Container Layout</option>
+          <option value="card">Card Layout</option>
+          <option value="layered">Layered Layout</option>
+        </select>
+        <button onClick={togglePreview}>
+          {isPreview ? 'Edit Mode' : 'Preview Mode'}
+        </button>
+      </div>
+
+      {/* Render Layout Based on Selection */}
+      <div className="editor-container">
+        {layoutType === 'container' && <ContainerEditor />}
+        {layoutType === 'card' && <CardEditor />}
+        {layoutType === 'layered' && <LayeredEditor />}
+      </div>
+    </div>
+  );
+};
