@@ -1,26 +1,39 @@
 //gpt 
 //review
 //used to ensure that the child widget can be dragged independently and resized
-import React from 'react';
+import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
+import { updateWidgetPosition, updateWidgetStyles } from 'helpers/helpers';  // Import your new helpers
+import { EditorState } from 'state/editor/EditorReducer';
 
 interface DraggableWidgetProps {
-  id: string;
+  id: number;
   initialStyles: React.CSSProperties;
-  onUpdateStyle: (id: string, styles: React.CSSProperties) => void;
+  editor: EditorState;
+  section: string;
 }
 
-const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, onUpdateStyle, children }) => {
+const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, editor, section, children }) => {
+  const [widgetStyles, setWidgetStyles] = useState(initialStyles);
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'widget',
     item: { id },
+    end: (item, monitor) => {
+      const offset = monitor.getClientOffset();
+      if (offset) {
+        const newPosition = { x: offset.x, y: offset.y };
+        updateWidgetPosition(id, editor, newPosition, section);  // Update the widget's position when dropped
+      }
+    },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
 
   const handleStyleUpdate = (newStyles: React.CSSProperties) => {
-    onUpdateStyle(id, newStyles);
+    const updatedStyles = updateWidgetStyles(id, editor, newStyles, section);  // Update widget styles
+    setWidgetStyles(updatedStyles);  // Apply new styles locally in the component state
   };
 
   return (
@@ -28,9 +41,8 @@ const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, on
       ref={drag}
       className="draggable-widget"
       style={{
-        ...initialStyles,  // Child widget manages its own styles
-        opacity: isDragging ? 0.5 : 1,  // Indicate when dragging
-        position: 'absolute',  // Ensure child widget can be positioned independently
+        ...widgetStyles,  // Apply current widget styles
+        opacity: isDragging ? 0.5 : 1,  // Show reduced opacity while dragging
       }}
     >
       {children}
@@ -39,3 +51,4 @@ const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, on
 };
 
 export default DraggableWidget;
+
