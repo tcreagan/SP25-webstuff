@@ -12,7 +12,10 @@
             "attributes": {
               "className": {"value": "elementContainer"}
             },
-            "style": {},
+            "style": {  //added default styles
+              "width": "100%",
+              "height": "auto"
+            },
             "children": [1],
             "metadata": {
               "draggable": true,
@@ -24,10 +27,14 @@
             "attributes": {
               "className": {"value": "image"},
               "src": {
-                "value":"https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
+                "value":"<dynamic URL>" //gpt suggestion, add input field so it can be changed dynamically
               }
             },
-            "style": {},
+            "style": { //added default styles 
+                "maxWidth": "100%",
+                "height": "auto",
+                "border": "1px solid #ccc"
+            },
             "metadata": {
               "primary": true
             }
