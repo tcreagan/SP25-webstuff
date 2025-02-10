@@ -105,5 +105,24 @@ export function sanitizeImageUrl(value: string, defaultValue: string) {
   }
 }
 
+//gpt 
+//review
+//used to help handle child widgets update their own styles, positions, etc
+export function updateWidgetStyle(widgetId, styles, dispatch) {
+  dispatch({
+    type: 'UPDATE_WIDGET_STYLE',
+    widgetId,
+    styles,
+  });
+}
+
+export function updateWidgetPosition(widgetId, x, y, dispatch) {
+  dispatch({
+    type: 'UPDATE_WIDGET_POSITION',
+    widgetId,
+    x,
+    y,
+  });
+}
 
  
