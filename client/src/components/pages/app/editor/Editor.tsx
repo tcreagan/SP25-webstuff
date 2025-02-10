@@ -26,37 +26,14 @@ export const Editor = (props: Props) => {
     footer: editor.footer
   }
 
-  if(dragState.isDragging && editor.hoveredItemId && dragState.canDrop){
-    const {section, index} = parseId(editor.hoveredItemId)
-
-    const predictedIndex = getDropChildId(mouseState, editor, editor.hoveredItemId)
-
-
-    const previewObject:HtmlObject = {
-      metadata: {
-        type: "WIDGET"
-      },
-      html: {
-        nodes: [
-        {
-          element: "div",
-          style: {},
-          attributes: {
-            "className": {value: "preview"}
-          },
-          metadata: {
-            preview: true
-          }
-          
-        }
-      ]
-      }
-    }
-
-    data[section] = structuredClone(editor[section])
-
-    data[section] = insertDroppedElement(predictedIndex, editor, previewObject, editor.hoveredItemId)[section]
-  }
+  // Handle the drag-and-drop preview logic outside the Editor component
+  data = DragAndDropPreview({
+    editor,
+    dragState,
+    mouseState,
+    data
+  });
+  
   return (
     <div id="editor-window" className="editor">
       <div className="editor-container">
