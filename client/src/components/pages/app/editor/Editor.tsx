@@ -8,6 +8,7 @@ import { StorableHtmlNode } from "types/HtmlNodes";
 import { getDropChildId, insertDroppedElement, parseId } from "state/editor/Helpers";
 import { useMouse } from "state/mouse/MouseReducer";
 import { useDragAndDropContext } from "state/dragAndDrop/DragAndDropReducer";
+import { DragAndDropPreview } from './DragAndDropPreview';
 
 type Props = {};
 
