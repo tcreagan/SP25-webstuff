@@ -102,6 +102,10 @@ const Editor: React.FC = () => {
     drop: (item: { id: string }, monitor) => {
       const offset = monitor.getClientOffset();
       if (offset) {
+        
+        // Snap the position to the grid
+        const [left, top] = snapToGrid(offset.x, offset.y);
+        
         const newWidget: WidgetPosition = {
           id: item.id,
           left: offset.x,  // Position based on where the item was dropped
