@@ -104,12 +104,25 @@ const Editor: React.FC = () => {
       if (offset) {
         let newLeft = offset.x;
         let newTop = offset.y;
+        let horizonatalAlignment = false;
+        let verticalAlignment = false;
+        
 
         // Check snapping to other widgets (gpt)
         widgets.forEach((widget) => {
           if (widget.id !== item.id) {
             const draggedWidgetEdges = { left: newLeft, top: newTop, right: newLeft + 200, bottom: newTop + 100 }; // assuming dragged widget size
             const otherWidgetEdges = getWidgetEdges(widget);
+
+            // Check horizontal and vertical alignment (gpt)
+            if (checkHorizontalAlignment(draggedWidgetEdges, otherWidgetEdges)) {
+              horizontalAlignment = true;
+            }
+            if (checkVerticalAlignment(draggedWidgetEdges, otherWidgetEdges)) {
+              verticalAlignment = true;
+            }
+
+            setAlignmentGuides({ horizontal: horizontalAlignment, vertical: verticalAlignment });
 
             // Snap to the left or right edges
             if (isCloseEnough(draggedWidgetEdges.left, otherWidgetEdges.right, SNAP_THRESHOLD)) {
