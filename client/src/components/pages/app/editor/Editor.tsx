@@ -102,9 +102,33 @@ const Editor: React.FC = () => {
     drop: (item: { id: string }, monitor) => {
       const offset = monitor.getClientOffset();
       if (offset) {
-        
+        let newLeft = offset.x;
+        let newTop = offset.y;
+
+        // Check snapping to other widgets (gpt)
+        widgets.forEach((widget) => {
+          if (widget.id !== item.id) {
+            const draggedWidgetEdges = { left: newLeft, top: newTop, right: newLeft + 200, bottom: newTop + 100 }; // assuming dragged widget size
+            const otherWidgetEdges = getWidgetEdges(widget);
+
+            // Snap to the left or right edges
+            if (isCloseEnough(draggedWidgetEdges.left, otherWidgetEdges.right, SNAP_THRESHOLD)) {
+              newLeft = otherWidgetEdges.right;
+            } else if (isCloseEnough(draggedWidgetEdges.right, otherWidgetEdges.left, SNAP_THRESHOLD)) {
+              newLeft = otherWidgetEdges.left - 200; // adjusting for widget width
+            }
+
+            // Snap to the top or bottom edges
+            if (isCloseEnough(draggedWidgetEdges.top, otherWidgetEdges.bottom, SNAP_THRESHOLD)) {
+              newTop = otherWidgetEdges.bottom;
+            } else if (isCloseEnough(draggedWidgetEdges.bottom, otherWidgetEdges.top, SNAP_THRESHOLD)) {
+              newTop = otherWidgetEdges.top - 100; // adjusting for widget height
+            }
+          }
+        });
         // Snap the position to the grid
         const [left, top] = snapToGrid(offset.x, offset.y);
+        
         
         const newWidget: WidgetPosition = {
           id: item.id,
