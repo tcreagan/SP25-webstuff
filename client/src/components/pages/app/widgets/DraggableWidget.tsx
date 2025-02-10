@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { updateWidgetPosition, updateWidgetStyles } from 'helpers/helpers';  // Import your new helpers
 import { EditorState } from 'state/editor/EditorReducer';
+import { snapToGrid } from 'helpers/snapToGrid';  // Import your snapToGrid helper
 
 interface DraggableWidgetProps {
   id: number;
@@ -22,7 +23,11 @@ const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, ed
     end: (item, monitor) => {
       const offset = monitor.getClientOffset();
       if (offset) {
-        const newPosition = { x: offset.x, y: offset.y };
+        //gpt
+        //review
+        // Snap the widget to the grid before updating the position
+        const [snappedX, snappedY] = snapToGrid(offset.x, offset.y);
+        const newPosition = { x: snappedX, y: snappedY };
         updateWidgetPosition(id, editor, newPosition, section);  // Update the widget's position when dropped
       }
     },
@@ -37,6 +42,15 @@ const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, ed
   };
 
   return (
+    //gpt 
+    //review
+    //add resize handlers to update width and height
+    <ResizableBox
+      width={parseInt(widgetStyles.width || '100')}
+      height={parseInt(widgetStyles.height || '100')}
+      onResize={handleResize}
+      resizeHandles={['se']}  // Enable resizing from bottom-right corner
+    >
     <div
       ref={drag}
       className="draggable-widget"
