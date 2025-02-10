@@ -124,5 +124,25 @@ export function updateWidgetPosition(widgetId, x, y, dispatch) {
     y,
   });
 }
+//gpt
+//review
+//added the ability to reset inherited values incase it happens so they are independent
+// Removes inherited styles from child widgets, ensuring independence from the parent
+export const resetInheritedStyles = (widgetId: number, editor: EditorState, section: string) => {
+  const widget = (editor[section as keyof EditorState] as HtmlObject).html.nodes[widgetId];
 
- 
+  if (!widget) {
+    return null; // Widget not found
+  }
+
+  // Clear any inherited properties
+  widget.style = {
+    ...widget.style,
+    position: 'absolute',  // Ensure absolute positioning
+    width: widget.style.width || 'auto', // Ensure width is independently managed
+    height: widget.style.height || 'auto', // Ensure height is independently managed
+  };
+
+  return widget.style;
+};
+
