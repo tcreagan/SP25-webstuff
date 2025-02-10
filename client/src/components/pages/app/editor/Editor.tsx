@@ -79,3 +79,60 @@ export const Editor = (props: Props) => {
     </div>
   );
 };
+
+
+/gpt generated 
+//needs review, should replace some code above
+//creates a droppable area for the draggable widgets
+//may not be necessary, check other files
+import { useDrop } from 'react-dnd';
+import DraggableImageWidget from './DraggableImageWidget';
+
+interface WidgetPosition {
+  id: string;
+  left: number;
+  top: number;
+}
+
+const Editor: React.FC = () => {
+  const [widgets, setWidgets] = useState<WidgetPosition[]>([]);  // Track widget positions
+
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: 'widget',   // Accept draggable items of type 'widget'
+    drop: (item: { id: string }, monitor) => {
+      const offset = monitor.getClientOffset();
+      if (offset) {
+        const newWidget: WidgetPosition = {
+          id: item.id,
+          left: offset.x,  // Position based on where the item was dropped
+          top: offset.y,
+        };
+        setWidgets((prevWidgets) => [...prevWidgets, newWidget]);
+      }
+    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
+
+  return (
+    <div ref={drop} className="editor" style={{ width: '100%', height: '500px', position: 'relative', border: '1px solid black' }}>
+      <h2>Drag Widgets into the Editor</h2>
+
+      {/* Render all widgets at their respective positions */}
+      {widgets.map((widget) => (
+        <div key={widget.id} style={{ position: 'absolute', left: widget.left, top: widget.top }}>
+          <DraggableImageWidget
+            id={widget.id}
+            initialUrl="https://example.com/default-image.jpg"
+            initialAlt="Default Image"
+            initialStyles={{ width: '200px', height: 'auto', border: '1px solid #ccc' }}
+            onSave={(data) => console.log('Widget data saved:', data)}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Editor;
