@@ -1,3 +1,6 @@
+//gpt 
+//review
+//card layout for resizable cards to hold multiple elements
 import React from 'react';
 import { ResizableBox } from 'react-resizable';
 
