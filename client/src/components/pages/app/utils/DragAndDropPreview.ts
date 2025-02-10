@@ -1,0 +1,27 @@
+// DragAndDropPreview.ts
+export function DragAndDropPreview({ editor, dragState, mouseState, data }) {
+  if(dragState.isDragging && editor.hoveredItemId && dragState.canDrop){
+    const {section, index} = parseId(editor.hoveredItemId);
+    const predictedIndex = getDropChildId(mouseState, editor, editor.hoveredItemId);
+
+    const previewObject:HtmlObject = {
+      metadata: { type: "WIDGET" },
+      html: {
+        nodes: [
+          {
+            element: "div",
+            style: {},
+            attributes: { "className": { value: "preview" } },
+            metadata: { preview: true }
+          }
+        ]
+      }
+    };
+
+    // Insert the preview element into the correct section
+    data[section] = structuredClone(editor[section]);
+    data[section] = insertDroppedElement(predictedIndex, editor, previewObject, editor.hoveredItemId)[section];
+  }
+
+  return data;
+}
