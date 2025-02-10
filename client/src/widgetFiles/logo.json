@@ -22,12 +22,14 @@
           {
             "element": "img",
             "attributes": {
-              "className": {"value": "logo"},
-              "src": {"value":"https://media.istockphoto.com/id/1331491686/vector/element-design.jpg?s=612x612&w=0&k=20&c=QIMRS2IPiQyyTZJR_G1JAjH_ErBBkrDPtQe2GBNgm2w="}
+              "className": {"value": "image"},
+              "src": {
+                "value":"https://media.istockphoto.com/id/1331491686/vector/element-design.jpg?s=612x612&w=0&k=20&c=QIMRS2IPiQyyTZJR_G1JAjH_ErBBkrDPtQe2GBNgm2w="
+              }
             },
             "style": {},
             "metadata": {
-              "selectable": true
+              "primary": true
             }
           }
         ]
