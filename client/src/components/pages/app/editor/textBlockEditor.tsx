@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { snapToGrid } from '../utils/snapToGrid';
-import DraggableTextBlock from './DraggableTextBlock'; //figure out where this import is supposed to come from
+//import DraggableTextBlock from './DraggableTextBlock'; //figure out where this import is supposed to come from
 
 interface WidgetPosition {
   id: string;
