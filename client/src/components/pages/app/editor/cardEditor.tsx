@@ -8,7 +8,7 @@ const CardEditor: React.FC = () => {
   return (
     <div className="editor">
       {/* Card 1 */}
-      <CardWidget title="Card 1" initialWidth={300} initialHeight={200} children>
+      <CardWidget title="Card 1" initialWidth={300} initialHeight={200} >
         <Textbox id="text1" initialText="Text Box in Card 1" />
       </CardWidget>
 
