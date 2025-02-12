@@ -1,7 +1,7 @@
 import React from 'react';
-import ResizableContainer from './ResizableContainer';
-import DraggableTextBlock from './DraggableTextBlock';
-import DraggableImageWidget from './DraggableImageWidget';
+import ResizableContainer from 'components/pages/app/containers/ResizableContainer';
+import DraggableTextBlock from './DraggableTextBlock'; // need to create import
+import DraggableImageWidget from 'components/pages/app/widgets/DraggableImageWidget';
 
 const ContainerEditor: React.FC = () => {
   return (
