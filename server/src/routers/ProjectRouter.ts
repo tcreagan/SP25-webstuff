@@ -1,6 +1,8 @@
 import express, { Router } from "express"
 import DBConnector from "../db/dbConnector"
 import { Models } from "../db/initConnection"
+import { authenticateJWT } from "../db/middlewares/authMiddleware";
+import { requireProjectPermissions } from "../db/middlewares/permissionMiddleware"
 
 /**
  * Defines the router which handles requests going to /api/Projects
@@ -80,6 +82,16 @@ import { Models } from "../db/initConnection"
     if(!record){
       res.sendStatus(404)
     }
+
+    //used to authenticate user login
+// Route to create a new project (authenticated users only)
+router.post('/', authenticateJWT, requireProjectPermission('write'), createProjectHandler);
+
+// Route to add a page to a project (authenticated users only)
+router.post('/:projectId/pages', authenticateJWT, requireProjectPermission('write'), createPageHandler);
+
+// Route to fetch project details (authenticated users only)
+router.get('/:projectId', authenticateJWT, requireProjectPermission('read'), getProjectDetailsHandler);
 
     record.delete()
     res.sendStatus(200)
