@@ -59,7 +59,7 @@ export const Editor = (props: Props) => {
 };
 
 
-/gpt generated 
+//gpt generated 
 //needs review, should replace some code above
 //creates a droppable area for the draggable widgets
 //may not be necessary, check other files
