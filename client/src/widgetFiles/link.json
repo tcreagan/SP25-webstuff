@@ -23,9 +23,15 @@
             "element": "a",
             "attributes": {
               "text": {"value":"w3schools"},
-              "className": {"value": "link"},
+              "className": {
+                "value": "link",
+                "hidden": true
+              },
               "href": {"value":"https://www.w3schools.com/"},
-              "target": {"value":"_blank"}
+              "target": {
+                "value":"_blank",
+                "hidden": true
+              }
             },
             "style": {
               "background-color":{

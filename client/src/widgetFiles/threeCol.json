@@ -10,7 +10,7 @@
         {
           "element": "div",
           "attributes": {
-            "className": {"value": "horizontal"}
+            "className": {"value": "horizontal", "hidden": true}
           },
           "style": {},
           "children": [1,2,3],
@@ -24,7 +24,7 @@
         {
           "element": "div",
           "attributes": {
-            "className": {"value":"vertical"}
+            "className": {"value":"vertical", "hidden": true}
           },
           "style": {
             "flex-grow": {
@@ -94,7 +94,7 @@
         {
           "element": "div",
           "attributes": {
-            "className": {"value":"vertical"}
+            "className": {"value":"vertical", "hidden": true}
           },
           "style": {
             "flex-grow": {
@@ -164,7 +164,7 @@
         {
             "element": "div",
             "attributes": {
-              "className": {"value":"vertical"}
+              "className": {"value":"vertical", "hidden": true}
             },
             "style": {
 

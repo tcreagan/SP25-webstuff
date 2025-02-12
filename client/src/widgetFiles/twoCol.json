@@ -10,7 +10,7 @@
       {
         "element": "div",
         "attributes": {
-          "className": {"value":"horizontal"}
+          "className": {"value":"horizontal", "hidden": true}
         },
         "style": {},
         "children": [1,2],
@@ -24,7 +24,7 @@
       {
         "element": "div",
         "attributes": {
-          "className": {"value":"vertical"}
+          "className": {"value":"vertical", "hidden": true}
         },
         "style": {            
           "background-color":{
@@ -87,7 +87,7 @@
       {
         "element": "div",
         "attributes": {
-          "className": {"value":"vertical"}
+          "className": {"value":"vertical", "hidden": true}
         },
         "style": {            
           "background-color":{

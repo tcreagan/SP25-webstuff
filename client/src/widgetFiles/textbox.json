@@ -135,7 +135,7 @@
                             "type": "textarea"
                         }
                     },
-                    "className": {"value":"textbox"}
+                    "className": {"value":"textbox", "hidden": true}
                 },
                 "metadata":{
                     "selectable": true,

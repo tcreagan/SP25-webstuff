@@ -136,7 +136,7 @@
                     },
                     "className": {
                         "value": "heading1",
-                        "readonly": true,
+                        "hidden": true,
                         "input": {
                             "type": "text"
                         }

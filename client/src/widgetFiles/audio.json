@@ -22,10 +22,10 @@
           {
             "element": "audio",
             "attributes": {
-              "className": {"value": "audio", "readonly": true},
+              "className": {"value": "audio", "hidden": true},
               "src": {"value": "https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav"},
               "type": {"value": "audio/wav", "hidden": true},
-              "controls": {"value": "true"}
+              "controls": {"value": "true", "hidden": true}
             },
             "style": {},
             "metadata": {

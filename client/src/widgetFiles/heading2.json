@@ -130,7 +130,7 @@
                 },
                 "attributes":{
                     "text": {"value":"Sub Heading 1"},
-                    "className": {"value": "heading2"}
+                    "className": {"value": "heading2", "hidden": true}
                 },
                 "children": [],
                 "metadata":{

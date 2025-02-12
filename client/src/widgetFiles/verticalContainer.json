@@ -10,7 +10,7 @@
       {
         "element": "div",
         "attributes": {
-          "className": {"value":"vertical"}
+          "className": {"value":"vertical", "hidden": true}
         },
         "style": {
             "background-color":{

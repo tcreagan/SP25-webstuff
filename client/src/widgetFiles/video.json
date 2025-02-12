@@ -25,7 +25,8 @@
             "element": "iframe",
             "attributes": {
               "className": {
-                "value": "video"
+                "value": "video",
+                "hidden": true
               },
               "src": {
                 "value":"https://www.youtube.com/embed/ezsH2zebsYE"
