@@ -8,6 +8,7 @@ interface CardWidgetProps {
   title: string;
   initialWidth: number;
   initialHeight: number;
+  children? React.ReactNode; 
 }
 
 const CardWidget: React.FC<CardWidgetProps> = ({ title, initialWidth, initialHeight, children }) => {
