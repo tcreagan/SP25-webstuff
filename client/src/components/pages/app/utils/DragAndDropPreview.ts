@@ -6,8 +6,8 @@ import {HtmlObject} from "types/HtmlObject"
 
 export function DragAndDropPreview({ editor: any, dragState: any, mouseState: any, data: any }) {
   if(dragState.isDragging && editor.hoveredItemId && dragState.canDrop){
-    const {section, index} = parseId(editor.hoveredItemId);
-    const predictedIndex = getDropChildId(mouseState, editor, editor.hoveredItemId);
+    const {section, index} = parseId(editor.hoveredItemId); //cannot be found 
+    const predictedIndex = getDropChildId(mouseState, editor, editor.hoveredItemId); //cannot be found
 
     const previewObject:HtmlObject = {
       metadata: { type: "WIDGET" },
@@ -25,7 +25,7 @@ export function DragAndDropPreview({ editor: any, dragState: any, mouseState: an
 
     // Insert the preview element into the correct section
     data[section] = structuredClone(editor[section]);
-    data[section] = insertDroppedElement(predictedIndex, editor, previewObject, editor.hoveredItemId)[section];
+    data[section] = insertDroppedElement(predictedIndex, editor, previewObject, editor.hoveredItemId)[section]; //cannot be found
   }
 
   return data;
