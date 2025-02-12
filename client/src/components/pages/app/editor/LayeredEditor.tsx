@@ -2,7 +2,7 @@
 //review
 //for absolute positioning, can bring a widget forward and backward
 import React from 'react';
-import LayeredWidget from './LayeredWidget';
+import LayeredWidget from 'components/pages/app/widgets/LayeredWidget';
 
 const LayeredEditor: React.FC = () => {
   return (
