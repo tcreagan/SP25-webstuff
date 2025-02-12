@@ -46,8 +46,8 @@ const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, ed
     //review
     //add resize handlers to update width and height
     <ResizableBox
-      width={parseInt(widgetStyles.width || '100')}
-      height={parseInt(widgetStyles.height || '100')}
+      width={parseInt(widgetStyles.width || 100)}
+      height={parseInt(widgetStyles.height || 100)}
       onResize={handleResize}
       resizeHandles={['se']}  // Enable resizing from bottom-right corner
     >
