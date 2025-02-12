@@ -14,7 +14,7 @@ const CardEditor: React.FC = () => {
 
       {/* Card 2 */}
       <CardWidget title="Card 2" initialWidth={500} initialHeight={300}>
-        <DraggableImageWidget id="image1" initialUrl="https://example.com/image.jpg" />
+        <DraggableImageWidget id="image1" initialUrl="https://example.com/image.jpg" intialAlt="None" initialStyles={none} onSave="data"/>
         <Textbox id="text2" initialText="Text Box in Card 2" />
       </CardWidget>
     </div>
