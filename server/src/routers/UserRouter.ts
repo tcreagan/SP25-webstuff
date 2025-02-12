@@ -84,4 +84,34 @@ import { Models } from "../db/initConnection";
     res.sendStatus(200)
   })
 
+  import { createUserHandler, assignUserRoleHandler, getUserDetailsHandler, listUsersHandler } from '../controllers/userController';
+
+const router = Router();
+
+// Route to create a new user
+router.post('/', createUserHandler);
+
+// Route to assign a role to a user
+router.post('/:userId/roles/:roleId', assignUserRoleHandler);
+
+// Route to get user details (including roles)
+router.get('/:userId', getUserDetailsHandler);
+
+// Route to list all users (optional)
+router.get('/', listUsersHandler);
+
+//gpt generated 
+
+// POST /register - User registration route
+router.post('/register', registerUser);
+
+// POST /login - User login route
+router.post('/login', loginUser);
+
+// POST /logout - User logout route (only for authenticated users)
+router.post('/logout', authenticateJWT, logoutUser);
+
+// POST /refresh-token - Refresh access token using refresh token
+router.post('/refresh-token', refreshAccessToken);
+
 export default router

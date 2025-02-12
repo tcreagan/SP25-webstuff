@@ -12,6 +12,7 @@ import { SitePermission } from "./SitePermissions";
 import { User } from "./User";
 import { UserType } from "./UserType";
 import { Widget } from "./Widget";
+import { session } from "./Session";
 
 export function ModelBuilder(connector:DBConnector) {
   Model.DbConnector = connector;
@@ -27,6 +28,7 @@ export function ModelBuilder(connector:DBConnector) {
     Event: Event,
     SectionLayout: SectionLayout,
     PageLayout: PageLayout,
-    Widget: Widget
+    Widget: Widget,
+    Session: Session
   }
 }
