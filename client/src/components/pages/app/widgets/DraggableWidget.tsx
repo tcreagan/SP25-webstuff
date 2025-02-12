@@ -62,7 +62,7 @@ const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, ed
       {children}
     </div>
   );
-};
+}
 
 export default DraggableWidget;
 
