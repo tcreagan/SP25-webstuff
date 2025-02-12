@@ -1,5 +1,5 @@
 // TextBox.tsx
-import React from 'react';
+
 import { CSSProperties } from 'react';
 
 const TextBoxStyle: CSSProperties = {
@@ -16,18 +16,18 @@ const TextBoxStyle: CSSProperties = {
 interface TextBoxProps {
   content: string;  
 }
-
+/*
 const TextBox: React.FC<TextBoxProps> = ({ content }) => {
   return (
     <div style={TextBoxStyle}>
       {content}
     </div>
   );
-};
+};*/
 //gpt generated 
 //needs review 
 //text box widget w/ save functionality
-/*
+
 import React, { useState } from 'react';
 
 interface TextBlockProps {
