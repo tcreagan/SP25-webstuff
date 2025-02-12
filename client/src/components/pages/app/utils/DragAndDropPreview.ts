@@ -2,10 +2,17 @@
 //figure out where the functions are coming from and import accordingly
 //also fix 'any' types in parameters
 import React from 'react'
-import {HtmlObject} from "types/HtmlObject"
+import { HtmlObject } from "types/HtmlObject"
+import { mouseState } from 'state/mouse/MouseReducer'
+import { DragAndDropState } from 'state/dragAndDrop/DragAndDropReducer'
+import { HtmlObject } from 'types/HtmlObject'
+
 //lots of function need to be defined 
-export function DragAndDropPreview({ editor, dragState, mouseState, data }) {
-  if(dragState.isDragging && editor.hoveredItemId && dragState.canDrop){
+interface Editor {
+  hoveredItemId: string | number;
+}
+export function DragAndDropPreview({ editor: Editor, DragAndDropState: DragAndDropState, mouseState: mouseState, data: HtmlObject }) {
+  if(dragState.isDragging && editor.hoveredItemId && DragAndDropState.canDrop){
     const {section, index} = parseId(editor.hoveredItemId); //cannot be found 
     const predictedIndex = getDropChildId(mouseState, editor, editor.hoveredItemId); //cannot be found
 
