@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageWidget from './ImageWidget';
+import ImageWidget from './imageWidget';
 
 const Editor: React.FC = () => {
   // Save image data to the server or local storage
