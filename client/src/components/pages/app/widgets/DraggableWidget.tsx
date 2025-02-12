@@ -46,9 +46,9 @@ const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, ed
     //review
     //add resize handlers to update width and height
     <ResizableBox
-      width={parseInt(widgetStyles.width || 100)}
+      width={parseInt(widgetStyles.width || 100)} //figure out why width and height require strings
       height={parseInt(widgetStyles.height || 100)}
-      onResize={handleResize}
+      onResize={handleResize} //handleResize cannot be found
       resizeHandles={['se']}  // Enable resizing from bottom-right corner
     >
     <div
@@ -61,8 +61,9 @@ const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, ed
     >
       {children}
     </div>
+    </ResizableBox>
   );
-}
+
 
 export default DraggableWidget;
 
