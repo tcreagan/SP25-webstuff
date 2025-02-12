@@ -2,6 +2,8 @@ import express, { Router } from "express"
 import DBConnector from "../db/dbConnector"
 import { table } from "console";
 import { Models } from "../db/initConnection";
+import { getEvents, getEventById, createEvent, updateEvent, deleteEvent } from '../controllers/eventController';
+import { validateEvent, validateEventId } from '../validators/eventValidator';  // Assuming validation functions
 
 /**
  * Defines the router which handles requests going to /api/Events
@@ -102,6 +104,34 @@ const buildRouter = (con: DBConnector): Router => {
     }
   })
 
+  
+
+
+
+/**
+ * GET /api/Events - Get all events
+ */
+router.get('/', getEvents);
+
+/**
+ * GET /api/Events/:id - Get an event by ID
+ */
+router.get('/:id', validateEventId, getEventById);
+
+/**
+ * PUT /api/Events/new - Create a new event
+ */
+router.put('/new', validateEvent, createEvent);
+
+/**
+ * PATCH /api/Events/:id - Update an event
+ */
+router.patch('/:id', validateEventId, validateEvent, updateEvent);
+
+/**
+ * DELETE /api/Events/:id - Delete an event
+ */
+router.delete('/:id', validateEventId, deleteEvent);
   return router
 }
 
