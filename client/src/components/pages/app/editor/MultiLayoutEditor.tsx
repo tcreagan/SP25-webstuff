@@ -7,13 +7,14 @@ import CardWidget from 'components/pages/app/widgets/CardWidget';
 import LayeredWidget from 'components/pages/app/widgets/LayeredWidget';
 //import DraggableTextBlock from './DraggableTextBlock'; //import does not exist yet
 import DraggableImageWidget from 'components/pages/app/widgets/DraggableImageWidget';
+import Textbox from 'components/pages/app/Textbox';
 
 const MultiLayoutEditor: React.FC = () => {
   return (
     <div className="editor" style={{ position: 'relative', width: '100%', height: '100%' }}>
       {/* Container-Based Layout */}
       <ResizableContainer initialWidth={500} initialHeight={300}>
-        <DraggableTextBlock id="text1" initialText="Text Block in Container" />
+        <Textbox id="text1" initialText="Text Block in Container" />
         <DraggableImageWidget id="image1" initialUrl="https://example.com/image.jpg" intialAlt="None" initialStyles={none} onSave="data"/>
       </ResizableContainer>
 
