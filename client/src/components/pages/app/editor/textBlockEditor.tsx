@@ -41,7 +41,7 @@ const Editor: React.FC = () => {
             id={widget.id}
             initialText="Editable Text Block"
             initialStyles={{ width: '200px', height: 'auto', border: '1px solid #ccc' }}
-            onSave={(data) => console.log('Widget data saved:', data)} //figure out what type to assign to data
+            onSave={(data: any) => console.log('Widget data saved:', data)} //figure out what type to assign to data, attempting to fix using any
           />
         </div>
       ))}
