@@ -14,7 +14,7 @@ interface DraggableWidgetProps {
   section: string;
 }
 
-const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, editor, section, children }) => {
+export const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, editor, section, children }) => {
   const [widgetStyles, setWidgetStyles] = useState(initialStyles);
 
   const [{ isDragging }, drag] = useDrag(() => ({
