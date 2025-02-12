@@ -3,7 +3,7 @@
 //also fix 'any' types in parameters
 import React from 'react'
 import {HtmlObject} from "types/HtmlObject"
-
+//lots of function need to be defined 
 export function DragAndDropPreview({ editor: any, dragState: any, mouseState: any, data: any }) {
   if(dragState.isDragging && editor.hoveredItemId && dragState.canDrop){
     const {section, index} = parseId(editor.hoveredItemId); //cannot be found 
