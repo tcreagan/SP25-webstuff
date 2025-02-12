@@ -10,6 +10,8 @@ import { useMouse } from "state/mouse/MouseReducer";
 import { useDragAndDropContext } from "state/dragAndDrop/DragAndDropReducer";
 import { DragAndDropPreview } from './DragAndDropPreview';
 
+
+//need to decide on one declaration of Editor
 type Props = {};
 
 export function buildPreview(content:HtmlObject){
@@ -85,7 +87,7 @@ const Editor: React.FC = () => {
         let horizonatalAlignment = false;
         let verticalAlignment = false;
         
-
+        //cannot find snapThreshold and others, need to import utils
         // Check snapping to other widgets (gpt)
         widgets.forEach((widget) => {
           if (widget.id !== item.id) {
@@ -146,7 +148,7 @@ const Editor: React.FC = () => {
             initialUrl="https://example.com/default-image.jpg"
             initialAlt="Default Image"
             initialStyles={{ width: '200px', height: 'auto', border: '1px solid #ccc' }}
-            onSave={(data) => console.log('Widget data saved:', data)}
+            onSave={(data) => console.log('Widget data saved:', data)} //needs any type fix if used
           />
         </div>
       ))}
@@ -159,7 +161,6 @@ export default Editor;
 //gpt 
 //review 
 //layout selector in editor so it can switch between layouts
-import React, { useState } from 'react';
 import ContainerEditor from './ContainerEditor';
 import CardEditor from './CardEditor';
 import LayeredEditor from './LayeredEditor';
