@@ -12,10 +12,10 @@ const TextBoxStyle: CSSProperties = {
   width: '100%',
   textAlign: 'center',
 };
-
+/* old props
 interface TextBoxProps {
   content: string;  
-}
+} */
 /*
 const TextBox: React.FC<TextBoxProps> = ({ content }) => {
   return (
@@ -30,12 +30,12 @@ const TextBox: React.FC<TextBoxProps> = ({ content }) => {
 
 import React, { useState } from 'react';
 
-interface TextBlockProps {
+interface TextBoxProps {
   content: string;
   onSave: (content: string) => void;
 }
 
-const TextBlock: React.FC<TextBlockProps> = ({ content, onSave }) => {
+const TextBox: React.FC<TextBoxProps> = ({ content, onSave }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(content);
 
@@ -56,7 +56,7 @@ const TextBlock: React.FC<TextBlockProps> = ({ content, onSave }) => {
   };
 
   return (
-    <div className="text-block">
+    <div className="text-box">
       {isEditing ? (
         <div>
           <textarea value={text} onChange={handleChange} />
