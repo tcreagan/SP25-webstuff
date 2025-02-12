@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { updateWidgetPosition, updateWidgetStyles } from 'helpers/helpers';  // Import your new helpers
 import { EditorState } from 'state/editor/EditorReducer';
-import { snapToGrid } from 'helpers/snapToGrid';  // Import your snapToGrid helper
+import { snapToGrid } from 'components/pages/app/utils/snapToGrid';  // Import your snapToGrid helper
 
 interface DraggableWidgetProps {
   id: number;
