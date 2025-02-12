@@ -109,7 +109,7 @@ export function sanitizeImageUrl(value: string, defaultValue: string) {
 //review
 //used to help handle child widgets update their own styles, positions, etc
 //fix the any types in parameters
-export function updateWidgetStyle(widgetId, styles, dispatch) {
+export function updateWidgetStyle(widgetId: number, styles, dispatch) {
   dispatch({
     type: 'UPDATE_WIDGET_STYLE',
     widgetId,
@@ -117,7 +117,7 @@ export function updateWidgetStyle(widgetId, styles, dispatch) {
   });
 }
 
-export function updateWidgetPosition(widgetId, x, y, dispatch) {
+export function updateWidgetPosition(widgetId: number, x, y, dispatch) {
   dispatch({
     type: 'UPDATE_WIDGET_POSITION',
     widgetId,
