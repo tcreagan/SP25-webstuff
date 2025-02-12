@@ -12,10 +12,6 @@
             "attributes": {
               "className": {"value": "elementContainer"}
             },
-            "style": {  
-              "width": "100%",
-              "height": "auto"
-            },
             "children": [1],
             "metadata": {
               "draggable": true,
