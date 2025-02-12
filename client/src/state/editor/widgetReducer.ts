@@ -2,7 +2,8 @@
 //review
 //used to track widget styles and position
 // state/editor/WidgetReducer.ts
-const widgetReducer = (state, action) => {
+//added any types to parameters
+const widgetReducer = (state: any, action: any) => {
   switch (action.type) {
     case 'UPDATE_WIDGET_STYLE':
       return {
