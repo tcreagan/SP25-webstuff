@@ -9,13 +9,13 @@ const ContainerEditor: React.FC = () => {
       {/* Container 1 */}
       <ResizableContainer initialWidth={400} initialHeight={300}>
         <DraggableTextBlock id="text1" initialText="Text Block 1" />
-        <DraggableImageWidget id="image1" initialUrl="https://example.com/image.jpg" />
+        <DraggableImageWidget id="image1" initialUrl="https://example.com/image.jpg" intialAlt="None" initialStyles={none} onSave="data"/>
       </ResizableContainer>
 
       {/* Container 2 */}
       <ResizableContainer initialWidth={600} initialHeight={400}>
         <DraggableTextBlock id="text2" initialText="Text Block 2" />
-        <DraggableImageWidget id="image2" initialUrl="https://example.com/image2.jpg" />
+        <DraggableImageWidget id="image2" initialUrl="https://example.com/image2.jpg" intialAlt="None" initialStyles={none} onSave="data"/>
       </ResizableContainer>
     </div>
   );
