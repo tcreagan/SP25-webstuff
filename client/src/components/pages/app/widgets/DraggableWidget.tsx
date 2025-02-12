@@ -3,7 +3,7 @@
 //used to ensure that the child widget can be dragged independently and resized
 import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
-import { updateWidgetPosition, updateWidgetStyles } from 'components/pages/app/Helpers';  // Import your new helpers
+import { updateWidgetPosition, updateWidgetStyle } from 'components/pages/app/Helpers';  // Import your new helpers
 import { EditorState } from 'state/editor/EditorReducer';
 import { snapToGrid } from 'components/pages/app/utils/snapToGrid';  // Import your snapToGrid helper
 
