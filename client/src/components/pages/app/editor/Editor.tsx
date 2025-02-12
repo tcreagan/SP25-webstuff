@@ -60,7 +60,7 @@ export const Editor = (props: Props) => {
   );
 };
 
-
+/*
 //gpt generated 
 //needs review, should replace some code above
 //creates a droppable area for the draggable widgets
@@ -140,7 +140,7 @@ const Editor: React.FC = () => {
     <div ref={drop} className="editor" style={{ width: '100%', height: '500px', position: 'relative', border: '1px solid black' }}>
       <h2>Drag Widgets into the Editor</h2>
 
-      {/* Render all widgets at their respective positions */}
+      {/* Render all widgets at their respective positions */}/*
       {widgets.map((widget) => (
         <div key={widget.id} style={{ position: 'absolute', left: widget.left, top: widget.top }}>
           <DraggableImageWidget
@@ -179,7 +179,7 @@ export const Editor = () => {
 
   return (
     <div id="editor-window" className={`editor ${isPreview ? 'preview-mode' : ''}`}>
-      {/* Layout Selector */}
+      {/* Layout Selector */}/*
       <div className="controls">
         <select onChange={handleLayoutChange} value={layoutType}>
           <option value="container">Container Layout</option>
@@ -191,7 +191,7 @@ export const Editor = () => {
         </button>
       </div>
 
-      {/* Render Layout Based on Selection */}
+      {/* Render Layout Based on Selection */}/*
       <div className="editor-container">
         {layoutType === 'container' && <ContainerEditor />}
         {layoutType === 'card' && <CardEditor />}
@@ -200,3 +200,4 @@ export const Editor = () => {
     </div>
   );
 };
+*/
