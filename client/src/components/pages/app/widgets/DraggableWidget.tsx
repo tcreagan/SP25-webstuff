@@ -37,7 +37,7 @@ export const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialSty
   }));
 
   const handleStyleUpdate = (newStyles: React.CSSProperties) => {
-    const updatedStyles = updateWidgetStyles(id, editor, newStyles, section);  // Update widget styles
+    const updatedStyles = updateWidgetStyle(id, editor, newStyles, section);  // Update widget styles
     setWidgetStyles(updatedStyles);  // Apply new styles locally in the component state
   };
 
