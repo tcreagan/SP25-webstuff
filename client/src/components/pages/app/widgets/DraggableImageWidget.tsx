@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import ImageWidget from './ImageWidget';
+import ImageWidget from './imageWidget';
 
 interface DraggableImageWidgetProps {
   id: string;
