@@ -2,7 +2,7 @@
 //review
 //container to ensure parent widgets dont override
 import React from 'react';
-import DraggableWidget from 'components/pages/app/widgets/DraggableWidget';
+import { DraggableWidget } from 'components/pages/app/widgets/DraggableWidget';
 
 const ParentWidget: React.FC = () => {
   const handleStyleUpdate = (id: string, newStyles: React.CSSProperties) => {
