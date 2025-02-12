@@ -14,7 +14,7 @@ const MultiLayoutEditor: React.FC = () => {
       {/* Container-Based Layout */}
       <ResizableContainer initialWidth={500} initialHeight={300}>
         <DraggableTextBlock id="text1" initialText="Text Block in Container" />
-        <DraggableImageWidget id="image1" initialUrl="https://example.com/image.jpg" />
+        <DraggableImageWidget id="image1" initialUrl="https://example.com/image.jpg" intialAlt="None" initialStyles={none} onSave="data"/>
       </ResizableContainer>
 
       {/* Card-Based Layout */}
