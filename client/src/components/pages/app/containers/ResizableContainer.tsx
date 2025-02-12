@@ -6,6 +6,7 @@ import { ResizableBox } from 'react-resizable';
 interface ResizableContainerProps {
   initialWidth: number;
   initialHeight: number;
+  children?: React.ReactNode;
 }
 
 const ResizableContainer: React.FC<ResizableContainerProps> = ({ initialWidth, initialHeight, children }) => {
