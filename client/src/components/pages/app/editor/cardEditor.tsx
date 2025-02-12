@@ -1,7 +1,7 @@
 import React from 'react';
-import CardWidget from './CardWidget';
-import DraggableTextBlock from './DraggableTextBlock';
-import DraggableImageWidget from './DraggableImageWidget';
+import CardWidget from 'components/pages/app/widgets/CardWidget';
+import DraggableTextBlock from './DraggableTextBlock'; //DNE, need to create 
+import DraggableImageWidget from 'components/pages/app/widgets/DraggableWidget.tsx';
 
 const CardEditor: React.FC = () => {
   return (
