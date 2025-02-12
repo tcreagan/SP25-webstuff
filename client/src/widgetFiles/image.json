@@ -12,7 +12,7 @@
             "attributes": {
               "className": {"value": "elementContainer"}
             },
-            "style": {  //added default styles
+            "style": {  
               "width": "100%",
               "height": "auto"
             },
@@ -27,10 +27,10 @@
             "attributes": {
               "className": {"value": "image"},
               "src": {
-                "value":"<dynamic URL>" //gpt suggestion, add input field so it can be changed dynamically
+                "value":"<dynamic URL>" 
               }
             },
-            "style": { //added default styles 
+            "style": {  
                 "maxWidth": "100%",
                 "height": "auto",
                 "border": "1px solid #ccc"
