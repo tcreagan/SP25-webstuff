@@ -168,3 +168,13 @@ CREATE TABLE GDPR_Column(
 
   PRIMARY KEY(table_name, column_name)
 );
+
+
+CREATE TABLE Sessions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  refresh_token TEXT NOT NULL,
+  expires_at DATETIME NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+);
