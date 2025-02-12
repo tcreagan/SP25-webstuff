@@ -4,7 +4,7 @@
 import React from 'react'
 import {HtmlObject} from "types/HtmlObject"
 
-export function DragAndDropPreview({ editor, dragState, mouseState, data }) {
+export function DragAndDropPreview({ editor: any, dragState: any, mouseState: any, data: any }) {
   if(dragState.isDragging && editor.hoveredItemId && dragState.canDrop){
     const {section, index} = parseId(editor.hoveredItemId);
     const predictedIndex = getDropChildId(mouseState, editor, editor.hoveredItemId);
