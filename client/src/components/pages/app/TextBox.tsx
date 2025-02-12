@@ -72,6 +72,6 @@ const TextBlock: React.FC<TextBlockProps> = ({ content, onSave }) => {
   );
 };
 
-*/
+
 
 export default TextBox;
