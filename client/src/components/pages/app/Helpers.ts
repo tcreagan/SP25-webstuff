@@ -139,7 +139,7 @@ export const resetInheritedStyles = (widgetId: number, editor: EditorState, sect
   // Clear any inherited properties
   widget.style = {
     ...widget.style,
-    position: 'absolute',  // Ensure absolute positioning, figure out why it cant take a string
+    position: { value: 'absolute' },  // Ensure absolute positioning, figure out why it cant take a string
     width: widget.style.width || 'auto', // Ensure width is independently managed
     height: widget.style.height || 'auto', // Ensure height is independently managed
   };
