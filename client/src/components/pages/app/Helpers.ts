@@ -108,6 +108,7 @@ export function sanitizeImageUrl(value: string, defaultValue: string) {
 //gpt 
 //review
 //used to help handle child widgets update their own styles, positions, etc
+//fix the any types in parameters
 export function updateWidgetStyle(widgetId, styles, dispatch) {
   dispatch({
     type: 'UPDATE_WIDGET_STYLE',
@@ -138,7 +139,7 @@ export const resetInheritedStyles = (widgetId: number, editor: EditorState, sect
   // Clear any inherited properties
   widget.style = {
     ...widget.style,
-    position: 'absolute',  // Ensure absolute positioning
+    position: 'absolute',  // Ensure absolute positioning, figure out why it cant take a string
     width: widget.style.width || 'auto', // Ensure width is independently managed
     height: widget.style.height || 'auto', // Ensure height is independently managed
   };
