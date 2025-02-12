@@ -2,11 +2,11 @@
 //review
 //used to combine all the layouts together
 import React from 'react';
-import ResizableContainer from './ResizableContainer';
-import CardWidget from './CardWidget';
-import LayeredWidget from './LayeredWidget';
-import DraggableTextBlock from './DraggableTextBlock';
-import DraggableImageWidget from './DraggableImageWidget';
+import ResizableContainer from 'components/pages/app/containers/ResizableContainer.tsx';
+import CardWidget from 'components/pages/app/widgets/CardWidget';
+import LayeredWidget from 'components/pages/app/widgets/LayeredWidget';
+import DraggableTextBlock from './DraggableTextBlock'; //import does not exist yet
+import DraggableImageWidget from 'components/pages/app/widgets/DraggableImageWidget';
 
 const MultiLayoutEditor: React.FC = () => {
   return (
