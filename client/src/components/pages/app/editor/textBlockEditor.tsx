@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { snapToGrid } from '../utils/snapToGrid';
-import DraggableTextBlock from './DraggableTextBlock';
+import DraggableTextBlock from './DraggableTextBlock'; //figure out where this import is supposed to come from
 
 interface WidgetPosition {
   id: string;
@@ -41,7 +41,7 @@ const Editor: React.FC = () => {
             id={widget.id}
             initialText="Editable Text Block"
             initialStyles={{ width: '200px', height: 'auto', border: '1px solid #ccc' }}
-            onSave={(data) => console.log('Widget data saved:', data)}
+            onSave={(data) => console.log('Widget data saved:', data)} //figure out what type to assign to data
           />
         </div>
       ))}
