@@ -2,6 +2,7 @@
 //review
 //ensures that styles and positioning only applies to self
 import React from 'react';
+import { DraggableWidget } from 'components/pages/app/widgets/DraggableWidget';
 
 const ParentContainer: React.FC = ({ children }) => {
   return (
