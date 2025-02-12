@@ -12,6 +12,7 @@ interface DraggableWidgetProps {
   initialStyles: React.CSSProperties;
   editor: EditorState;
   section: string;
+  children? React.ReactNode;
 }
 
 export const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialStyles, editor, section, children }) => {
