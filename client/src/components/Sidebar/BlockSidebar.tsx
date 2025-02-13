@@ -8,7 +8,7 @@ import textbox from "widgetFiles/textbox.json"
 import heading1 from "widgetFiles/heading1.json"
 import heading2 from "widgetFiles/heading2.json"
 import heading3 from "widgetFiles/heading3.json"
-import image from "widgetFiles/image.json"
+//import image from "widgetFiles/image.json"
 import link from "widgetFiles/link.json"
 import logo from "widgetFiles/logo.json"
 import video from "widgetFiles/video.json"
@@ -29,7 +29,7 @@ const BlockSidebar = (props: Props) => {
   const heading1D: HtmlObject = heading1 as HtmlObject;
   const heading2D: HtmlObject = heading2 as HtmlObject;
   const heading3D: HtmlObject = heading3 as HtmlObject;
-  const imageD: HtmlObject = image as HtmlObject;
+  //const imageD: HtmlObject = image as HtmlObject;
   const linkD: HtmlObject = link as HtmlObject;
   const logoD: HtmlObject = logo as HtmlObject;
   const videoD: HtmlObject = video as HtmlObject;
