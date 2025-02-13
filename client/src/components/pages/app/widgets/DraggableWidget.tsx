@@ -29,7 +29,7 @@ export const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialSty
         // Snap the widget to the grid before updating the position
         const [snappedX, snappedY] = snapToGrid(offset.x, offset.y);
         const newPosition = { x: snappedX, y: snappedY };
-        updateWidgetPosition(id, editor, newPosition, section);  // Update the widget's position when dropped
+        updateWidgetPosition(id, newPosition.x, newPosition.y, section);  // Update the widget's position when dropped
       }
     },
     collect: (monitor) => ({
