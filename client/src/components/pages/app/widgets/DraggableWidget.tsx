@@ -6,6 +6,7 @@ import { useDrag } from 'react-dnd';
 import { updateWidgetPosition, updateWidgetStyle } from 'components/pages/app/Helpers';  // Import your new helpers
 import { EditorState } from 'state/editor/EditorReducer';
 import { snapToGrid } from 'components/pages/app/utils/snapToGrid';  // Import your snapToGrid helper
+import ResizableContainer from 'components/pages/app/containers/ResizableContainer';
 
 interface DraggableWidgetProps {
   id: number;
