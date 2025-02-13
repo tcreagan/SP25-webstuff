@@ -29,10 +29,18 @@
                 "hidden": true
               },
               "src": {
-                "value":"https://www.youtube.com/embed/ezsH2zebsYE"
+                "value":"https://www.youtube.com/embed/ezsH2zebsYE",
+                "input": {
+                    "type": "text",
+                    "displayName":"Link"
+                }
               },
               "autoplay": {
-                "value":"true"
+                "value":"true",
+                "input":{
+                  "type":"text",
+                  "displayName":"AutoPlay"
+                }
               }
             },
             "style": {},

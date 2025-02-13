@@ -129,7 +129,13 @@
                       }
                 },
                 "attributes":{
-                    "text": {"value":"Sub Heading 2"},
+                    "text": {                        
+                        "value":"Sub Heading 1",
+                        "input": {
+                            "type": "text",
+                            "displayName":"Text"
+                        }
+                    },
                     "className": {"value": "heading3", "hidden": true}
                 },
                 "children": [],

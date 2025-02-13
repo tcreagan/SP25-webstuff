@@ -131,7 +131,8 @@
                         "value": "Main Heading",
                         "suppress": true,
                         "input": {
-                            "type": "text"
+                            "type": "text",
+                            "displayName":"Text"
                         }
                     },
                     "className": {

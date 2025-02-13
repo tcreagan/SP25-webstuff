@@ -22,12 +22,23 @@
           {
             "element": "a",
             "attributes": {
-              "text": {"value":"w3schools"},
+              "text": {"value":"w3schools",                
+              "input": {
+                "type": "text",
+                "displayName": "Text"
+              }
+            },
               "className": {
                 "value": "link",
                 "hidden": true
               },
-              "href": {"value":"https://www.w3schools.com/"},
+              "href": {
+                "value":"https://www.w3schools.com/",
+                "input": {
+                  "type": "text",
+                  "displayName": "Link"
+                }
+              },
               "target": {
                 "value":"_blank",
                 "hidden": true
