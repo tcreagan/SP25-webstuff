@@ -1,6 +1,8 @@
+/*
 // DragAndDropPreview.ts
 //figure out where the functions are coming from and import accordingly
 //also fix 'any' types in parameters
+
 import React from 'react'
 import { HtmlObject } from "types/HtmlObject"
 import { mouseState } from 'state/mouse/MouseReducer'
@@ -70,3 +72,4 @@ export function DragAndDropPreview({ editor: Editor, DragAndDropState: DragAndDr
 
   return data;
 }
+*/
