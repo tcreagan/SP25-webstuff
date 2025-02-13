@@ -4,7 +4,11 @@
 import React from 'react';
 import { DraggableWidget } from 'components/pages/app/widgets/DraggableWidget';
 
-const ParentContainer: React.FC = ({ children }) => {
+interface ParentContainerProps {
+  children?: React.ReactNode
+}
+
+const ParentContainer: React.FC<ParentContainerProps> = ({ children }) => {
   return (
     <div
       className="parent-container"
