@@ -30,12 +30,13 @@ export const Editor = (props: Props) => {
   }
 
   // Handle the drag-and-drop preview logic outside the Editor component
+  /*
   data = DragAndDropPreview({
     editor,
     dragState,
     mouseState,
     data
-  });
+  }); */
   
   return (
     <div id="editor-window" className="editor">
