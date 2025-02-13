@@ -1,3 +1,4 @@
+/*
 //gpt 
 //review
 //used to ensure that the child widget can be dragged independently and resized
@@ -68,4 +69,4 @@ export const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialSty
 }
 
 export default DraggableWidget;
-
+*/
