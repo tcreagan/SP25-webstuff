@@ -11,6 +11,39 @@ import { HtmlObject } from 'types/HtmlObject'
 interface Editor {
   hoveredItemId: string | number;
 }
+
+// Parses hoveredItemId into section and index (e.g., "section:index")
+function parseId(hoveredItemId: string | number): { section: number; index: number } {
+  const [section, index] = hoveredItemId.toString().split(':').map(Number);
+  return { section, index };
+}
+
+// Predicts where the child should be dropped based on mouseState and editor structure
+function getDropChildId(
+  mouseState: MouseState,
+  editor: Editor,
+  hoveredItemId: string | number
+): number {
+  const { section, index } = parseId(hoveredItemId);
+  const predictedIndex = index; // Placeholder: Implement more complex logic if needed
+  return predictedIndex;
+}
+
+// Inserts the preview element at the predicted index in the editor section
+function insertDroppedElement(
+  predictedIndex: number,
+  editor: Editor,
+  previewObject: HtmlObject,
+  hoveredItemId: string | number
+): Editor {
+  const { section } = parseId(hoveredItemId);
+  const sectionClone = structuredClone(editor[section]);
+  sectionClone.splice(predictedIndex, 0, previewObject); // Insert at predictedIndex
+  return {
+    ...editor,
+    [section]: sectionClone,
+  };
+}
 export function DragAndDropPreview({ editor: Editor, DragAndDropState: DragAndDropState, mouseState: mouseState, data: HtmlObject }) {
   if(dragState.isDragging && editor.hoveredItemId && DragAndDropState.canDrop){
     const {section, index} = parseId(editor.hoveredItemId); //cannot be found 
