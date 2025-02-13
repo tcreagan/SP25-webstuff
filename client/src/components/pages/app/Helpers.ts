@@ -109,7 +109,7 @@ export function sanitizeImageUrl(value: string, defaultValue: string) {
 //review
 //used to help handle child widgets update their own styles, positions, etc
 //fix the any types in parameters
-export function updateWidgetStyle(widgetId: number, styles: CSSProperties, dispatch: any) {
+export function updateWidgetStyle(widgetId: number, styles: React.CSSProperties, dispatch: any) {
   dispatch({
     type: 'UPDATE_WIDGET_STYLE',
     widgetId,
