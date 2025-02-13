@@ -1,3 +1,4 @@
+/*
 // gpt
 //review
 //container to ensure parent widgets dont override
@@ -24,3 +25,4 @@ const ParentWidget: React.FC = () => {
 };
 
 export default ParentWidget;
+*/
