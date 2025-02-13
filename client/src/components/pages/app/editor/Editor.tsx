@@ -8,7 +8,7 @@ import { StorableHtmlNode } from "types/HtmlNodes";
 import { getDropChildId, insertDroppedElement, parseId } from "state/editor/Helpers";
 import { useMouse } from "state/mouse/MouseReducer";
 import { useDragAndDropContext } from "state/dragAndDrop/DragAndDropReducer";
-import { DragAndDropPreview } from 'components/pages/app/utils/DragAndDropPreview';
+//import { DragAndDropPreview } from 'components/pages/app/utils/DragAndDropPreview';
 
 
 //need to decide on one declaration of Editor
