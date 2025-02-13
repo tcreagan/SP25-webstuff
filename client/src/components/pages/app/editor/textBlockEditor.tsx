@@ -1,3 +1,4 @@
+/*
 import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { snapToGrid } from '../utils/snapToGrid';
@@ -31,7 +32,7 @@ const Editor: React.FC = () => {
     }),
   }));
 
-  return (
+return (
     <div ref={drop} className="editor" style={{ width: '100%', height: '500px', position: 'relative', border: '1px solid black' }}>
       <h2>Drag Widgets into the Editor</h2>
 
@@ -49,3 +50,4 @@ const Editor: React.FC = () => {
 };
 
 export default Editor;
+*/
