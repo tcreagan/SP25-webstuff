@@ -46,7 +46,7 @@ export const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialSty
     //gpt 
     //review
     //add resize handlers to update width and height
-    <ResizableBox
+    <ResizableContainer
       width={parseInt(widgetStyles.width || 100)} //figure out why width and height require strings
       height={parseInt(widgetStyles.height || 100)}
       onResize={handleResize} //handleResize cannot be found
@@ -62,7 +62,7 @@ export const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialSty
     >
       {children}
     </div>
-    </ResizableBox>
+    </ResizableContainer>
   );
 
 
