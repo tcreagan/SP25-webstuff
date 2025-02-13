@@ -48,8 +48,8 @@ export const DraggableWidget: React.FC<DraggableWidgetProps> = ({ id, initialSty
     //review
     //add resize handlers to update width and height
     <ResizableContainer
-      width={parseInt(widgetStyles.width || 100)} //figure out why width and height require strings
-      height={parseInt(widgetStyles.height || 100)}
+      width={widgetStyles.width || 100} //figure out why width and height require strings
+      height={widgetStyles.height || 100}
       onResize={handleResize} //handleResize cannot be found
       resizeHandles={['se']}  // Enable resizing from bottom-right corner
     >
