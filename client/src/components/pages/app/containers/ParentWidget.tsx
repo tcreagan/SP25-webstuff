@@ -12,11 +12,11 @@ const ParentWidget: React.FC = () => {
 
   return (
     <div className="parent-widget" style={{ position: 'relative', padding: '20px' }}>
-      <DraggableWidget id="widget1" initialStyles={{ top: '50px', left: '100px' }} onUpdateStyle={handleStyleUpdate}>
+      <DraggableWidget id="widget1" initialStyles={{ top: '50px', left: '100px' }} >
         <div className="child-widget-content">I am a child widget</div>
       </DraggableWidget>
 
-      <DraggableWidget id="widget2" initialStyles={{ top: '150px', left: '200px' }} onUpdateStyle={handleStyleUpdate}>
+      <DraggableWidget id="widget2" initialStyles={{ top: '150px', left: '200px' }} >
         <div className="child-widget-content">I am another child widget</div>
       </DraggableWidget>
     </div>
