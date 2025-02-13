@@ -41,7 +41,7 @@ const BlockSidebar = (props: Props) => {
       editorDispatch({
         type: ActionType.FETCHED_WIDGETS,
         widgets: [verticalD, horizontalD,  twoColD, threeColD, textboxD,
-           heading1D, heading2D, heading3D, imageD, logoD, videoD, audioD, linkD],
+           heading1D, heading2D, heading3D, /*imageD,*/ logoD, videoD, audioD, linkD],
       });
     }
   });
