@@ -1,0 +1,251 @@
+{
+    "metadata": {
+      "name": "Navigation",
+      "tooltip": "Creates a navigation bar",
+      "type": "WIDGET",
+      "icon": "text-icon"
+    },
+    "html": {
+      "nodes": [
+        {
+          "element": "div",
+          "attributes": {
+            "className": {
+              "value": "horizontal", 
+              "readonly": true,
+              "input": {
+                  "type": "text",
+                  "displayName":"Class Name"
+              }
+            }
+          },
+          "style": {},
+          "children": [1,2,3],
+          "metadata": {
+            "droppable": true,
+            "draggable": true,
+            "childDirection": "horizontal",
+            "selectable": true
+          }
+        },
+        {
+          "element": "a",
+          "attributes": {
+            "text": {
+              "value": "Link 1",
+              "input": {
+                "type": "text",
+                "displayName": "Text"
+              }
+            },
+            "className": {
+              "value": "link",
+              "readonly": true,
+              "hidden": true
+            },
+            "href": {
+              "value": "https://www.example1.com",
+              "input": {
+                "type": "text",
+                "displayName": "Link"
+              }
+            },
+            "target": {
+              "value": "_blank",
+              "hidden": true
+            }
+          },
+          "style": {
+            "background-color": {
+              "value": "",
+              "input": {
+                "type": "color",
+                "displayName": "Background Color 1"
+              }
+            },
+            "border-color": {
+              "value": "",
+              "input": {
+                "type": "color",
+                "displayName": "Border Color"
+              }
+            },
+            "border-style": {
+              "value": "",
+              "input": {
+                "type": "select",
+                "displayName": "Border Style",
+                "options": [
+                  { "value": "none", "text": "None" },
+                  { "value": "solid", "text": "Solid" },
+                  { "value": "dotted", "text": "Dotted" },
+                  { "value": "dashed", "text": "Dashed" }
+                ]
+              }
+            },
+            "border-width": {
+              "value": "",
+              "input": {
+                "type": "select",
+                "displayName": "Border Thickness",
+                "options": [
+                  { "value": "0px", "text": "Invisible" },
+                  { "value": "1px", "text": "Thin" },
+                  { "value": "3px", "text": "Thick" }
+                ]
+              }
+            }
+          },
+          "metadata": {
+            "draggable": true,
+            "selectable": true
+          }
+        },
+        {
+          "element": "a",
+          "attributes": {
+            "text": {
+              "value": "Link 2",
+              "input": {
+                "type": "text",
+                "displayName": "Text"
+              }
+            },
+            "className": {
+              "value": "link",
+              "readonly": true,
+              "hidden": true
+            },
+            "href": {
+              "value": "https://www.example2.com",
+              "input": {
+                "type": "text",
+                "displayName": "Link"
+              }
+            },
+            "target": {
+              "value": "_blank",
+              "hidden": true
+            }
+          },
+          "style": {
+            "background-color": {
+              "value": "",
+              "input": {
+                "type": "color",
+                "displayName": "Background Color 2"
+              }
+            },
+            "border-color": {
+              "value": "",
+              "input": {
+                "type": "color",
+                "displayName": "Border Color"
+              }
+            },
+            "border-style": {
+              "value": "",
+              "input": {
+                "type": "select",
+                "displayName": "Border Style",
+                "options": [
+                  { "value": "none", "text": "None" },
+                  { "value": "solid", "text": "Solid" },
+                  { "value": "dotted", "text": "Dotted" },
+                  { "value": "dashed", "text": "Dashed" }
+                ]
+              }
+            },
+            "border-width": {
+              "value": "",
+              "input": {
+                "type": "select",
+                "displayName": "Border Thickness",
+                "options": [
+                  { "value": "0px", "text": "Invisible" },
+                  { "value": "1px", "text": "Thin" },
+                  { "value": "3px", "text": "Thick" }
+                ]
+              }
+            }
+          },
+          "metadata": {
+            "draggable": true,
+            "selectable": true
+          }
+        },
+        {
+          "element": "a",
+          "attributes": {
+            "text": {
+              "value": "Link 3",
+              "input": {
+                "type": "text",
+                "displayName": "Text"
+              }
+            },
+            "className": {
+              "value": "link",
+              "readonly": true,
+              "hidden": true
+            },
+            "href": {
+              "value": "https://www.example3.com",
+              "input": {
+                "type": "text",
+                "displayName": "Link"
+              }
+            },
+            "target": {
+              "value": "_blank",
+              "hidden": true
+            }
+          },
+          "style": {
+            "background-color": {
+              "value": "",
+              "input": {
+                "type": "color",
+                "displayName": "Background Color 3"
+              }
+            },
+            "border-color": {
+              "value": "",
+              "input": {
+                "type": "color",
+                "displayName": "Border Color"
+              }
+            },
+            "border-style": {
+              "value": "",
+              "input": {
+                "type": "select",
+                "displayName": "Border Style",
+                "options": [
+                  { "value": "none", "text": "None" },
+                  { "value": "solid", "text": "Solid" },
+                  { "value": "dotted", "text": "Dotted" },
+                  { "value": "dashed", "text": "Dashed" }
+                ]
+              }
+            },
+            "border-width": {
+              "value": "",
+              "input": {
+                "type": "select",
+                "displayName": "Border Thickness",
+                "options": [
+                  { "value": "0px", "text": "Invisible" },
+                  { "value": "1px", "text": "Thin" },
+                  { "value": "3px", "text": "Thick" }
+                ]
+              }
+            }
+          },
+          "metadata": {
+            "draggable": true,
+            "selectable": true
+          }}
+      ]
+    }
+  }

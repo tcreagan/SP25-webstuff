@@ -11,6 +11,7 @@ import heading3 from "widgetFiles/heading3.json"
 import image from "widgetFiles/image.json"
 import link from "widgetFiles/link.json"
 import logo from "widgetFiles/logo.json"
+import navigation from "widgetFiles/navigation.json"
 import video from "widgetFiles/video.json"
 import audio from "widgetFiles/audio.json"
 import { HtmlObject } from "types/HtmlObject";
@@ -32,6 +33,7 @@ const BlockSidebar = (props: Props) => {
   const imageD: HtmlObject = image as HtmlObject;
   const linkD: HtmlObject = link as HtmlObject;
   const logoD: HtmlObject = logo as HtmlObject;
+  const nav: HtmlObject = navigation as HtmlObject;
   const videoD: HtmlObject = video as HtmlObject;
   const audioD: HtmlObject = audio as HtmlObject;
 
@@ -41,7 +43,7 @@ const BlockSidebar = (props: Props) => {
       editorDispatch({
         type: ActionType.FETCHED_WIDGETS,
         widgets: [verticalD, horizontalD,  twoColD, threeColD, textboxD,
-           heading1D, heading2D, heading3D, imageD, logoD, videoD, audioD, linkD],
+           heading1D, heading2D, heading3D, imageD, logoD, nav, videoD, audioD, linkD],
       });
     }
   });
