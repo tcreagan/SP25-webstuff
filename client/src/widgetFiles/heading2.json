@@ -136,7 +136,14 @@
                             "displayName":"Text"
                         }
                     },
-                    "className": {"value": "heading2", "hidden": true}
+                    "className": {
+                        "value": "heading2", 
+                        "readonly": true,
+                        "input": {
+                            "type": "text",
+                            "displayName":"Class Name"
+                        }
+                    }
                 },
                 "children": [],
                 "metadata":{

@@ -137,9 +137,10 @@
                     },
                     "className": {
                         "value": "heading1",
-                        "hidden": true,
+                        "readonly": true,
                         "input": {
-                            "type": "text"
+                            "type": "text",
+                            "displayName": "Class Name"
                         }
                     }
                 },

@@ -10,7 +10,14 @@
       {
         "element": "div",
         "attributes": {
-          "className": {"value": "horizontal", "hidden": true}
+          "className": {
+            "value": "horizontal", 
+            "readonly": true,
+            "input": {
+                "type": "text",
+                "displayName":"Class Name"
+            }
+          }
         },
         "style": {
         "background-color":{

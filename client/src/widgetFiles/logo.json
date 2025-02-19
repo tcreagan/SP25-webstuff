@@ -22,7 +22,14 @@
           {
             "element": "img",
             "attributes": {
-              "className": {"value": "image", "hidden": true},
+              "className": {
+                "value": "image", 
+                "readonly": true,
+                "input": {
+                    "type": "text",
+                    "displayName":"Class Name"
+                }
+              },
               "src": {
                 "value": "https://media.istockphoto.com/id/1331491686/vector/element-design.jpg?s=612x612&w=0&k=20&c=QIMRS2IPiQyyTZJR_G1JAjH_ErBBkrDPtQe2GBNgm2w=",
                 "input": {

@@ -22,7 +22,14 @@
           {
             "element": "audio",
             "attributes": {
-              "className": {"value": "audio", "hidden": true},
+              "className": {
+                "value": "audio", 
+                "readonly": true,
+                "input": {
+                    "type": "text",
+                    "displayName":"Class Name"
+                }
+              },
               "src": {
                 "value": "https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav",
                 "input": {

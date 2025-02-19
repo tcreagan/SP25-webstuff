@@ -10,7 +10,14 @@
           {
             "element": "div",
             "attributes": {
-              "className": {"value": "elementContainer"}
+              "className": {
+                "value": "elementContainer", 
+                "readonly": true,
+                "input": {
+                    "type": "text",
+                    "displayName":"Class Name"
+                }
+              }
             },
             "style": {},
             "children": [1],

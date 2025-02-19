@@ -136,7 +136,14 @@
                             "displayName": "Text"
                         }
                     },
-                    "className": {"value":"textbox", "hidden": true}
+                    "className": {
+                        "value":"textbox", 
+                        "readonly": true,
+                        "input": {
+                            "type": "text",
+                            "displayName":"Class Name"
+                        }
+                    }
                 },
                 "metadata":{
                     "selectable": true,
