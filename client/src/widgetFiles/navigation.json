@@ -11,7 +11,7 @@
           "element": "div",
           "attributes": {
             "className": {
-              "value": "horizontal", 
+              "value": "navigation", 
               "readonly": true,
               "input": {
                   "type": "text",
@@ -25,6 +25,7 @@
             "droppable": true,
             "draggable": true,
             "childDirection": "horizontal",
+            "childPosition": "center",
             "selectable": true
           }
         },
@@ -32,7 +33,7 @@
           "element": "a",
           "attributes": {
             "text": {
-              "value": "Link 1",
+              "value": "About Me",
               "input": {
                 "type": "text",
                 "displayName": "Text"
@@ -44,7 +45,7 @@
               "hidden": true
             },
             "href": {
-              "value": "https://www.example1.com",
+              "value": "https://www.w3schools.com",
               "input": {
                 "type": "text",
                 "displayName": "Link"
@@ -56,45 +57,7 @@
             }
           },
           "style": {
-            "background-color": {
-              "value": "",
-              "input": {
-                "type": "color",
-                "displayName": "Background Color 1"
-              }
-            },
-            "border-color": {
-              "value": "",
-              "input": {
-                "type": "color",
-                "displayName": "Border Color"
-              }
-            },
-            "border-style": {
-              "value": "",
-              "input": {
-                "type": "select",
-                "displayName": "Border Style",
-                "options": [
-                  { "value": "none", "text": "None" },
-                  { "value": "solid", "text": "Solid" },
-                  { "value": "dotted", "text": "Dotted" },
-                  { "value": "dashed", "text": "Dashed" }
-                ]
-              }
-            },
-            "border-width": {
-              "value": "",
-              "input": {
-                "type": "select",
-                "displayName": "Border Thickness",
-                "options": [
-                  { "value": "0px", "text": "Invisible" },
-                  { "value": "1px", "text": "Thin" },
-                  { "value": "3px", "text": "Thick" }
-                ]
-              }
-            }
+            
           },
           "metadata": {
             "draggable": true,
@@ -105,7 +68,7 @@
           "element": "a",
           "attributes": {
             "text": {
-              "value": "Link 2",
+              "value": "Contact",
               "input": {
                 "type": "text",
                 "displayName": "Text"
@@ -117,7 +80,7 @@
               "hidden": true
             },
             "href": {
-              "value": "https://www.example2.com",
+              "value": "https://www.w3schools.com",
               "input": {
                 "type": "text",
                 "displayName": "Link"
@@ -129,45 +92,7 @@
             }
           },
           "style": {
-            "background-color": {
-              "value": "",
-              "input": {
-                "type": "color",
-                "displayName": "Background Color 2"
-              }
-            },
-            "border-color": {
-              "value": "",
-              "input": {
-                "type": "color",
-                "displayName": "Border Color"
-              }
-            },
-            "border-style": {
-              "value": "",
-              "input": {
-                "type": "select",
-                "displayName": "Border Style",
-                "options": [
-                  { "value": "none", "text": "None" },
-                  { "value": "solid", "text": "Solid" },
-                  { "value": "dotted", "text": "Dotted" },
-                  { "value": "dashed", "text": "Dashed" }
-                ]
-              }
-            },
-            "border-width": {
-              "value": "",
-              "input": {
-                "type": "select",
-                "displayName": "Border Thickness",
-                "options": [
-                  { "value": "0px", "text": "Invisible" },
-                  { "value": "1px", "text": "Thin" },
-                  { "value": "3px", "text": "Thick" }
-                ]
-              }
-            }
+            
           },
           "metadata": {
             "draggable": true,
@@ -178,7 +103,7 @@
           "element": "a",
           "attributes": {
             "text": {
-              "value": "Link 3",
+              "value": "Testimonials",
               "input": {
                 "type": "text",
                 "displayName": "Text"
@@ -190,7 +115,7 @@
               "hidden": true
             },
             "href": {
-              "value": "https://www.example3.com",
+              "value": "https://www.w3schools.com",
               "input": {
                 "type": "text",
                 "displayName": "Link"
@@ -202,45 +127,6 @@
             }
           },
           "style": {
-            "background-color": {
-              "value": "",
-              "input": {
-                "type": "color",
-                "displayName": "Background Color 3"
-              }
-            },
-            "border-color": {
-              "value": "",
-              "input": {
-                "type": "color",
-                "displayName": "Border Color"
-              }
-            },
-            "border-style": {
-              "value": "",
-              "input": {
-                "type": "select",
-                "displayName": "Border Style",
-                "options": [
-                  { "value": "none", "text": "None" },
-                  { "value": "solid", "text": "Solid" },
-                  { "value": "dotted", "text": "Dotted" },
-                  { "value": "dashed", "text": "Dashed" }
-                ]
-              }
-            },
-            "border-width": {
-              "value": "",
-              "input": {
-                "type": "select",
-                "displayName": "Border Thickness",
-                "options": [
-                  { "value": "0px", "text": "Invisible" },
-                  { "value": "1px", "text": "Thin" },
-                  { "value": "3px", "text": "Thick" }
-                ]
-              }
-            }
           },
           "metadata": {
             "draggable": true,
