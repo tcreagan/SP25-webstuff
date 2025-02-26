@@ -50,6 +50,14 @@ const SidebarControls = ({setCurrentPage}:Props) => {
           }
           <div className="sidebar-text">SEO</div>
         </div>
+
+         {/* New control for the Widget Gallery */}
+       <div className="sidebar-control" onClick= {( ) => {setCurrentPage("ImageGallery-sidebar")}}>
+        
+          {Assets.images["Gallery-Icon" as keyof typeof Assets.images]} {/* Use a relevant icon for the gallery */}
+          <div className="sidebar-text">Images</div>
+        
+      </div>
       
     </aside>
   );
