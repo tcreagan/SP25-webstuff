@@ -9,7 +9,7 @@ import ElementSidebar from "./ElementSidebar";
 import SEOSidebar from "./SEOSidebar";
 import MappingSidebar from "./MappingSidebar";
 import { useEditor } from "state/editor/EditorReducer";
-import ImageGallerySidebar from './ImageGallerySidebar';
+import ImageGallerySidebar from './ImageGallerySideBar';
 
 
 
