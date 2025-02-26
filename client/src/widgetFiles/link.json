@@ -15,7 +15,8 @@
                 "readonly": true,
                 "input": {
                     "type": "text",
-                    "displayName":"Class Name"
+                    "displayName":"Class Name",
+                    "tooltip": "This cannot be changed."
                 }
               }
             },
@@ -37,7 +38,8 @@
             },
               "className": {
                 "value": "link",
-                "readonly": true
+                "readonly": true,
+                "tooltip": "This cannot be changed."
               },
               "href": {
                 "value":"https://www.w3schools.com/",

@@ -15,7 +15,8 @@
             "readonly": true,
             "input": {
                 "type": "text",
-                "displayName":"Class Name"
+                "displayName":"Class Name",
+                "tooltip": "This cannot be changed."
             }
           }
         },

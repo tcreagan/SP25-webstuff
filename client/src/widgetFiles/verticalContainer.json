@@ -14,8 +14,9 @@
             "value":"vertical", 
             "readonly": true,
             "input": {
-               "type": "text",
-               "displayName":"Class Name"
+              "type": "text",
+              "displayName":"Class Name",
+              "tooltip": "This cannot be changed."
            }
           }
         },

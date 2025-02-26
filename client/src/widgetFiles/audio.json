@@ -10,7 +10,11 @@
           {
             "element": "div",
             "attributes": {
-              "className": {"value": "audioContainer", "readonly": true}
+              "className": {
+                "value": "audioContainer", 
+                "readonly": true,
+                "tooltip": "This cannot be changed."
+              }
             },
             "style": {},
             "children": [1],
