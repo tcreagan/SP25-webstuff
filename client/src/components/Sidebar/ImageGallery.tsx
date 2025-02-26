@@ -2,31 +2,6 @@ import React, { useState, useEffect } from "react";
 import { createClient, Photo } from "pexels";
 import "../../styles/sidebar.scss";
 
-const apikey = process.env.REACT_APP_PEXELS_API_KEY || " "; // Pexels API key
-const client = createClient(apikey);
-
-const ImageGallery = ({ onSelect }: { onSelect: (url: string) => void }) => {
-  const [images, setImages] = useState<Photo[]>([]);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const query = "Nature";
-        const res = await client.photos.search({ query, per_page: 10 }); // 10 images per page
-        if (res && "photos" in res && res.photos) {
-          setImages(res.photos);
-        }
-      } catch (error) {
-        console.error("Error fetching images from Pexels:", error);
-      }
-    };
-
-    fetchImages();
-  }, []);
-import React, { useState, useEffect } from "react";
-import { createClient, Photo } from "pexels";
-import "../../styles/sidebar.scss";
-
 const apikey = process.env.REACT_APP_PEXELS_API_KEY; // Use the Pexels API key
 const client = createClient(apikey || "");  // Pass the API key to the client
 
