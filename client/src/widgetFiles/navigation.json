@@ -41,8 +41,8 @@
             },
             "className": {
               "value": "link",
-              "readonly": true,
-              "hidden": true
+              "readonly": true
+
             },
             "href": {
               "value": "https://www.w3schools.com",
@@ -76,8 +76,7 @@
             },
             "className": {
               "value": "link",
-              "readonly": true,
-              "hidden": true
+              "readonly": true
             },
             "href": {
               "value": "https://www.w3schools.com",
@@ -111,8 +110,7 @@
             },
             "className": {
               "value": "link",
-              "readonly": true,
-              "hidden": true
+              "readonly": true
             },
             "href": {
               "value": "https://www.w3schools.com",

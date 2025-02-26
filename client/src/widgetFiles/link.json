@@ -37,7 +37,7 @@
             },
               "className": {
                 "value": "link",
-                "hidden": true
+                "readonly": true
               },
               "href": {
                 "value":"https://www.w3schools.com/",
