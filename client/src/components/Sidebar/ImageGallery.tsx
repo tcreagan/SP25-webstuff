@@ -55,22 +55,4 @@ const ImageGallery = ({ onSelect }: { onSelect: (url: string) => void }) => {
   );
 };
 
-export default ImageGallery;
 
-  return (
-    <div className="image-gallery">
-      {images.map((img) => (
-        <div key={img.id} style={{ position: "relative" }}>
-          <img
-            src={img.src.medium}
-            alt={img.alt || "No description available"}
-            onClick={() => onSelect(img.src.medium)}
-            style={{ cursor: "pointer" }}
-          />
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default ImageGallery;
