@@ -55,4 +55,4 @@ const ImageGallery = ({ onSelect }: { onSelect: (url: string) => void }) => {
   );
 };
 
-
+export default ImageGallery;
