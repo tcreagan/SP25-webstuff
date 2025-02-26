@@ -1,10 +1,10 @@
-//thea
 import { findPrimaryAttributes } from "components/pages/app/Helpers";
 import React, { ChangeEvent, useState } from "react";
 import { ActionType, useEditor } from "state/editor/EditorReducer";
 import { parseId } from "state/editor/Helpers";
 import { NodeAttribute, StorableHtmlNode } from "types/HtmlNodes";
 import ImageGallery from "./ImageGallery";
+import { Tooltip } from "react-tooltip"; // Import Tooltip and useTooltip for v5.x
 
 type Props = {};
 
@@ -60,6 +60,7 @@ const ElementSidebar = (props: Props) => {
         type={source[key].input?.type ?? "text"}
         value={source[key].value}
         readOnly={val.readonly ? true : false}
+        data-tooltip-id={key} // Use data-tooltip-id to associate the tooltip
       />
     );
 
@@ -80,10 +81,11 @@ const ElementSidebar = (props: Props) => {
           }}
           value={source[key].value}
           readOnly={val.readonly ? true : false}
+          data-tooltip-id={key} // Use data-tooltip-id to associate the tooltip
         />
       );
     }
-    console.log("VALUE", val);
+
     if (
       val.input &&
       val.input.type === "select" &&
@@ -101,6 +103,7 @@ const ElementSidebar = (props: Props) => {
               newValue: ev.currentTarget.value,
             });
           }}
+          data-tooltip-id={key} // Use data-tooltip-id to associate the tooltip
         >
           {val.input.options.map((op) => {
             return <option value={op.value}>{op.text}</option>;
@@ -167,6 +170,23 @@ const ElementSidebar = (props: Props) => {
           }}
         />
       )}
+
+      {/* Add Tooltip component here */}
+      <Tooltip id="font" content="This is a tooltip for font input">
+        <span>Font Input Tooltip</span>
+      </Tooltip>
+
+      {/* Tooltips for the inputs */}
+      {Object.keys(attributes).map((key) => {
+        const tooltipText = attributes[key]?.input?.tooltip;
+        return (
+          tooltipText && (
+            <Tooltip key={key} id={key} content={tooltipText}>
+              <span>{key}</span> {/* Tooltip wrapped element */}
+            </Tooltip>
+          )
+        );
+      })}
     </aside>
   );
 };
