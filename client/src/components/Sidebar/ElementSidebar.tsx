@@ -4,7 +4,7 @@ import { ActionType, useEditor } from "state/editor/EditorReducer";
 import { parseId } from "state/editor/Helpers";
 import { NodeAttribute, StorableHtmlNode } from "types/HtmlNodes";
 import ImageGallery from "./ImageGallery";
-import { Tooltip } from "react-tooltip"; // Import Tooltip and useTooltip for v5.x
+import { Tooltip } from "react-tooltip"; // Handles hover-over tooltips
 
 type Props = {};
 
@@ -60,7 +60,7 @@ const ElementSidebar = (props: Props) => {
         type={source[key].input?.type ?? "text"}
         value={source[key].value}
         readOnly={val.readonly ? true : false}
-        data-tooltip-id={key} // Use data-tooltip-id to associate the tooltip
+        data-tooltip-id={key} // Handles tooltip association
       />
     );
 
@@ -81,7 +81,7 @@ const ElementSidebar = (props: Props) => {
           }}
           value={source[key].value}
           readOnly={val.readonly ? true : false}
-          data-tooltip-id={key} // Use data-tooltip-id to associate the tooltip
+          data-tooltip-id={key} // Handles tooltip association
         />
       );
     }
@@ -103,7 +103,7 @@ const ElementSidebar = (props: Props) => {
               newValue: ev.currentTarget.value,
             });
           }}
-          data-tooltip-id={key} // Use data-tooltip-id to associate the tooltip
+          data-tooltip-id={key} // Handles tooltip association
         >
           {val.input.options.map((op) => {
             return <option value={op.value}>{op.text}</option>;
@@ -171,12 +171,7 @@ const ElementSidebar = (props: Props) => {
         />
       )}
 
-      {/* Add Tooltip component here */}
-      <Tooltip id="font" content="This is a tooltip for font input">
-        <span>Font Input Tooltip</span>
-      </Tooltip>
-
-      {/* Tooltips for the inputs */}
+      {/* Handles tooltip display for widget attributes */}
       {Object.keys(attributes).map((key) => {
         const tooltipText = attributes[key]?.input?.tooltip;
         return (
