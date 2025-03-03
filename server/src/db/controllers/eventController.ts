@@ -1,33 +1,10 @@
-
-//Chat GPT helped 
-//needs to be reviewed 
-//sql is wrong but probably the closest to the right
+ 
 import dbConnector from '../dbConnector';
-import ( Request, Response } from 'express';
-import { getEventTypes, getEventLogs } from './eventController';
-import * as eventService from '../services/eventService'
-import { logError } from '../utils/logger'
-
-// 1. Log an event
-export async function logEvent(userId: number, eventType: string, eventLog: string): Promise<void> {
-  // Get the event type ID based on the eventType name
-  const eventTypeResult = await dbConnector.runQuery(
-    `SELECT id FROM Event_Type WHERE name = ?`, 
-    [eventType]
-  );
-
-  if (eventTypeResult.length === 0) {
-    throw new Error(`Event type ${eventType} not found`);
-  }
-
-  const eventTypeId = eventTypeResult[0].id;
-
-  // Insert the event into the Event table
-  const sql = `INSERT INTO Event (occurred_time, event_log, event_type_id, user_id) 
-               VALUES (NOW(), ?, ?, ?)`;
-  await dbConnector.runQuery(sql, [eventLog, eventTypeId, userId]);
-}
-
+import { Request, Response } from 'express-serve-static-core';
+import { logError } from '../utils/logger';
+import { EventEmitter } from 'events';
+import { EventService } from '../Services/eventService';
+//fixing imports and deleting logEvent
 // 2. Fetch event types
 export async function getEventTypes(): Promise<any[]> {
   const sql = `SELECT id, name FROM Event_Type`;
@@ -86,7 +63,6 @@ export async function getEventLogsHandler(req: Request, res: Response) {
 }
 
 //GPT
-//needs review
 //adding Server Sent Event Stream Handler 
 
 const eventStream = new EventEmitter();
@@ -201,5 +177,84 @@ export async function getEventById(req: Request, res: Response) {
   } catch (error) {
     logError(error);
     res.status(500).json({ error: 'Failed to retrieve event' });
+  }
+}
+
+/ Function to create a new event
+export async function createEvent(req: Request, res: Response) {
+  const { eventType, eventLog, userId } = req.body;
+
+  if (!eventType || !eventLog || !userId) {
+    return res.status(400).json({ error: 'Missing required fields: eventType, eventLog, or userId' });
+  }
+
+  try {
+    // Find event type ID
+    const eventTypeResult = await dbConnector.runQuery(`SELECT id FROM Event_Type WHERE name = ?`, [eventType]);
+
+    if (eventTypeResult.length === 0) {
+      return res.status(400).json({ error: `Event type ${eventType} not found` });
+    }
+
+    const eventTypeId = eventTypeResult[0].id;
+
+    // Insert new event into the Event table
+    const sql = `INSERT INTO Event (occurred_time, event_log, event_type_id, user_id) VALUES (NOW(), ?, ?, ?)`;
+    await dbConnector.runQuery(sql, [eventLog, eventTypeId, userId]);
+
+    res.status(201).json({ message: 'Event created successfully' });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({ error: 'Failed to create event' });
+  }
+}
+
+// Function to update an event by ID
+export async function updateEvent(req: Request, res: Response) {
+  const eventId = parseInt(req.params.id);
+  const { eventLog, eventType } = req.body;
+
+  if (isNaN(eventId)) {
+    return res.status(400).json({ error: 'Invalid event ID' });
+  }
+
+  try {
+    // Find the event type ID
+    const eventTypeResult = await dbConnector.runQuery(`SELECT id FROM Event_Type WHERE name = ?`, [eventType]);
+
+    if (eventTypeResult.length === 0) {
+      return res.status(400).json({ error: `Event type ${eventType} not found` });
+    }
+
+    const eventTypeId = eventTypeResult[0].id;
+
+    // Update the event
+    const sql = `UPDATE Event SET event_log = ?, event_type_id = ? WHERE id = ?`;
+    await dbConnector.runQuery(sql, [eventLog, eventTypeId, eventId]);
+
+    res.status(200).json({ message: 'Event updated successfully' });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({ error: 'Failed to update event' });
+  }
+}
+
+// Function to delete an event by ID
+export async function deleteEvent(req: Request, res: Response) {
+  const eventId = parseInt(req.params.id);
+
+  if (isNaN(eventId)) {
+    return res.status(400).json({ error: 'Invalid event ID' });
+  }
+
+  try {
+    // Delete the event from the Event table
+    const sql = `DELETE FROM Event WHERE id = ?`;
+    await dbConnector.runQuery(sql, [eventId]);
+
+    res.status(200).json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({ error: 'Failed to delete event' });
   }
 }
