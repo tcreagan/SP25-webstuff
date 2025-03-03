@@ -179,7 +179,12 @@ const ElementSidebar = (props: Props) => {
         const tooltipText = attributes[key]?.input?.tooltip;
         return (
           tooltipText && (
-            <Tooltip key={key} id={key} content={tooltipText}>
+            <Tooltip 
+           className="sidebarTooltip"
+            key={key} 
+            id={key} 
+            content={tooltipText}
+            >
               <span>{key}</span> {/* Tooltip wrapped element */}
             </Tooltip>
           )

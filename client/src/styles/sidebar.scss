@@ -270,5 +270,11 @@ div.element-style{
     max-height: 400px;
     overflow-y: auto;
   }
+
+  //Added to ensure tooltips remain visible against sidebar
+  .sidebarTooltip{
+    background-color: #70a3e2;
+    color:#333;
+  }
 }
  
