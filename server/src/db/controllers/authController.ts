@@ -1,8 +1,23 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dbConnector from '../dbConnector';
+import { logEvent } from './eventController';
+import { Request, Response } from 'express-serve-static-core';
+import { assignUserRole } from '../controllers/userController'
+//added imports and interfaces
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';  // Store secret key in .env
+
+// Define interfaces for request body
+interface AuthRequestBody {
+  email: string;
+  password: string;
+}
+
+// Define interfaces for role assignment
+interface RoleAssignmentRequestBody {
+  roleId: number;
+}
 
 // 1. Register a new user
 export async function registerUser(email: string, password: string): Promise<void> {
@@ -35,9 +50,15 @@ export async function loginUser(email: string, password: string): Promise<string
 }
 
 // 3. Middleware to protect routes (JWT verification)
-export function authenticateJWT(req: any, res: any, next: any) {
-  const authHeader = req.headers.authorization;
+export function authenticateJWT(req: Request, res: Response, next: any) { //changed req and res from any
+  const authHeader = Array.isArray(req.headers['authorization']) 
+    ? req.headers['authorization'][0] 
+    : req.headers['authorization']; //fixed header for authorization
 
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
   if (authHeader) {
     const token = authHeader.split(' ')[1];
 
