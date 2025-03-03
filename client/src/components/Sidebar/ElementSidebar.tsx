@@ -158,6 +158,8 @@ const ElementSidebar = (props: Props) => {
 
       {/* Conditionally render the ImageGallery if the selected element is an image */}
       {isImageElement && (
+        <>
+        <h3>Image Gallery</h3>
         <ImageGallery
           onSelect={(imageUrl) => {
             // Update the src attribute of the selected image element
@@ -169,9 +171,10 @@ const ElementSidebar = (props: Props) => {
             });
           }}
         />
+      </>
       )}
 
-      {/* Handles tooltip display for widget attributes */}
+      {/* Handles tooltip display for widget attributes - ChatGPT assisted */}
       {Object.keys(attributes).map((key) => {
         const tooltipText = attributes[key]?.input?.tooltip;
         return (
