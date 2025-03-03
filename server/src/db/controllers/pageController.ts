@@ -2,6 +2,7 @@
 //sql is wrong
 //handles page logic
 import dbConnector from '../dbConnector';
+import { Request, Response } from 'express-serve-static-core'; //added serve static core import 
 
 // 1. Create a new page
 export async function createPage(projectId: number, content: string): Promise<number> {
@@ -48,9 +49,6 @@ export async function setPagePermissions(projectPermissionId: number, pageId: nu
 
 //Chat GPT generated 
 //needs to be reviewed
-import { Request, Response } from 'express';
-import { createPage, getPagesForProject, getPageDetails, updatePageContent, deletePage, setPagePermissions } from './pageController';
-
 // Handler for creating a new page
 export async function createPageHandler(req: Request, res: Response) {
   const projectId = parseInt(req.params.projectId);
