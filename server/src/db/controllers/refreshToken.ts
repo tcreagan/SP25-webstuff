@@ -2,6 +2,7 @@
 //refresh tokens for login/logout
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import redicClient from '../utils/redisClient';
 
 export async function refreshAccessToken(req: Request, res: Response) {
   const { refreshToken } = req.cookies;
@@ -17,9 +18,19 @@ export async function refreshAccessToken(req: Request, res: Response) {
   }
 
   try {
-    // Verify the refresh token
-    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-
+      // Ensure JWT_REFRESH_SECRET is defined
+    const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
+    if (!JWT_REFRESH_SECRET) {
+      throw new Error('JWT_REFRESH_SECRET is not defined in the environment variables');
+    }
+     // Verify the refresh token
+      let decoded;
+      decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+      //Ensuring JWT_SECRET is defined
+      const JWT_SECRET = process.env.JWT_SECRET;
+    if (!JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined in the environment variables');
+    }
     // Generate a new access token
     const newAccessToken = jwt.sign(
       { userId: decoded.userId }, 
