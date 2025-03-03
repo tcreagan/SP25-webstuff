@@ -1,7 +1,9 @@
 //Chat GPT helped
 //look over SQL and adjust
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 import dbConnector from '../dbConnector';
+import mysql from 'mysql';
+import { JwtPayload } from 'jsonwebtoken';
 //middleware tha handles user roles
 export function requireRole(requiredRole: string) {
   return async function (req: Request, res: Response, next: NextFunction) {
@@ -22,10 +24,20 @@ export function requireRole(requiredRole: string) {
     }
   };
 }
-// more genrated code
 //admin check needs to check event routes
 export function requireAdmin(req: Request, res: Response, next: NextFunction) {
-  const userRole = req.user.role;  // Assuming role is stored in the JWT token
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }//check user authorization
+
+  // Ensure req.user is of type JwtPayload and contains roleId
+  const user = req.user as JwtPayload;
+
+  // Check if user.roleId exists
+  if (!user || typeof user === 'string' || !user.roleId) {
+    return res.status(403).json({ error: 'Forbidden: Role ID missing or invalid' });
+  }
+  const userRole = user.roleId;  // Assuming role is stored in the JWT token
 
   if (userRole !== 'admin') {
     return res.status(403).json({ error: 'Access denied' });
