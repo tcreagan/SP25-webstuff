@@ -438,7 +438,7 @@ export class Model {
   // #endregion
 
 }
-
+/*
 //ensures that operations are atomic
 static async transaction<T>(callback: () => Promise<T>): Promise<T> {
     try {
@@ -491,3 +491,4 @@ static async transaction<T>(callback: () => Promise<T>): Promise<T> {
       throw new Error('Table name is not defined');
     }
   }
+*/ 
