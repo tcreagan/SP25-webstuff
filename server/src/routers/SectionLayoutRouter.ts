@@ -1,7 +1,7 @@
-import express, { Router } from "express"
+const express = require('express');  // CommonJS import style
 import DBConnector from "../db/dbConnector";
 import { Models } from "../db/initConnection";
-
+import { Request, Response } from 'express-serve-static-core'
 /**
  * Defines the router which handles requests going to /api/SectionLayouts
  * 
@@ -16,7 +16,7 @@ import { Models } from "../db/initConnection";
   /**
    * Get SectionLayouts index
    */
-  router.get("/", async (req, res) => {
+  router.get("/", async (req: Request, res: Response) => {
     let records = await SectionLayout.findAll()
 
     if (!records || records.length === 0) {
@@ -30,7 +30,7 @@ import { Models } from "../db/initConnection";
   /**
    * Get SectionLayout details
    */
-  router.get("/:id", async (req, res) => {
+  router.get("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = await SectionLayout.find(id)
   
@@ -45,7 +45,7 @@ import { Models } from "../db/initConnection";
   /**
    * Create new SectionLayout
    */
-  router.put("/new", async (req, res) => {
+  router.put("/new", async (req: Request, res: Response) => {
     let record = await SectionLayout.create(req.body)
 
     record.save()
@@ -58,7 +58,7 @@ import { Models } from "../db/initConnection";
   /**
    * Update Page Layout with given ID
    */
-  router.patch("/:id", async (req, res) => {
+  router.patch("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = SectionLayout.create(req.body)
   
@@ -74,7 +74,7 @@ import { Models } from "../db/initConnection";
   /**
    * Delete SectionLayout with given ID
    */
-  router.delete("/:id", async (req, res) => {
+  router.delete("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = await SectionLayout.find(id)
     if (!record) {
