@@ -1,10 +1,10 @@
-import express, { Router } from "express"
+import { Request, Response, Router } from "express-serve-static-core"
 import DBConnector from "../db/dbConnector"
 import { table } from "console";
 import { Models } from "../db/initConnection";
-import { getEvents, getEventById, createEvent, updateEvent, deleteEvent } from '../controllers/eventController';
-import { validateEvent, validateEventId } from '../validators/eventValidator';  // Assuming validation functions
-
+import { getEventLogs, getEventById, createEvent, updateEvent, deleteEvent } from '../db/controllers/eventController';
+import { validateEvent, validateEventId } from '../db/validators/eventValidator';  // Assuming validation functions
+const express = require('express');  // CommonJS import style
 /**
  * Defines the router which handles requests going to /api/Events
  * 
@@ -20,7 +20,7 @@ const buildRouter = (con: DBConnector): Router => {
   /**
    * Get Events index
    */
-  router.get("/", async (req, res) => {
+  router.get("/", async (req: Request, res: Response) => {
     let records = await Event.findAll()
 
     if(!records || records.length === 0){
@@ -34,7 +34,7 @@ const buildRouter = (con: DBConnector): Router => {
   /**
    * Get Event details
    */
-  router.get("/:id", async (req, res) => {
+  router.get("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = await Event.find(id)
 
@@ -49,7 +49,7 @@ const buildRouter = (con: DBConnector): Router => {
   /**
    * Create new Event
    */
-  router.put("/new", async (req, res) => {
+  router.put("/new", async (req: Request, res: Response) => {
     let record = await Event.create(req.body)
 
     record.save()
@@ -59,7 +59,7 @@ const buildRouter = (con: DBConnector): Router => {
   })
 
 
-  router.patch("/:id", (req, res) => {
+  router.patch("/:id", async (req: Request, res: Response) => {
      try {
       const id = parseInt(req.params.id);
 
@@ -83,7 +83,7 @@ const buildRouter = (con: DBConnector): Router => {
     }
   })
 
-  router.delete("/:id", (req, res) => {
+  router.delete("/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
 
@@ -97,7 +97,7 @@ const buildRouter = (con: DBConnector): Router => {
         return res.sendStatus(404);
       }
 
-      await record.destroy();
+      await record.delete();
       res.sendStatus(204);  // 204 No Content on successful deletion
       } catch (error) {
       res.status(500).json({ error: "Failed to delete event" });
@@ -111,7 +111,7 @@ const buildRouter = (con: DBConnector): Router => {
 /**
  * GET /api/Events - Get all events
  */
-router.get('/', getEvents);
+router.get('/', getEventLogs);
 
 /**
  * GET /api/Events/:id - Get an event by ID
