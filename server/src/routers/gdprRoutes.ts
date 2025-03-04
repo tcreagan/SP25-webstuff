@@ -1,10 +1,10 @@
 //gpt helped
-import { Router } from 'express';
-import { getUserPersonalDataHandler, deleteUserPersonalDataHandler, exportUserPersonalDataHandler } from '../controllers/gdprController';
-import { recordUserConsentHandler } from '../controllers/consentController';
-import { authenticateJWT } from '../controllers/authController';
+const express = require('express');  // CommonJS import style
+import { getUserPersonalDataHandler, deleteUserPersonalDataHandler, exportUserPersonalDataHandler } from '../db/controllers/gdprController';
+import { recordUserConsentHandler } from '../db/controllers/consentController';
+import { authenticateJWT } from '../db/controllers/authController';
 
-const router = Router();
+const router = express.Router();
 
 // Route to request user's personal data
 router.get('/personal-data', authenticateJWT, getUserPersonalDataHandler);
