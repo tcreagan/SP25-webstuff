@@ -11,28 +11,31 @@ import mysql from 'mysql'
 require("dotenv").config()
 
 export default class DBConnector {
-  connectionPool!: mysql.Pool
+  private static connectionPool!: mysql.Pool
 
+  // Initialize connection pool only once (Singleton pattern)
   constructor() {
-    this.connectionPool = mysql.createPool({
-      connectionLimit: 10,
-      host: process.env.dbhost,
-      user: process.env.dbuser,
-      password: process.env.dbpass,
-      database: process.env.dbname
-    })
+    if (!DBConnector.connectionPool) {
+      DBConnector.connectionPool = mysql.createPool({
+        connectionLimit: 10,
+        host: process.env.dbhost,
+        user: process.env.dbuser,
+        password: process.env.dbpass,
+        database: process.env.dbname
+      });
+    }
   }
 
   close() {
-    this.connectionPool.end()
+    DBConnector.connectionPool.end()
   }
 
   async create(tableName: string, payload: { [key: string]: any }) {
     let sql = mysql.format(`INSERT INTO ?? SET ?`, [tableName, payload], false)
 
-    const res = await this.runQuery(sql)
+    const res = await DBConnector.runQuery(sql)
 
-    const newRecord = await this.runQuery(`SELECT * FROM ${tableName} WHERE id = ${res.insertId}`)
+    const newRecord = await DBConnector.runQuery(`SELECT * FROM ${tableName} WHERE id = ${res.insertId}`)
 
     return newRecord[0]
   }
@@ -40,19 +43,19 @@ export default class DBConnector {
   update(tableName: string, payload: { [key: string]: string }) {
     let sql = mysql.format("UPDATE ?? SET ? WHERE id = ?", [tableName, payload, payload["id" as keyof object]])
 
-    return this.runQuery(sql)
+    return DBConnector.runQuery(sql)
   }
 
   delete(tableName: string, id: number | string) {
     let query = mysql.format(`DELETE FROM ? WHERE id = ?`, [tableName, id])
 
-    return this.runQuery(query)
+    return DBConnector.runQuery(query)
   }
 
   async find(tableName: string, id: number | string) {
     let query = mysql.format(`SELECT * FROM ? WHERE ID = ?`, [tableName, id])
 
-    let res = await this.runQuery(query)
+    let res = await DBConnector.runQuery(query)
 
     return res[0]
   }
@@ -60,7 +63,7 @@ export default class DBConnector {
   findAll(tableName: string, args?:{[key:string]:any}) {
     let query = !!args ? mysql.format("SELECT * FROM ? WHERE ?", [tableName, args]):mysql.format("SELECT * FROM ?",[tableName]);
 
-    return this.runQuery(query);
+    return DBConnector.runQuery(query);
   }
 
   /**
@@ -89,7 +92,7 @@ export default class DBConnector {
                                          sourceTable, relationTable, relationSourceId,
                                          sourceTable])
 
-    return this.runQuery(sql)
+    return DBConnector.runQuery(sql)
   }
 
   //#region helpers
@@ -98,7 +101,7 @@ export default class DBConnector {
    * A wrapper function to ensure safe connection management of executed sql queries
    */
   executionWrapper(func: (con: mysql.Connection) => void) {
-    this.connectionPool.getConnection((err, connection) => {
+    DBConnector.connectionPool.getConnection((err, connection) => {
       if (err) {
         console.error('error connecting to db: ' + err.stack)
         return;
@@ -119,7 +122,7 @@ export default class DBConnector {
     let result: any;
     console.log(`Executing query:\n${query}`)
     await new Promise<void>((resolve) => {
-      this.executionWrapper((connection) => {
+      DBConnector.executionWrapper((connection) => {
         connection.query(query, (err, res, fields) => {
           if (err) throw err;
           result = res;
