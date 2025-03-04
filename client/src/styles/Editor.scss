@@ -20,6 +20,8 @@ div.editor-container {
   min-height: 1500px;
   width: 95%;
   user-select: none;
+  resize: both;
+  overflow: auto;
   .selected{
     outline: 3px solid #70a3e2;
     border-radius: 2px;
@@ -59,6 +61,8 @@ div.editor-container {
     background: #f7f7f7;
     max-width: 100%;
     overflow-x: hidden;
+    resize: both;
+    overflow: auto;
   }
 
   div.tab {
@@ -142,6 +146,8 @@ div.horizontal{
   flex-direction: row;
   padding: 0;
   margin: 3px;
+  resize: both;
+  overflow: auto;
 }
 
 div.vertical{
@@ -152,6 +158,8 @@ div.vertical{
   overflow-x: hidden;
   flex-direction: column;
   margin: 3px;
+  resize: both;
+  overflow: auto;
 }
 
 div.elementContainer{
@@ -161,6 +169,8 @@ div.elementContainer{
   width: fit-content;
   justify-content: center;
   padding: 0 !important;
+  resize: both;
+  overflow: auto;
 }
 
 div.audioContainer{
