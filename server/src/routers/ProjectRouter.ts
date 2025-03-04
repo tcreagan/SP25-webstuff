@@ -1,9 +1,10 @@
-import express, { Router } from "express"
+const express = require('express');  // CommonJS import style
 import DBConnector from "../db/dbConnector"
 import { Models } from "../db/initConnection"
-import { authenticateJWT } from "../db/middlewares/authMiddleware";
-import { requireProjectPermissions } from "../db/middlewares/permissionMiddleware"
-
+import { authenticateJWT } from "../db/middlewares/authMiddleware"
+import { requireProjectPermission } from "../db/middlewares/permissionMiddleware"
+import { Request, Response } from 'express-serve-static-core'
+import { createProjectHandler, getProjectDetailsHandler, createPageHandler } from "../db/controllers/projectController";
 /**
  * Defines the router which handles requests going to /api/Projects
  * 
@@ -18,7 +19,7 @@ import { requireProjectPermissions } from "../db/middlewares/permissionMiddlewar
   /**
    * Get Projects index
    */
-  router.get("/", async (req, res) => {
+  router.get("/", async (req: Request, res: Response) => {
     let records = await Project.findAll()
 
     if(!records || records.length === 0){
@@ -32,7 +33,7 @@ import { requireProjectPermissions } from "../db/middlewares/permissionMiddlewar
   /**
    * Get Project details
    */
-  router.get("/:id", async (req, res) => {
+  router.get("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = await Project.find(id)
 
@@ -47,7 +48,7 @@ import { requireProjectPermissions } from "../db/middlewares/permissionMiddlewar
   /**
    * Create new Project
    */
-  router.put("/new", async (req, res) => {
+  router.put("/new", async (req: Request, res: Response) => {
     let record = await Project.create(req.body)
 
     record.save()
@@ -60,7 +61,7 @@ import { requireProjectPermissions } from "../db/middlewares/permissionMiddlewar
   /**
    * Update Page Layout with given ID
    */
-  router.patch("/:id", async (req, res) => {
+  router.patch("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = Project.create(req.body)
 
@@ -76,7 +77,7 @@ import { requireProjectPermissions } from "../db/middlewares/permissionMiddlewar
   /**
    * Delete Project with given ID
    */
-  router.delete("/:id", async (req, res) => {
+  router.delete("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = await Project.find(id)
     if(!record){

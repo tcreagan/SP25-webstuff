@@ -1,6 +1,7 @@
-import express, { Router } from "express"
+const express = require('express');  // CommonJS import style
 import DBConnector from "../db/dbConnector";
 import { Models } from "../db/initConnection";
+import { Request, Response } from 'express-serve-static-core'
 
 /**
  * Defines the router which handles requests going to /api/SitePermissions
@@ -17,7 +18,7 @@ import { Models } from "../db/initConnection";
   /**
    * Get SitePermissions index
    */
-  router.get("/", async (req, res) => {
+  router.get("/", async (req: Request, res: Response) => {
     let records = await SitePermission.findAll()
 
     if (!records || records.length === 0) {
@@ -31,7 +32,7 @@ import { Models } from "../db/initConnection";
   /**
    * Get SitePermission details
    */
-  router.get("/:id", async (req, res) => {
+  router.get("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = await SitePermission.find(id)
   
@@ -46,7 +47,7 @@ import { Models } from "../db/initConnection";
   /**
    * Create new SitePermission
    */
-  router.put("/new", async (req, res) => {
+  router.put("/new", async (req: Request, res: Response) => {
     let record = SitePermission.create(req.body)
 
     await record.save()
@@ -59,7 +60,7 @@ import { Models } from "../db/initConnection";
   /**
    * Update SitePermission with given ID
    */
-  router.patch("/:id", async (req, res) => {
+  router.patch("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = SitePermission.create(req.body)
   
@@ -75,7 +76,7 @@ import { Models } from "../db/initConnection";
   /**
    * Delete SitePermission with given ID
    */
-  router.delete("/:id", async (req, res) => {
+  router.delete("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     let record = await SitePermission.find(id)
     if (!record) {

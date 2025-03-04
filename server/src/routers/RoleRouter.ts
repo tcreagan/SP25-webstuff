@@ -1,6 +1,7 @@
-import express, { Router } from "express"
+const express = require('express');  // CommonJS import style
 import DBConnector from "../db/dbConnector";
 import { Models } from "../db/initConnection";
+import { Request, Response } from 'express-serve-static-core'
 
 /**
  * Defines the router which handles requests going to /api/Roles
@@ -15,7 +16,7 @@ const Role = Models.Role
 /**
  * Get Roles index
  */
-router.get("/", async (req, res) => {
+router.get("/", async (req: Request, res: Response) => {
   let records = await Role.findAll()
 
   if(!records || records.length === 0){
@@ -29,7 +30,7 @@ router.get("/", async (req, res) => {
 /**
  * Get Role details
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id)
   let record = await Role.find(id)
 
@@ -44,7 +45,7 @@ router.get("/:id", async (req, res) => {
 /**
  * Create new Role
  */
-router.put("/new", async (req, res) => {
+router.put("/new", async (req: Request, res: Response) => {
   let record = Role.create(req.body)
 
   await record.save()
@@ -57,7 +58,7 @@ router.put("/new", async (req, res) => {
 /**
  * Update Page Layout with given ID
  */
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id)
   let record = Role.create(req.body)
 
@@ -73,7 +74,7 @@ router.patch("/:id", async (req, res) => {
 /**
  * Delete Role with given ID
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id)
   let record = await Role.find(id)
   if(!record){

@@ -1,17 +1,5 @@
-//Chat GPT helped 
-
-import { logEvent } from './eventController';
-
-// Middleware to log errors
-export function logError(err: Error, req: Request, res: Response, next: NextFunction) {
-  const userId = req.user ? req.user.userId : 0;  // Default to system-level error if no user is logged in
-  const errorLog = `Error: ${err.message} at ${req.method} ${req.url}`;
-
-  logEvent(userId, 'SYSTEM_ERROR', errorLog).catch(console.error);  // Log the error to the event system
-
-  res.status(500).json({ error: 'Internal Server Error' });
-}
-import { logError } from './controllers/errorController';
+//Chat GPT helped //deleted other log error function
+import { JwtPayload } from 'jsonwebtoken';
 
 // Apply the logError middleware to log errors globally
 app.use(logError);
@@ -28,7 +16,20 @@ const errorEventStream = new EventEmitter();
 
 // Middleware to log errors and emit real-time error events via SSE
 export function logError(err: Error, req: Request, res: Response, next: NextFunction) {
-  const userId = req.user ? req.user.userId : 0;  // Default to system-level error if no user is logged in
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  } //check for user authentication
+  // Cast req.user to JwtPayload and handle cases where req.user could be a string
+  const user = req.user as JwtPayload;
+  if (!user || typeof user === 'string' || !user.userId) {
+    return res.status(401).json({ error: 'Invalid token or user not found' });
+  }
+
+  const userId = parseInt(user.userId as string, 10);  // Convert userId to a number
+  
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  } // Default to system-level error if no user is logged in
   const errorLog = `Error: ${err.message} at ${req.method} ${req.url}`;
 
   logEvent(userId, 'SYSTEM_ERROR', errorLog).catch(console.error);  // Log the error to the database

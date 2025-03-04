@@ -1,5 +1,12 @@
 import mysql from 'mysql';
 import DBConnector from './dbConnector'; // Assuming this file handles the MySQL connection
+import { addTokenToBlacklist } from '../utils/tokenBlacklist';
+import redisClient from '../utils/redisClient';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { User } from '../models/User';
+import { registerSchema, loginSchema } from '../validators/userValidator';
+import { Request, Response } from 'express-serve-static-core';
 
 const dbConnector = new DBConnector();
 
@@ -157,9 +164,6 @@ export async function listUsersHandler(req: Request, res: Response) {
 //needs review 
 // code for user registration 
 // consider creating a separate controller for organization
-import bcrypt from 'bcrypt';
-import { User } from '../models/User';
-import { registerSchema
 
 export async function registerUser(req: Request, res: Response) {
   try {
@@ -196,12 +200,6 @@ export async function registerUser(req: Request, res: Response) {
   }
 }
 
-//gpt generated 
-// needs review
-// code for user login
-// consider creating separate controller
-import jwt from 'jsonwebtoken';
-
 
 export async function loginUser(req: Request, res: Response) {
   try {
@@ -224,6 +222,25 @@ export async function loginUser(req: Request, res: Response) {
     if (!validPassword) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
+
+    const { refreshToken } = req.cookies.refreshToken; //added refresh token
+
+    if (!refreshToken) {
+      return res.status(401).json({ error: 'Unauthorized, no refresh token provided' });
+    }//check refresh token
+
+    const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
+      if (!JWT_REFRESH_SECRET) {
+        throw new Error('JWT_REFRESH_SECRET is not defined in the environment variables');
+      }
+        // Verify the refresh token
+        let decoded;
+        decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+        //Ensuring JWT_SECRET is defined
+        const JWT_SECRET = process.env.JWT_SECRET;
+      if (!JWT_SECRET) {
+        throw new Error('JWT_SECRET is not defined in the environment variables');
+      }
 
     // Generate JWT
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });

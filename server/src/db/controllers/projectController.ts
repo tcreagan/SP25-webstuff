@@ -1,5 +1,6 @@
 import dbConnector from '../dbConnector';
 import { logEvent } from './eventController';
+import { JwtPayload } from 'jsonwebtoken'; //added webtoken import
 //Chat GPT helped
 //fix SQL because it is not exactly right, there are more parameters
 //used for handling project logic
@@ -38,35 +39,13 @@ export async function getProjectDetails(projectId: number): Promise<any> {
     FROM Project p
     JOIN User u ON p.owner_id = u.id
     WHERE p.id = ?;
-  `; //fix
+  `; 
   const result = await dbConnector.runQuery(sql, [projectId]);
   return result[0]; // Return the first record (project details)
 }
 //Chat GPT code generated 
 //code is generalized API route connections are probably slightly different
-import { Request, Response } from 'express';
-import { createProject, assignProjectPermissions, createPage, getProjectDetails } from './projectController';
-
-// Handler for creating a new project
-export async function createProjectHandler(req: Request, res: Response) {
-  const { projectName, defaultRead, defaultWrite, admin } = req.body;
-  const ownerId = parseInt(req.params.userId);  // Assuming userId is passed in URL params
-
-  if (!projectName) {
-    return res.status(400).json({ error: 'Project name is required' });
-  }
-
-  try {
-    const projectId = await createProject(ownerId, projectName);
-
-    // Assign default project permissions (for owner/admin)
-    await assignProjectPermissions(projectId, defaultRead, defaultWrite, admin);
-
-    return res.status(201).json({ message: 'Project created', projectId });
-  } catch (error) {
-    return res.status(500).json({ error: 'Error creating project' });
-  }
-}
+import { Request, Response } from 'express-serve-static-core'; // imported static core
 
 // Handler for adding a page to a project
 export async function createPageHandler(req: Request, res: Response) {
@@ -106,11 +85,26 @@ import { logEvent } from './eventController';
 // Handler for creating a new project (extended to log the event)
 export async function createProjectHandler(req: Request, res: Response) {
   const { projectName } = req.body;
-  const ownerId = req.user.userId;  // User ID from JWT payload
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  // Cast req.user to JwtPayload and handle cases where req.user could be a string
+  const user = req.user as JwtPayload;
+  if (!user || typeof user === 'string' || !user.userId) {
+    return res.status(401).json({ error: 'Invalid token or user not found' });
+  }
+
+  const ownerId = parseInt(user.userId as string, 10);  // Convert userId to a number
+
+  if (isNaN(ownerId)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  } // User ID from JWT payload
 
   if (!projectName) {
     return res.status(400).json({ error: 'Project name is required' });
-  }
+  }//check for project name
+
 
   try {
     const projectId = await createProject(ownerId, projectName);

@@ -1,5 +1,7 @@
 //chat gpt helped
 import dbConnector from '../dbConnector';
+import { Request, Response } from 'express-serve-static-core';
+import { JwtPayload } from 'jsonwebtoken'; //added imports
 //for data access
 // 1. Retrieve all personal data for a specific user
 export async function getUserPersonalData(userId: number): Promise<any> {
@@ -14,8 +16,22 @@ export async function getUserPersonalData(userId: number): Promise<any> {
 
 // 2. Handler for users to request their personal data
 export async function getUserPersonalDataHandler(req: Request, res: Response) {
-  const userId = req.user.userId;
+  
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  } //check if user is authorized 
 
+  // Cast req.user to JwtPayload and handle cases where req.user could be a string
+  const user = req.user as JwtPayload;
+  if (!user || typeof user === 'string' || !user.userId) {
+    return res.status(401).json({ error: 'Invalid token or user not found' });
+  }
+
+  const userId = parseInt(user.userId as string, 10);  // Convert userId to a number
+
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  } //checking userID
   try {
     const personalData = await getUserPersonalData(userId);
     return res.status(200).json(personalData);
@@ -38,7 +54,17 @@ export async function deleteUserPersonalData(userId: number): Promise<void> {
 
 // 4. Handler for users to request deletion of their personal data
 export async function deleteUserPersonalDataHandler(req: Request, res: Response) {
-  const userId = req.user.userId;
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }//check user authorization
+
+  // Cast req.user to JwtPayload and handle cases where req.user could be a string
+  const user = req.user as JwtPayload;
+  if (!user || typeof user === 'string' || !user.userId) {
+    return res.status(401).json({ error: 'Invalid token or user not found' });
+  }//user token check
+
+  const userId = parseInt(user.userId as string, 10);  // Convert userId to a number
 
   try {
     await deleteUserPersonalData(userId);
@@ -65,7 +91,21 @@ export async function exportUserPersonalData(userId: number, format: 'json' | 'c
 
 // 6. Handler for users to export their personal data
 export async function exportUserPersonalDataHandler(req: Request, res: Response) {
-  const userId = req.user.userId;
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }//check authorization
+
+  // Cast req.user to JwtPayload and handle cases where req.user could be a string
+  const user = req.user as JwtPayload;
+  if (!user || typeof user === 'string' || !user.userId) {
+    return res.status(401).json({ error: 'Invalid token or user not found' });
+  }//check token
+
+  const userId = parseInt(user.userId as string, 10);  // Convert userId to a number
+
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  }//check userID
   const format = req.query.format === 'csv' ? 'csv' : 'json';
 
   try {

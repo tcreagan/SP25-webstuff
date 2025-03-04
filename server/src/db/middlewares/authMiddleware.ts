@@ -3,6 +3,8 @@
 
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { isTokenBlacklisted } from '../utils/tokenBlacklist';
+
 
 export function authenticateJWT(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.token;

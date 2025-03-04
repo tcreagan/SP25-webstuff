@@ -1,6 +1,7 @@
-import express, { Router } from "express"
+const express = require('express');  // CommonJS import style
 import DBConnector from "../db/dbConnector"
 import { Models } from "../db/initConnection"
+import { Request, Response } from 'express-serve-static-core'
 
 /**
  * Defines the router which handles requests going to /api/Widgets
@@ -14,7 +15,7 @@ const Widget = Models.Widget
 /**
  * Get Widgets index
  */
-router.get("/", async (req, res) => {
+router.get("/", async (req: Request, res: Response) => {
   let records = await Widget.findAll()
 
   if (!records || records.length === 0) {
@@ -28,7 +29,7 @@ router.get("/", async (req, res) => {
 /**
  * Get Widget details
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id)
   let record = await Widget.find(id)
 
@@ -43,7 +44,7 @@ router.get("/:id", async (req, res) => {
 /**
  * Create new Widget
  */
-router.put("/new", async (req, res) => {
+router.put("/new", async (req: Request, res: Response) => {
   let record = Widget.create(req.body)
 
   await record.save()
@@ -56,7 +57,7 @@ router.put("/new", async (req, res) => {
 /**
  * Update Page Layout with given ID
  */
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id)
   let record = Widget.create(req.body)
 
@@ -73,7 +74,7 @@ router.patch("/:id", async (req, res) => {
 /**
  * Delete Widget with given ID
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   const id = parseInt(req.params.id)
   let record = await Widget.find(id)
   if (!record) {

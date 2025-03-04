@@ -12,6 +12,18 @@ export class User extends Model{
   @Required
   email?:string
 
+  // Define the findByEmail static method
+  static async findByEmail(email: string) {
+    const sql = `SELECT * FROM users WHERE email = ?`;
+    const result = await DBConnector.runQuery(sql, [email]);
+
+    if (result.length === 0) {
+      return null;
+    }
+
+    return result[0];
+  }
+  
   //validates email
   // Override the validate() method from Model.ts for custom rules
   validate(): boolean {

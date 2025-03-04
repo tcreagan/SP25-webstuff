@@ -1,4 +1,4 @@
-import DBConnector from "./dbConnector";
+import DBConnector from "../dbConnector";
 import { ModelBuilder } from "./models/Models";
 
 export const dbConnector = new DBConnector()
