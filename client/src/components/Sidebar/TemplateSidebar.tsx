@@ -10,9 +10,6 @@ type PropsTemplate = {
   img: string;
 }
 
-
-
-
 ///Leaving this here in case i need to revert to it
 /*class Template extends React.Component<PropsTemplate>{
   image: string;
@@ -34,7 +31,7 @@ type PropsTemplate = {
 const Template = ({ img, onClick }: { img: string, onClick: () => void })=>{
   return (
     <div>
-       <img src={img} />
+       <img src={img} onClick={onClick}/>
     </div>
   );
 }
@@ -47,9 +44,9 @@ const templatearr = [String(templateone)];
 
 
 const TemplateSidebar = (props: Props) => {
-  const { loadFromTemplate } = useSaveLoadActions();
+  const { loadFromLocalStorage } = useSaveLoadActions();
   const handleTemplateLoad = () => {
-    loadFromTemplate(templatearr[0]);
+    loadFromLocalStorage();
     console.log("Click recieved")
   }
   return (
