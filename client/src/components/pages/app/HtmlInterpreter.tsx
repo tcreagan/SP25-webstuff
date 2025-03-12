@@ -31,6 +31,8 @@ import Prism from "prismjs"; // Used to highlight HTML code
 import DOMPurify from "dompurify"; // Uses to sanitize HTML content and safeguard against XSS attacks
 import "prismjs/themes/prism.css"; // Import the Prism CSS file
 import { css_beautify, html_beautify } from "js-beautify";
+import { ResizableBox } from "react-resizable";
+import "react-resizable/css/styles.css";
 
 export type Props = {
   content: StorableHtmlNode[];
@@ -53,6 +55,10 @@ export const HtmlInterpreter = (props: Props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({ html: "", css: "" });
+
+  // Add state for element dimensions
+  const [elementWidth, setElementWidth] = useState(props.content[props.root ?? 0]?.attributes?.width?.value ? parseInt(props.content[props.root ?? 0].attributes.width.value) : 200);
+  const [elementHeight, setElementHeight] = useState(props.content[props.root ?? 0]?.attributes?.height?.value ? parseInt(props.content[props.root ?? 0].attributes.height.value) : 100);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -461,12 +467,56 @@ export const HtmlInterpreter = (props: Props) => {
     ...args,
   };
 
-  //if there is a child element create a react element, otherwise create an empty array and return
-  //tell htmlinterpreter that i have dropped an element
-  Element =
-    children.filter((c) => c !== null).length > 0
-      ? React.createElement(element, finalArgs, children)
-      : React.createElement(element, finalArgs);
+  // Function to render the element with optional resize wrapper
+  const renderElement = () => {
+    const element = (
+      <div
+        id={id}
+        ref={(el) => {
+          if (dropRef.current) dropRef.current = el;
+          if (dragRef.current) dragRef.current = el;
+        }}
+        style={{
+          ...content.style,
+          width: elementWidth ? `${elementWidth}px` : undefined,
+          height: elementHeight ? `${elementHeight}px` : undefined,
+        }}
+        className={content.attributes?.["className"]?.value}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragOut}
+      >
+        {Children}
+        {editorState.selectedElementId === id && elementOperations}
+      </div>
+    );
+
+    // Only wrap in ResizableBox if the element is draggable/droppable
+    if (content.metadata?.draggable || content.metadata?.droppable) {
+      return (
+        <ResizableBox
+          width={elementWidth}
+          height={elementHeight}
+          minConstraints={[50, 50]}
+          maxConstraints={[1000, 1000]}
+          resizeHandles={['se']}
+          onResize={(_e: React.SyntheticEvent, { size }: { size: { width: number; height: number } }) => {
+            setElementWidth(size.width);
+            setElementHeight(size.height);
+            // Update the element's style directly
+            if (content.style) {
+              content.style.width = { value: `${size.width}px` };
+              content.style.height = { value: `${size.height}px` };
+            }
+          }}
+        >
+          {element}
+        </ResizableBox>
+      );
+    }
+
+    return element;
+  };
 
   useEffect(() => {
     refs.forEach((ref) => {
@@ -528,7 +578,7 @@ export const HtmlInterpreter = (props: Props) => {
 
   return (
     <>
-      {Element}
+      {renderElement()}
       {viewCodeModal}
     </>
   );
