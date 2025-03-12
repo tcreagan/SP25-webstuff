@@ -11,7 +11,7 @@
         "element": "div",
         "attributes": {
           "className": {
-            "value":"horizontal", 
+            "value":"container", 
             "readonly": true,
             "input": {
               "type": "text",
