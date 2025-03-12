@@ -1,6 +1,6 @@
 // #region reducer definition
 
-import { Key, useContext } from "react";
+import { Key, useContext, useCallback } from "react";
 import { EditorContext } from "state/editor/EditorContext";
 import { StorableHtmlNode } from "types/HtmlNodes";
 import { HtmlObject } from "types/HtmlObject";
@@ -42,6 +42,16 @@ export type MouseState = {
   mouseHoldCallbacks: Map<string, (state: MouseState, ev: MouseEvent) => void>;
 };
 
+// Initial state for the mouse reducer
+export const initialMouseState: MouseState = {
+  mouseX: null,
+  mouseY: null,
+  holdLeft: false,
+  mouseLeftDown: false,
+  mouseRightDown: false,
+  mouseHoldCallbacks: new Map(),
+};
+
 // #endregion
 
 // Define a reducer to manage the state of the editor
@@ -70,6 +80,18 @@ export function mouseReducer(
         ...state,
         holdLeft: false,
         mouseLeftDown: false,
+      };
+    }
+    case MouseActionType.MOUSE_RIGHT_DOWN: {
+      return {
+        ...state,
+        mouseRightDown: true,
+      };
+    }
+    case MouseActionType.MOUSE_RIGHT_UP: {
+      return {
+        ...state,
+        mouseRightDown: false,
       };
     }
     case MouseActionType.MOUSE_TRY_HOLD: {
@@ -108,9 +130,35 @@ export function mouseReducer(
 
 // #region Hooks
 
-// export function useDrag() { }
+export function useDrag() {
+  const { state, dispatch } = useMouse();
+  const startDrag = useCallback((callback: (state: MouseState, ev: MouseEvent) => void) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    dispatch({
+      type: MouseActionType.REGISTER_CALLBACK,
+      callback,
+      id,
+    });
+    return id;
+  }, [dispatch]);
 
-// export function useDrop() { }
+  return {
+    isDragging: state.holdLeft,
+    mouseX: state.mouseX,
+    mouseY: state.mouseY,
+    startDrag,
+  };
+}
+
+export function useDrop() {
+  const { state } = useMouse();
+  
+  return {
+    isOver: state.mouseX !== null && state.mouseY !== null,
+    mouseX: state.mouseX,
+    mouseY: state.mouseY,
+  };
+}
 
 export function useMouse() {
   const context = useContext(MouseContext);
