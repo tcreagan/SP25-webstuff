@@ -1,22 +1,20 @@
 import {HtmlInterpreter} from "../HtmlInterpreter"
 import {HtmlObject} from "types/HtmlObject"
-import {Editor, buildPreview} from "./Editor"
-//import { buildQueries } from "@testing-library/react";
 
 type Props = {
   content: HtmlObject;
 };
 
 export const Body = (props: Props) => {
-  let content = [...props.content.html.nodes]
-  if(props.content.metadata.preview){
-    //content = buildPreview(props.content)
-  }
+  // Get the nodes to render, either from preview or actual content
+  const nodesToRender = props.content.metadata.preview?.obj?.html.nodes || props.content.html.nodes;
+
   return (
     <div className="editor-body-container">
-      <HtmlInterpreter prefix="b" content={props.content.html.nodes}/>
+      <HtmlInterpreter 
+        prefix="b" 
+        content={nodesToRender}
+      />
     </div>
   )
-
- 
 };
