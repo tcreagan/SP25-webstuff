@@ -439,7 +439,7 @@ export const HtmlInterpreter = (props: Props) => {
     children = [elementOperations, ...children];
   }
 
-  const element = content.element;
+  const element = content.attributes.headingtype?.value || content.element || "div"; //Allows for dynamic changing of element
   const outputAttributes = Object.keys(content.attributes).map((k) => {
     const attribute = content.attributes[k];
     return attribute.suppress ? null : k;
