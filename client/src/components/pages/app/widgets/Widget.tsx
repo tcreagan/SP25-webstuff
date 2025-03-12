@@ -5,27 +5,52 @@ import { ActionType, useEditor } from 'state/editor/EditorReducer'
 import { useDraggable } from 'state/dragAndDrop/hooks/useDraggable'
 
 type Props = {
-  widgetId:number
+  widgetId: number
 }
 
 const Widget = (props: Props) => {
   const {state: editor, dispatch: _} = useEditor();
   const {dragRef, startDrag} = useDraggable(editor.widgets[props.widgetId])
-  const onMouseDown = () => {
-    startDrag()
-  }
   const metadata = editor.widgets[props.widgetId].metadata
 
-  return (
-    // Note that the "ref" connects the DOM element to the useDragging hook
-    <div className="widget" ref={dragRef} onMouseDown={onMouseDown}>
-      <div className="widget-icon">
+  const handleDragStart = (e: React.DragEvent) => {
+    e.stopPropagation();
+    
+    // Create a drag image
+    const dragImage = document.createElement('div');
+    dragImage.className = 'widget-drag-preview';
+    dragImage.style.width = '200px';
+    dragImage.style.height = '100px';
+    dragImage.style.backgroundColor = 'rgba(74, 144, 226, 0.1)';
+    dragImage.style.border = '2px dashed #4a90e2';
+    dragImage.style.boxShadow = '0 0 10px rgba(74, 144, 226, 0.2)';
+    dragImage.style.position = 'absolute';
+    dragImage.style.top = '-1000px'; // Move off-screen
+    document.body.appendChild(dragImage);
 
-      {Assets.images[metadata.icon! as keyof typeof Assets.images]}
+    // Set the drag image
+    e.dataTransfer.setDragImage(dragImage, 100, 50);
+
+    // Clean up the temporary element after a short delay
+    setTimeout(() => {
+      document.body.removeChild(dragImage);
+    }, 0);
+
+    startDrag();
+  }
+
+  return (
+    <div 
+      className="widget" 
+      ref={dragRef} 
+      draggable="true"
+      onDragStart={handleDragStart}
+    >
+      <div className="widget-icon">
+        {Assets.images[metadata.icon! as keyof typeof Assets.images]}
       </div>
       <div className="widget-name">
-
-      {metadata.name!}
+        {metadata.name!}
       </div>
     </div>
   );
