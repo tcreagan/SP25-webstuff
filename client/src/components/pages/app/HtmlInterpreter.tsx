@@ -421,9 +421,18 @@ export const HtmlInterpreter = (props: Props) => {
     mouseOutCallbacks.forEach((f) => f(e));
   };
 
-  let children = content.attributes["text"]
-    ? [content.attributes["text"].value, ...(Children ?? [])]
-    : [...(Children ?? [])];
+  let children = [];
+
+  if (content.attributes["text"]) {
+    children.push(
+      <div dangerouslySetInnerHTML={{ __html: content.attributes["text"].value }} />
+    );
+  }
+  
+  if (Children) {
+    children = [...children, ...Children];
+  }
+  
 
   if (editorState.selectedElementId === id) {
     children = [elementOperations, ...children];

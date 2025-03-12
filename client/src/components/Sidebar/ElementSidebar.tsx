@@ -1,10 +1,11 @@
 import { findPrimaryAttributes } from "components/pages/app/Helpers";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useRef } from "react"; //Added useRef for ReactQuill handling
 import { ActionType, useEditor } from "state/editor/EditorReducer";
 import { parseId } from "state/editor/Helpers";
 import { NodeAttribute, StorableHtmlNode } from "types/HtmlNodes";
 import ImageGallery from "./ImageGallery";
 import { Tooltip } from "react-tooltip"; // Handles hover-over tooltips
+import ReactQuill from 'react-quill';
 
 type Props = {};
 
@@ -38,6 +39,7 @@ const ElementSidebar = (props: Props) => {
       });
     }
   }
+ // const quillRef = useRef<ReactQuill>(null); //Quill reference for later functions
 
   const buildInput = (
     source: { [key: string]: NodeAttribute },
@@ -68,21 +70,45 @@ const ElementSidebar = (props: Props) => {
       isImageElement = true;
     }
 
-    if (val.input && val.input.type === "textarea") {
+    if (val.input && val.input.type === "richtext") {
       input = (
-        <textarea
-          onChange={(ev: ChangeEvent<HTMLTextAreaElement>) => {
+        <ReactQuill 
+        className="quill-editor" //To force CSS styling due to visual glitches
+        onChange={(value) => {
             dispatch({
               type: ActionType.ATTRIBUTE_CHANGED,
               target: target,
               attribute: key,
-              newValue: ev.currentTarget.value,
+              newValue: value,
             });
           }}
-          value={source[key].value}
+          theme = 'snow' //Quill editor theme
+          value={attributes[key]?.value || ""}
           readOnly={val.readonly ? true : false}
           data-tooltip-id={key} // Handles tooltip association
+
+          //Toolbar setup for Quill
+          modules={{
+              toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                ['blockquote', 'code-block'],
+                ['link', 'image', 'video'],
+              
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+                [{ 'direction': 'rtl' }],                         // text direction
+              
+                [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+              
+                [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+                [{ 'font': [] }],
+                [{ 'align': [] }],
+              
+                ['clean']                                         // remove formatting button
+              ],
+          }}
         />
+        
       );
     }
 

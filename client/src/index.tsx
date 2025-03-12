@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'react-tooltip/dist/react-tooltip.css'
+import 'react-tooltip/dist/react-tooltip.css';
+import 'react-quill/dist/quill.snow.css'; //Quill implementation via ReactQuill
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
