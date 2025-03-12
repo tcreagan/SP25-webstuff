@@ -36,7 +36,7 @@
                 }
               },
               "src": {
-                "value": "https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav",
+                "value": "https://kimhandysidesvoiceover.com/wp-content/uploads/2024/01/Kim-Handysides-e-Learning-Demo.mp3",
                 "input": {
                     "type": "text",
                     "displayName":"File"
