@@ -8,8 +8,31 @@
 div.widget{
   background-color: lightgray;
   user-select: none;
+  cursor: grab;
   &:hover{
-    cursor: pointer;
+    cursor: grab;
     background-color: gray;
   }
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.widget-drag-preview {
+  pointer-events: none;
+  border-radius: 4px;
+  opacity: 0.8;
+  z-index: 1000;
+}
+
+.editor-header-container,
+.editor-body-container,
+.editor-footer-container {
+  &.can-drop {
+    cursor: copy;
+  }
+}
+
+.preview-container {
+  cursor: grabbing;
 }
