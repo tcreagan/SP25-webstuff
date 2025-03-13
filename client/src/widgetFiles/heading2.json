@@ -1,0 +1,158 @@
+{
+    "metadata": {
+        "name": "Subheading 1",
+        "tooltip": "main subheading",
+        "type": "WIDGET",
+        "icon": "text-icon"
+    },
+    "html": {
+        "nodes": [
+            {
+                "element": "h2",
+                "style":{
+                    "text-align": {
+                        "value": "",
+                        "input": {
+                            "type": "select",
+                            "displayName": "Text Align",
+                            "options": [
+                                {"value": "", "text": "Default"},
+                                {"value": "start", "text": "Left"},
+                                {"value": "center", "text": "Center"},
+                                {"value": "end", "text": "Right"}
+                            ]
+                        }
+                    },
+
+                    "font-family": {
+                        "value":"",
+                        "input":{
+                            "type": "select",
+                            "displayName": "Font",
+                            "options":[
+                                {"value": "", "text": "Default"},
+                                {"value": "inherit", "text": "Default"},
+                                {"value": "Arial", "text": "Arial"},
+                                {"value": "Verdana", "text": "Verdana"},
+                                {"value": "Times New Roman", "text": "Times New Roman"},
+                                {"value": "Courier New", "text": "Courier New"}
+                            ]
+                        }
+                    },
+
+                    "font-size": {
+                        "value":"",
+                        "input":{
+                            "type": "select",
+                            "displayName": "Font Size",
+                            "options":[
+                                {"value": "", "text": "Default"},
+                                {"value": ".5rem", "text": "Very Small"},
+                                {"value": ".8rem", "text": "Small"},
+                                {"value": "1.1rem", "text": "Medium"},
+                                {"value": "1.5rem", "text": "Large"},
+                                {"value": "1.8rem", "text": "Very Large"}
+                            ]
+                        }
+                    },
+
+
+                    "font-weight": {
+                        "value":"",
+                        "input":{
+                            "type": "select",
+                            "displayName": "Font Weight",
+                            "options":[
+                                {"value": "", "text": "Default"},
+                                {"value": "50", "text": "Lighter"},
+                                {"value": "100", "text": "Light"},
+                                {"value": "200", "text": "Normal"},
+                                {"value": "400", "text": "Bold"},
+                                {"value": "600", "text": "Bolder"}
+                            ]
+                        }
+                    },
+                    "color":{
+                        "value": "",
+                        "input": {
+                            "type": "color",
+                            "displayName": "Text Color"
+                        }
+                    },
+                    "background-color":{
+                        "value": "",
+                        "input": {
+                            "type": "color",
+                            "displayName": "Background Color"
+                        }
+                    },
+                    "border-color":{
+                        "value":"",
+                        "input": {
+                            "type": "color",
+                            "displayName": "Border Color"
+                        }
+                    },
+                    "border-style": {
+                        "value":"",
+                        "input":{
+                        "type": "select",
+                        "displayName": "Border Style",
+                        "options":[
+                           {"value": "none", "text": "None"},
+                           {"value": "solid", "text": "Solid"},
+                           {"value": "double", "text": "Double"},
+                           {"value": "dotted", "text": "Dotted"},
+                           {"value": "dashed", "text": "Dashed"},
+                           {"value": "groove", "text": "Grooved"},
+                           {"value": "ridge", "text": "Ridged"},
+                           {"value": "inset", "text": "Inset"},
+                           {"value": "outset", "text": "Outset"},
+                           {"value": "hidden", "text": "Hidden"}
+                          ]
+                        }
+                      },    
+                      "border-width": {
+                        "value":"",
+                        "input":{
+                        "type": "select",
+                        "displayName": "Border Thickness",
+                        "options":[
+                           {"value": "0px", "text": "Invisible"},
+                           {"value": "1px", "text": "Extra Thin"},
+                           {"value": "2.5px", "text": "Thin"},
+                           {"value": "3.5px", "text": "Standard"},
+                           {"value": "4.5px", "text": "Thick"},
+                           {"value": "6px", "text": "Extra Thick"}
+                          ]
+                        }
+                      }
+                },
+                "attributes":{
+                    "text": {
+                        "value":"Sub Heading 1",
+                        "input": {
+                            "type": "text",
+                            "displayName":"Text"
+                        }
+                    },
+                    "className": {
+                        "value": "heading2", 
+                        "readonly": true,
+                        "input": {
+                            "type": "text",
+                            "displayName":"Class Name",
+                            "tooltip": "This cannot be changed."
+                        }
+                    }
+                },
+                "children": [],
+                "metadata":{
+                    "draggable": true,
+                    "childDirection": "vertical",
+                    "selectable": true
+                }
+            }
+        ]
+    }
+}
