@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "name": "Horizontal Section",
-    "tooltip": "Creates two rows",
+    "name": "Section",
+    "tooltip": "Creates a section to drop widgets in",
     "type": "WIDGET",
     "icon": "text-icon"
   },

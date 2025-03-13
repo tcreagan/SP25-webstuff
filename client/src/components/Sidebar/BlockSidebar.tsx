@@ -1,9 +1,8 @@
 //thea
 import React, { useEffect } from 'react'
-import verticalContainer from "widgetFiles/verticalContainer.json"
 import twoCol from "widgetFiles/twoCol.json"
 import threeCol from "widgetFiles/threeCol.json"
-import horizontalContainer from "widgetFiles/horizontalContainer.json"
+import horizontalContainer from "widgetFiles/container.json"
 import textbox from "widgetFiles/textbox.json"
 import heading from "widgetFiles/heading.json"
 import image from "widgetFiles/image.json"
@@ -20,7 +19,6 @@ type Props = {};
 const BlockSidebar = (props: Props) => {
   const { state: editor, dispatch: editorDispatch } = useEditor();
 
-  const verticalD: HtmlObject = verticalContainer as HtmlObject;
   const horizontalD: HtmlObject = horizontalContainer as HtmlObject;
   const twoColD: HtmlObject = twoCol as HtmlObject;
   const threeColD: HtmlObject = threeCol as HtmlObject;
@@ -38,7 +36,7 @@ const BlockSidebar = (props: Props) => {
     if (editor.widgets.length === 0) {
       editorDispatch({
         type: ActionType.FETCHED_WIDGETS,
-        widgets: [verticalD, horizontalD,  twoColD, threeColD, textboxD,
+        widgets: [horizontalD,  twoColD, threeColD, textboxD,
            heading1D, imageD, logoD, nav, videoD, audioD, linkD],
       });
     }
