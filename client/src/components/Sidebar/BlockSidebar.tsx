@@ -6,7 +6,6 @@ import horizontalContainer from "widgetFiles/container.json"
 import textbox from "widgetFiles/textbox.json"
 import heading from "widgetFiles/heading.json"
 import image from "widgetFiles/image.json"
-import link from "widgetFiles/link.json"
 import logo from "widgetFiles/logo.json"
 import navigation from "widgetFiles/navigation.json"
 import video from "widgetFiles/video.json"
@@ -25,7 +24,6 @@ const BlockSidebar = (props: Props) => {
   const textboxD: HtmlObject = textbox as HtmlObject;
   const heading1D: HtmlObject = heading as HtmlObject;
   const imageD: HtmlObject = image as HtmlObject;
-  const linkD: HtmlObject = link as HtmlObject;
   const logoD: HtmlObject = logo as HtmlObject;
   const nav: HtmlObject = navigation as HtmlObject;
   const videoD: HtmlObject = video as HtmlObject;
@@ -37,7 +35,7 @@ const BlockSidebar = (props: Props) => {
       editorDispatch({
         type: ActionType.FETCHED_WIDGETS,
         widgets: [horizontalD,  twoColD, threeColD, textboxD,
-           heading1D, imageD, logoD, nav, videoD, audioD, linkD],
+           heading1D, imageD, logoD, nav, videoD, audioD],
       });
     }
   });
