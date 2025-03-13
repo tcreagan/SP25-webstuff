@@ -29,6 +29,7 @@ export enum ActionType {
   CANCEL_DRAG = "CANCEL_DRAG",
   DELETE_ELEMENT = "DELETE_ELEMENT",  
   COPY_ELEMENT = "COPY_ELEMENT",
+  ADD_ELEMENT = "ADD_ELEMENT",
 
   VIEW_CODE = "VIEW_CODE",
   LOAD_STATE = "LOAD_STATE",
@@ -63,7 +64,8 @@ export type EditorAction =
   | { type: ActionType.COPY_ELEMENT; elementId: string }
   | { type: ActionType.VIEW_CODE; elementId: string }
   | { type: ActionType.ATTRIBUTE_CHANGED; target:"style"|"attributes"; attribute:string; newValue:string }
-  | { type: ActionType.LOAD_STATE; payload: EditorState };
+  | { type: ActionType.LOAD_STATE; payload: EditorState }
+  | { type: ActionType.ADD_ELEMENT; elementId: string};
 
 
 export type EditorState = {
@@ -124,6 +126,9 @@ export function editorReducer(state: EditorState, action: EditorAction): EditorS
 
   const LoadStateActions = [
     ActionType.LOAD_STATE
+  ]
+  const handleAddAction =[
+    ActionType.ADD_ELEMENT
   ]
 
   if(MouseMovementActions.includes(action.type)){

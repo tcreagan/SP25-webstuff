@@ -1,0 +1,84 @@
+{
+    "metadata": {
+      "name": "Column Child",
+      "tooltip": "Creates new column",
+      "type": "WIDGET",
+      "icon": "text-icon"
+    },
+    "html": {
+      "nodes": [
+        {
+          "element": "div",
+          "attributes": {
+            "className": {
+              "value": "vertical", 
+              "readonly": true,
+              "input": {
+                  "type": "text",
+                  "displayName":"Class Name",
+                  "tooltip": "This cannot be changed."
+              }
+            }
+          },
+          "style": {
+          "background-color":{
+            "value": "white",
+            "input": {
+              "type": "color",
+              "displayName": "Background Color"
+            }
+        },
+        "border-color":{
+            "value":"blue",
+            "input": {
+                "type": "color",
+                "displayName": "Border Color"
+            }
+        },
+        "border-style": {
+          "value":"none",
+          "input":{
+          "type": "select",
+          "displayName": "Border Style",
+          "options":[
+             {"value": "none", "text": "None"},
+             {"value": "solid", "text": "Solid"},
+             {"value": "double", "text": "Double"},
+             {"value": "dotted", "text": "Dotted"},
+             {"value": "dashed", "text": "Dashed"},
+             {"value": "groove", "text": "Grooved"},
+             {"value": "ridge", "text": "Ridged"},
+             {"value": "inset", "text": "Inset"},
+             {"value": "outset", "text": "Outset"},
+             {"value": "hidden", "text": "Hidden"}
+            ]
+          }
+        },    
+        "border-width": {
+          "value":"1px",
+          "input":{
+          "type": "select",
+          "displayName": "Border Thickness",
+          "options":[
+             {"value": "0px", "text": "Invisible"},
+             {"value": "1px", "text": "Extra Thin"},
+             {"value": "2.5px", "text": "Thin"},
+             {"value": "3.5px", "text": "Standard"},
+             {"value": "4.5px", "text": "Thick"},
+             {"value": "6px", "text": "Extra Thick"}
+            ]
+          }
+        }
+      },
+          "children": [
+          ],
+          "metadata": {
+            "draggable": true,
+            "droppable": true,
+            "childDirection": "horizontal",
+            "selectable": true
+          }
+        }
+      ]
+    }
+  }
