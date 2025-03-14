@@ -152,4 +152,4 @@ app.use((err: any, req: Request, res: Response, next: any) => {
 app.listen(port, ()=> {
 console.log(`[Server]: Listening on port: ${port}`);
 });
-});
+
