@@ -24,7 +24,7 @@ import cors from 'cors';
 
 env.config()
 
-const app: Express = express();
+const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
 
@@ -45,7 +45,7 @@ app.get('/status', (req: Request, res: Response) => {
 
 
 // Configure to use static files from the React build
-const buildPath = path.normalize(path.join(__dirname, './client'));
+const buildPath = path.normalize(path.join(__dirname, './client/build'));
 app.use(express.static(buildPath));
 
 // Simple route to verify server status
