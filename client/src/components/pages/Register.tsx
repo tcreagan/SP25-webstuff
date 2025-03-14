@@ -19,7 +19,7 @@ const Register: React.FC<RegisterFormProps> = ({ onRegister }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/register', {  // Updated backend URL
+      const response = await fetch('http://localhost:3000/api/register', {  // Updated backend URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
