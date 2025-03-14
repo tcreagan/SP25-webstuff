@@ -180,7 +180,7 @@ export async function getEventById(req: Request, res: Response) {
   }
 }
 
-/ Function to create a new event
+// Function to create a new event
 export async function createEvent(req: Request, res: Response) {
   const { eventType, eventLog, userId } = req.body;
 
