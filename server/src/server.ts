@@ -63,7 +63,7 @@ app.use((req: Request, res: Response, next: any) => {
 
 
 // Configure a final fallback middleware for the api router
-apiRouter.use((req, res, next) => {
+apiRouter.use((req: Request, res: Response, next: any) => {
   try{
     next()
   }
