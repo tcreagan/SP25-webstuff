@@ -77,6 +77,23 @@ app.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
+apiRouter.post('/login', (req: Request, res: Response) => {
+  const { username, password } = req.body;
+
+  console.log('Login request received:', req.body); // Logging the request
+
+  // Example user store (you would use a database in a real-world app)
+  const users = [{ username: 'existingUser', password: 'password123' }];
+  const user = users.find(user => user.username === username && user.password === password);
+
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid username or password' });
+  }
+
+  // Respond with success (including a dummy token)
+  return res.status(200).json({ username, token: 'dummy-token' });
+});
+
 // Implement the `/register` route in the main server (or move it to UserRouter if preferred)
 apiRouter.post('/register', (req: Request, res: Response) => {
   const { username, password } = req.body;
