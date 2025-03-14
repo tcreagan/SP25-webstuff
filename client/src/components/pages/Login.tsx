@@ -1,5 +1,5 @@
 // pages/Login.tsx
-/*
+
 import React, { useState } from 'react';
 
 interface LoginProps {
@@ -15,7 +15,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/login', {
+      const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,4 +57,4 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 };
 
 export default Login;
-*/
+
