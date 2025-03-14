@@ -458,7 +458,7 @@ static async transaction<T>(callback: () => Promise<T>): Promise<T> {
 
   /**
    * Insert multiple records at once (bulk insert)
-   */
+   
   public static async bulkInsert<T extends Model>(this: ModelConstructor<T>, records: Partial<T>[]): Promise<void> {
     const tableName = this.tableName();
     if (tableName) {
@@ -470,7 +470,7 @@ static async transaction<T>(callback: () => Promise<T>): Promise<T> {
 
   /**
    * Update multiple records at once (bulk update)
-   */
+   
   public static async bulkUpdate<T extends Model>(this: ModelConstructor<T>, records: Partial<T>[]): Promise<void> {
     const tableName = this.tableName();
     if (tableName) {
@@ -482,7 +482,7 @@ static async transaction<T>(callback: () => Promise<T>): Promise<T> {
 
   /**
    * Delete multiple records at once (bulk delete)
-   */
+   
   public static async bulkDelete<T extends Model>(this: ModelConstructor<T>, ids: number[]): Promise<void> {
     const tableName = this.tableName();
     if (tableName) {
