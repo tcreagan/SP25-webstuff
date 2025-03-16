@@ -118,18 +118,18 @@ export default class DBConnector {
    * @param query 
    * @returns 
    */
-  async runQuery(query: string) {
+  static async runQuery(query: string, params?: any[]) {
     let result: any;
-    console.log(`Executing query:\n${query}`)
+    console.log(`Executing query:\n${query}`);
     await new Promise<void>((resolve) => {
       DBConnector.executionWrapper((connection) => {
         connection.query(query, (err, res, fields) => {
           if (err) throw err;
           result = res;
-          resolve()
-        })
-      })
-    })
+          resolve();
+        });
+      });
+    });
     return result;
   }
 
