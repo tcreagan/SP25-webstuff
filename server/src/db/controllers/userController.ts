@@ -11,7 +11,7 @@ import { Request, Response } from 'express-serve-static-core';
 const dbConnector = new DBConnector();
 
 // 1. Create a new user and store the hashed password
-async function createUser(email: string, passwordHash: string): Promise<number> {
+export async function createUser(email: string, passwordHash: string): Promise<number> {
   try {
     const sql = `INSERT INTO User (email, password_hash) VALUES (?, ?)`;
     const result = await dbConnector.runQuery(mysql.format(sql, [email, passwordHash]));
@@ -24,7 +24,7 @@ async function createUser(email: string, passwordHash: string): Promise<number> 
 }
 
 // 2. Assign a role to a user in a project
-async function assignUserRole(userId: number, roleId: number): Promise<void> {
+export async function assignUserRole(userId: number, roleId: number): Promise<void> {
   try {
     const sql = `INSERT INTO User_Role (user_id, role_id) VALUES (?, ?)`;
     await dbConnector.runQuery(mysql.format(sql, [userId, roleId]));
@@ -36,7 +36,7 @@ async function assignUserRole(userId: number, roleId: number): Promise<void> {
 }
 
 // 3. Fetch user details including their roles
-async function getUserDetails(userId: number): Promise<any> {
+export async function getUserDetails(userId: number): Promise<any> {
   try {
     const sql = `
       SELECT u.email, r.name AS role_name, p.project_name
@@ -70,7 +70,7 @@ async function getUserDetails(userId: number): Promise<any> {
 }
 
 // 4. Delete a user (optional functionality)
-async function deleteUser(userId: number): Promise<void> {
+export async function deleteUser(userId: number): Promise<void> {
   try {
     const sql = `DELETE FROM User WHERE id = ?`;
     await dbConnector.runQuery(mysql.format(sql, [userId]));
@@ -82,7 +82,7 @@ async function deleteUser(userId: number): Promise<void> {
 }
 
 // 5. List all users (optional functionality)
-async function listUsers(): Promise<any[]> {
+export async function listUsers(): Promise<any[]> {
   try {
     const sql = `SELECT id, email, created_at FROM User`;
     const result = await dbConnector.runQuery(sql);
