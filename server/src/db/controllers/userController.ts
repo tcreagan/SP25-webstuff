@@ -1,24 +1,17 @@
 import mysql from 'mysql';
-import DBConnector from './dbConnector'; // Assuming this file handles the MySQL connection
-import { addTokenToBlacklist } from '../utils/tokenBlacklist';
-import redisClient from '../utils/redisClient';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import { User } from '../models/User';
-import { registerSchema, loginSchema } from '../validators/userValidator';
-import { Request, Response } from 'express-serve-static-core';
+import DBConnector from '../dbConnector'; // Assuming this file handles the MySQL connection
+import { Session } from '../models/Session';
 
-const dbConnector = new DBConnector();
 
 // 1. Create a new user and store the hashed password
-export async function createUser(email: string, passwordHash: string): Promise<number> {
+async function createUser(email: string, passwordHash: string): Promise<number> {
   try {
     const sql = `INSERT INTO User (email, password_hash) VALUES (?, ?)`;
-    const result = await dbConnector.runQuery(mysql.format(sql, [email, passwordHash]));
+    const result = await DBConnector.runQuery(mysql.format(sql, [email, passwordHash]));
     console.log(`User created with ID: ${result.insertId}`);
     return result.insertId; // Return new user's ID
   } catch (error) {
-    console.error(`Error creating user: ${error.message}`);
+    console.error(`Error creating user: ${error}`);
     throw error; // Let the caller handle the error
   }
 }
@@ -27,16 +20,16 @@ export async function createUser(email: string, passwordHash: string): Promise<n
 export async function assignUserRole(userId: number, roleId: number): Promise<void> {
   try {
     const sql = `INSERT INTO User_Role (user_id, role_id) VALUES (?, ?)`;
-    await dbConnector.runQuery(mysql.format(sql, [userId, roleId]));
+    await DBConnector.runQuery(mysql.format(sql, [userId, roleId]));
     console.log(`Assigned role ID ${roleId} to user ID ${userId}`);
   } catch (error) {
-    console.error(`Error assigning role: ${error.message}`);
+    console.error(`Error assigning role: ${error}`);
     throw error;
   }
 }
 
 // 3. Fetch user details including their roles
-export async function getUserDetails(userId: number): Promise<any> {
+async function getUserDetails(userId: number): Promise<any> {
   try {
     const sql = `
       SELECT u.email, r.name AS role_name, p.project_name
@@ -46,7 +39,7 @@ export async function getUserDetails(userId: number): Promise<any> {
       LEFT JOIN Project p ON r.project_id = p.id
       WHERE u.id = ?;
     `;
-    const result = await dbConnector.runQuery(mysql.format(sql, [userId]));
+    const result = await DBConnector.runQuery(mysql.format(sql, [userId]));
 
     if (result.length === 0) {
       console.log(`No user found with ID: ${userId}`);
@@ -64,39 +57,39 @@ export async function getUserDetails(userId: number): Promise<any> {
     console.log(`Fetched details for user ID ${userId}:`, userDetails);
     return userDetails;
   } catch (error) {
-    console.error(`Error fetching user details: ${error.message}`);
+    console.error(`Error fetching user details: ${error}`);
     throw error;
   }
 }
 
 // 4. Delete a user (optional functionality)
-export async function deleteUser(userId: number): Promise<void> {
+async function deleteUser(userId: number): Promise<void> {
   try {
     const sql = `DELETE FROM User WHERE id = ?`;
-    await dbConnector.runQuery(mysql.format(sql, [userId]));
+    await DBConnector.runQuery(mysql.format(sql, [userId]));
     console.log(`Deleted user with ID: ${userId}`);
   } catch (error) {
-    console.error(`Error deleting user: ${error.message}`);
+    console.error(`Error deleting user: ${error}`);
     throw error;
   }
 }
 
 // 5. List all users (optional functionality)
-export async function listUsers(): Promise<any[]> {
+async function listUsers(): Promise<any[]> {
   try {
     const sql = `SELECT id, email, created_at FROM User`;
-    const result = await dbConnector.runQuery(sql);
+    const result = await DBConnector.runQuery(sql);
     console.log(`Fetched ${result.length} users`);
     return result;
   } catch (error) {
-    console.error(`Error listing users: ${error.message}`);
+    console.error(`Error listing users: ${error}`);
     throw error;
   }
 }
 //gpt generated 
 //needs review
 // handler functions that respond to API requests by calling user operations above
-import { createUser, assignUserRole, getUserDetails, listUsers } from '../dbConnector'; // User operations
+import { Request, Response } from 'express-serve-static-core';
 
 // 1. Handler to create a new user
 export async function createUserHandler(req: Request, res: Response) {
@@ -163,6 +156,9 @@ export async function listUsersHandler(req: Request, res: Response) {
 //needs review 
 // code for user registration 
 // consider creating a separate controller for organization
+import bcrypt from 'bcryptjs';
+import { User } from '../models/User';
+import { registerSchema, loginSchema } from '../validators/userValidator';
 
 export async function registerUser(req: Request, res: Response) {
   try {
@@ -199,6 +195,12 @@ export async function registerUser(req: Request, res: Response) {
   }
 }
 
+//gpt generated 
+// needs review
+// code for user login
+// consider creating separate controller
+import jwt from 'jsonwebtoken';
+
 
 export async function loginUser(req: Request, res: Response) {
   try {
@@ -222,42 +224,48 @@ export async function loginUser(req: Request, res: Response) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    const { refreshToken } = req.cookies.refreshToken; //added refresh token
+    const { refreshToken } = req.cookies.refreshToken;
 
     if (!refreshToken) {
       return res.status(401).json({ error: 'Unauthorized, no refresh token provided' });
-    }//check refresh token
+    }
 
+    // Ensure JWT_SECRET and JWT_REFRESH_SECRET are defined
+    const JWT_SECRET = process.env.JWT_SECRET;
     const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
-      if (!JWT_REFRESH_SECRET) {
-        throw new Error('JWT_REFRESH_SECRET is not defined in the environment variables');
-      }
+    if (!JWT_SECRET || !JWT_REFRESH_SECRET) {
+      throw new Error('JWT_SECRET or JWT_REFRESH_SECRET is not defined in the environment variables');
+    }
+
         // Verify the refresh token
-        let decoded;
-        decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
-        //Ensuring JWT_SECRET is defined
-        const JWT_SECRET = process.env.JWT_SECRET;
-      if (!JWT_SECRET) {
-        throw new Error('JWT_SECRET is not defined in the environment variables');
-      }
+      let decoded;
+      decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+      //Ensuring JWT_SECRET is defined
+      
 
     // Generate JWT
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: (decoded as any).userId }, // Assuming the token has a userId field
+    JWT_SECRET, 
+    { expiresIn: '1h' });  // Access token expires in 1 hour);
     //Generate Access Token (short)
-    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const accessToken = jwt.sign(
+          { userId: (decoded as any).userId }, // Assuming the token has a userId field
+          JWT_SECRET, 
+          { expiresIn: '1h' }  // Access token expires in 1 hour
+        );
     //Generate Access Token (long)
-    const refreshToken = jwt.sign({ userId: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+    const sessionRefreshToken = jwt.sign({ userId: (decoded as any).userId }, JWT_REFRESH_SECRET, { expiresIn: '7d' });
 
     // Store the new session in the database
     const session = new Session();
     session.user_id = user.id;
-    session.refresh_token = refreshToken;
+    session.refresh_token = sessionRefreshToken;
     session.expires_at = new Date(Date.now() + (7 * 24 * 60 * 60 * 1000));  // 7 days expiration
     await session.save();
     
     // Store both tokens in HTTP-only cookies
-    res.cookie('token', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
-    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+    res.cookie('token', accessToken, { httpOnly: true, secure: true, sameSite: 'strict' });
+    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'strict' });
 
 
     // Return success message and token
@@ -271,6 +279,10 @@ export async function loginUser(req: Request, res: Response) {
 //gpt generated 
 // needs review
 // user logout code
+import { addTokenToBlacklist } from '../utils/tokenBlacklist';
+import redisClient from '../utils/redisClient';
+
+
 export async function logoutUser(req: Request, res: Response) {
   try {
     const token = req.cookies.token;
@@ -293,8 +305,8 @@ export async function logoutUser(req: Request, res: Response) {
     
     // Clear the JWT token from the cookie
      // Clear the access token and refresh token from the cookies
-    res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
-    res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'Strict' });
+    res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'strict' });
+    res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'strict' });
 
     return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
