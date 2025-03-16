@@ -1,6 +1,6 @@
 //Chat GPT helped
 //middleware for enforcing project and page permissions
-import { Request, Response, NextFunction } from 'express-server-static-core';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 import { checkProjectPermissions, checkPagePermissions } from '../controllers/permissionController';
 
 // Middleware to enforce project-level permissions
