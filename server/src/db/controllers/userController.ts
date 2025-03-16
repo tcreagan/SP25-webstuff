@@ -96,7 +96,6 @@ async function listUsers(): Promise<any[]> {
 //gpt generated 
 //needs review
 // handler functions that respond to API requests by calling user operations above
-import { Request, Response } from 'express';
 import { createUser, assignUserRole, getUserDetails, listUsers } from '../dbConnector'; // User operations
 
 // 1. Handler to create a new user
@@ -272,10 +271,6 @@ export async function loginUser(req: Request, res: Response) {
 //gpt generated 
 // needs review
 // user logout code
-import { addTokenToBlacklist } from '../utils/tokenBlacklist';
-import redisClient from '../utils/redisClient';
-
-
 export async function logoutUser(req: Request, res: Response) {
   try {
     const token = req.cookies.token;
