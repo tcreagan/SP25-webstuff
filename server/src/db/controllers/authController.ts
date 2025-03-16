@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload }  from 'jsonwebtoken';
 import dbConnector from '../dbConnector';
 import { logEvent } from './eventController';
 import { Request, Response } from 'express-serve-static-core';
