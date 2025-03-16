@@ -2,7 +2,7 @@
 //refresh tokens for login/logout
 import { Request, Response } from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
-import redicClient from '../utils/redisClient';
+import redisClient from '../utils/redisClient';
 
 export async function refreshAccessToken(req: Request, res: Response) {
   const { refreshToken } = req.cookies;
