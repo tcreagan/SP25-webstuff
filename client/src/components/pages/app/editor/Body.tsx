@@ -1,6 +1,6 @@
 import {HtmlInterpreter} from "../HtmlInterpreter"
 import {HtmlObject} from "types/HtmlObject"
-import {Editor, buildPreview} from "./Editor"
+import { Editor } from "./Editor"
 //import { buildQueries } from "@testing-library/react";
 
 type Props = {
