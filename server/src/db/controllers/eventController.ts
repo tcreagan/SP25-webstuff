@@ -6,7 +6,7 @@ import dbConnector from '../dbConnector';
 import { Request, Response } from 'express-serve-static-core';
 import { logError } from '../utils/logger';
 import { EventEmitter } from 'events';
-import { eventService } from '../Services/eventService';
+import { EventService } from '../Services/eventService';
 
 // 2. Fetch event types
 export async function getEventTypes(): Promise<any[]> {
