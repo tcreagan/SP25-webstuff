@@ -47,21 +47,6 @@ export async function getEventTypesHandler(req: Request, res: Response) {
   }
 }
 
-// Handler to fetch event logs (filtered by user or event type)
-export async function getEventLogsHandler(req: Request, res: Response) {
-  const { userId, eventType } = req.query;
-
-  try {
-    const eventLogs = await getEventLogs(
-      userId ? parseInt(userId as string) : undefined,
-      eventType as string
-    );
-    return res.status(200).json(eventLogs);
-  } catch (error) {
-    return res.status(500).json({ error: 'Error fetching event logs' });
-  }
-}
-
 //GPT
 //adding Server Sent Event Stream Handler 
 
