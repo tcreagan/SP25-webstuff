@@ -74,3 +74,60 @@ export function authenticateJWT(req: Request, res: Response, next: any) { //chan
     res.status(401).json({ error: 'Unauthorized' });
   }
 }
+
+
+// 1. Log when a user registers
+export async function registerUserHandler(req: Request, res: Response) {
+  const { email, password } = req.body as AuthRequestBody;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  try {
+    await registerUser(email, password);
+    await logEvent(0, 'USER_REGISTERED', `User registered with email ${email}`);
+    return res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error registering user' });
+  }
+}
+
+// 2. Log when a user logs in
+export async function loginUserHandler(req: Request, res: Response) {
+  const { email, password } = req.body as AuthRequestBody;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+
+
+  try {
+    const token = await loginUser(email, password);
+    const user = req.user as JwtPayload;
+  if (!user || typeof user === 'string') {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const userId = user.userId;
+    await logEvent(userId, 'USER_LOGGED_IN', `User ${userId} logged in`);
+    return res.status(200).json({ token });
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid email or password' });
+  }
+}
+
+// 3. Log when a role is assigned to a user
+export async function assignUserRoleHandler(req: Request, res: Response) {
+  const { roleId } = req.body as RoleAssignmentRequestBody;
+  const userId = parseInt(req.params.userId);
+
+  try {
+    await assignUserRole(userId, roleId);
+    await logEvent(userId, 'USER_ROLE_ASSIGNED', `Role ID ${roleId} assigned to user ID ${userId}`);
+    return res.status(200).json({ message: 'Role assigned' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error assigning role' });
+  }
+}
