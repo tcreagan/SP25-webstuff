@@ -19,14 +19,20 @@ import UserRouter from "./routers/UserRouter"
 import UserTypesRouter from "./routers/UserTypesRouter"
 import WidgetRouter from "./routers/WidgetRouter"
 import axios from 'axios' 
-import cors from 'cors'; 
+import cors from 'cors';
+
+
 //#endregion
 
 env.config()
 
+//const app: Express = express();
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
+
+// Enable CORS to allow frontend requests
+app.use(cors());
 
 // Base Routers
 const rootRouter = express.Router();
@@ -42,7 +48,6 @@ app.use((req: Request, res: Response, next: any) => {
 app.get('/status', (req: Request, res: Response) => {
   res.send('Server is up and running');
 });
-
 
 // Configure to use static files from the React build
 const buildPath = path.normalize(path.join(__dirname, './client/build'));
@@ -61,7 +66,6 @@ app.use((req: Request, res: Response, next: any) => {
   next();
 })
 
-
 // Configure a final fallback middleware for the api router
 apiRouter.use((req: Request, res: Response, next: any) => {
   try{
@@ -71,11 +75,12 @@ apiRouter.use((req: Request, res: Response, next: any) => {
     res.sendStatus(500)
   }
 })
-
 // Serve the frontend for any unmatched routes
 app.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
+// Add this to your server.ts file
 
 apiRouter.post('/login', (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -93,6 +98,7 @@ apiRouter.post('/login', (req: Request, res: Response) => {
   // Respond with success (including a dummy token)
   return res.status(200).json({ username, token: 'dummy-token' });
 });
+
 
 // Implement the `/register` route in the main server (or move it to UserRouter if preferred)
 apiRouter.post('/register', (req: Request, res: Response) => {
@@ -134,13 +140,14 @@ apiRouter.use("/users", UserRouter);
 apiRouter.use("/usertypes", UserTypesRouter);
 apiRouter.use("/widgets", WidgetRouter);
 
+
 rootRouter.use("/api", apiRouter);
 
 // Default all other paths to be handled by the react router
 rootRouter.get('(/*)?', async (req: Request, res: Response, next: any) => {
   res.sendFile(path.join(buildPath, 'index.html'));
 });
-//router image gallery
+
 apiRouter.get("/pexels", async (req: Request, res: Response) => {
   const query = req.query.query || "Nature";
   const page = req.query.page || 1;
@@ -169,4 +176,3 @@ app.use((err: any, req: Request, res: Response, next: any) => {
 app.listen(port, ()=> {
 console.log(`[Server]: Listening on port: ${port}`);
 });
-
