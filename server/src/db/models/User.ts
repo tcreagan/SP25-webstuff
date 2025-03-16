@@ -6,6 +6,7 @@
 
 import { Column, HasMany, Model, Required } from "./Model"
 import { Project } from "./Project"
+import DBConnector from "../dbConnector"
 
 export class User extends Model{
   @Column
