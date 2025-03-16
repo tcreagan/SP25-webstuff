@@ -79,8 +79,6 @@ export async function getProjectDetailsHandler(req: Request, res: Response) {
   }
 }
 //Chat GPT generated 
-//needs review
-import { logEvent } from './eventController';
 
 // Handler for creating a new project (extended to log the event)
 export async function createProjectHandler(req: Request, res: Response) {
