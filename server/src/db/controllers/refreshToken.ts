@@ -1,6 +1,6 @@
 //gpt helped
 //refresh tokens for login/logout
-import { Request, Response } from 'express';
+import { Request, Response } from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
 import redicClient from '../utils/redisClient';
 
