@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from 'express-serve-static-core';
 import { Session } from '../models/Session';  // Session model
 
 export async function revokeSession(req: Request, res: Response) {
