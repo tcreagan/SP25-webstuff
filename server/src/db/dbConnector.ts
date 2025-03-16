@@ -11,7 +11,7 @@ import mysql from 'mysql'
 require("dotenv").config()
 
 export default class DBConnector {
-  private static connectionPool!: mysql.Pool
+  private static connectionPool: mysql.Pool;
 
   // Initialize connection pool only once (Singleton pattern)
   constructor() {
@@ -98,19 +98,18 @@ export default class DBConnector {
   //#region helpers
 
   /**
-   * A wrapper function to ensure safe connection management of executed sql queries
+   * A wrapper function to ensure safe connection management of executed SQL queries
    */
-  executionWrapper(func: (con: mysql.Connection) => void) {
+  static executionWrapper(func: (con: mysql.Connection) => void) {
     DBConnector.connectionPool.getConnection((err, connection) => {
       if (err) {
-        console.error('error connecting to db: ' + err.stack)
+        console.error('Error connecting to db: ' + err.stack);
         return;
       }
-
-      console.log(`Connected as id: ${connection.threadId}`)
-      func(connection)
-      connection.release()
-    })
+      console.log(`Connected as id: ${connection.threadId}`);
+      func(connection);
+      connection.release();
+    });
   }
 
   /**
@@ -132,6 +131,6 @@ export default class DBConnector {
     });
     return result;
   }
-
+  
   //#endregion
 }
