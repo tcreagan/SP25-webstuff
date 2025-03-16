@@ -1,14 +1,14 @@
-//Chat GPT helped //deleted other log error function
-import { JwtPayload } from 'jsonwebtoken';
+//Chat GPT helped 
 
+import { logEvent } from '../controllers/eventController';
+import { JwtPayload } from 'jsonwebtoken';
 // Apply the logError middleware to log errors globally
-app.use(logError);
+
 
 //more generated 
 //needs review 
 //real time error logging
 import { Request, Response, NextFunction } from 'express-serve-static-core';
-import { logEvent } from './eventController';
 import { EventEmitter } from 'events';
 
 // Create an event stream for real-time error tracking
@@ -18,7 +18,8 @@ const errorEventStream = new EventEmitter();
 export function logError(err: Error, req: Request, res: Response, next: NextFunction) {
   if (!req.user) {
     return res.status(401).json({ error: 'Unauthorized' });
-  } //check for user authentication
+  }
+
   // Cast req.user to JwtPayload and handle cases where req.user could be a string
   const user = req.user as JwtPayload;
   if (!user || typeof user === 'string' || !user.userId) {
@@ -26,7 +27,7 @@ export function logError(err: Error, req: Request, res: Response, next: NextFunc
   }
 
   const userId = parseInt(user.userId as string, 10);  // Convert userId to a number
-  
+
   if (isNaN(userId)) {
     return res.status(400).json({ error: 'Invalid user ID' });
   } // Default to system-level error if no user is logged in
