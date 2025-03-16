@@ -1,10 +1,13 @@
- 
+
+//Chat GPT helped 
+//needs to be reviewed 
+//sql is wrong but probably the closest to the right
 import dbConnector from '../dbConnector';
 import { Request, Response } from 'express-serve-static-core';
 import { logError } from '../utils/logger';
 import { EventEmitter } from 'events';
 import { EventService } from '../Services/eventService';
-//fixing imports and deleting logEvent
+
 // 2. Fetch event types
 export async function getEventTypes(): Promise<any[]> {
   const sql = `SELECT id, name FROM Event_Type`;
@@ -48,6 +51,7 @@ export async function getEventTypesHandler(req: Request, res: Response) {
 }
 
 //GPT
+//needs review
 //adding Server Sent Event Stream Handler 
 
 const eventStream = new EventEmitter();
@@ -137,7 +141,7 @@ export async function getEventLogsHandler(req: Request, res: Response) {
 //used to get all events, and retrieve event by Id
 export async function getAllEvents(req: Request, res: Response) {
   try {
-    const events = await eventService.getAllEvents();
+    const events = await EventService.getAllEvents();
     if (!events || events.length === 0) {
       return res.status(404).json({ error: 'No events found' });
     }
@@ -154,7 +158,7 @@ export async function getEventById(req: Request, res: Response) {
     if (isNaN(eventId)) {
       return res.status(400).json({ error: 'Invalid event ID' });
     }
-    const event = await eventService.getEventById(eventId);
+    const event = await EventService.getEventById(eventId);
     if (!event) {
       return res.status(404).json({ error: 'Event not found' });
     }
