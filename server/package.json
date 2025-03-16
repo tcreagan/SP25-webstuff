@@ -26,11 +26,16 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.9.1",
     "node": "^21.6.1",
+    "redis": "^4.7.0",
     "reflect-metadata": "^0.2.1",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/json2csv": "^5.0.7",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/mysql": "^2.15.25",
     "@types/node": "^20.11.16",
     "nodemon": "^3.0.3",
