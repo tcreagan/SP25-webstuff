@@ -1,6 +1,6 @@
 import {HtmlObject} from "types/HtmlObject"
 import {HtmlInterpreter} from "../HtmlInterpreter"
-import {buildPreview} from "./Editor"
+//import {buildPreview} from "./Editor"
 
 type Props = {
   content: HtmlObject;
