@@ -7,7 +7,7 @@ app.use(logError);
 //more generated 
 //needs review 
 //real time error logging
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 import { logEvent } from './eventController';
 import { EventEmitter } from 'events';
 
