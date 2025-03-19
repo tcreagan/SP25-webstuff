@@ -4,6 +4,7 @@ import dbConnector from '../dbConnector';
 import { logEvent } from './eventController';
 import { Request, Response } from 'express-serve-static-core';
 import { assignUserRole } from '../controllers/userController'
+import { isTokenBlacklisted, addTokenToBlacklist } from '../utils/tokenBlacklist';
 //added imports and interfaces
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';  // Store secret key in .env
@@ -50,31 +51,51 @@ export async function loginUser(email: string, password: string): Promise<string
 }
 
 // 3. Middleware to protect routes (JWT verification)
-export function authenticateJWT(req: Request, res: Response, next: any) { //changed req and res from any
-  const authHeader = Array.isArray(req.headers['authorization']) 
-    ? req.headers['authorization'][0] 
-    : req.headers['authorization']; //fixed header for authorization
+export const authenticateJWT = async (req: Request, res: Response, next: Function) => {
+  try {
+    const token = req.cookies.token;
 
-    if (!authHeader) {
-      return res.status(401).json({ error: 'Unauthorized' });
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
     }
-    
-  if (authHeader) {
-    const token = authHeader.split(' ')[1];
 
-    jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
-      if (err) {
-        return res.status(403).json({ error: 'Forbidden' });
-      }
+    // Check if token is blacklisted
+    if (isTokenBlacklisted(token)) {
+      return res.status(401).json({ error: 'Token has been invalidated' });
+    }
 
-      req.user = user;
-      next();
-    });
-  } else {
-    res.status(401).json({ error: 'Unauthorized' });
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || '');
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid token' });
   }
-}
+};
 
+export const logout = async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    const refreshToken = req.cookies.refreshToken;
+
+    // Add tokens to blacklist
+    if (token) {
+      addTokenToBlacklist(token, 24 * 60 * 60 * 1000); // 24 hours
+    }
+    if (refreshToken) {
+      addTokenToBlacklist(refreshToken, 7 * 24 * 60 * 60 * 1000); // 7 days
+    }
+
+    // Clear cookies
+    res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'strict' });
+    res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'strict' });
+
+    return res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    return res.status(500).json({ error: 'Error during logout' });
+  }
+};
 
 // 1. Log when a user registers
 export async function registerUserHandler(req: Request, res: Response) {
