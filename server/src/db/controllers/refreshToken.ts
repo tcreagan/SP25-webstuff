@@ -2,7 +2,7 @@
 //refresh tokens for login/logout
 import { Request, Response } from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
-import redisClient from '../utils/redisClient'
+import { isTokenBlacklisted, addTokenToBlacklist } from '../utils/tokenBlacklist';
 
 export async function refreshAccessToken(req: Request, res: Response) {
   const { refreshToken } = req.cookies.refreshToken;
@@ -12,35 +12,34 @@ export async function refreshAccessToken(req: Request, res: Response) {
   }
 
   // Check if the refresh token is blacklisted
-  const isBlacklisted = await redisClient.get(refreshToken);
-  if (isBlacklisted) {
+  if (isTokenBlacklisted(refreshToken)) {
     return res.status(403).json({ error: 'Refresh token is blacklisted, please log in again' });
   }
 
   try {
     // Ensure JWT_REFRESH_SECRET is defined
-  const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
-  if (!JWT_REFRESH_SECRET) {
-    throw new Error('JWT_REFRESH_SECRET is not defined in the environment variables');
-  }
+    const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
+    if (!JWT_REFRESH_SECRET) {
+      throw new Error('JWT_REFRESH_SECRET is not defined in the environment variables');
+    }
     // Verify the refresh token
     let decoded;
     decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
     //Ensuring JWT_SECRET is defined
     const JWT_SECRET = process.env.JWT_SECRET;
-  if (!JWT_SECRET) {
-    throw new Error('JWT_SECRET is not defined in the environment variables');
-  }
+    if (!JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined in the environment variables');
+    }
     // Generate a new access token
     const newAccessToken = jwt.sign(
       { userId: (decoded as any).userId }, // Assuming the token has a userId field
       JWT_SECRET, 
       { expiresIn: '1h' }  // Access token expires in 1 hour
     );
-   // Optionally blacklist the old refresh token (if rotating)
-    await redisClient.set(refreshToken, 'blacklisted', {
-      EX: Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60),  // Blacklist for 7 days
-    });
+    
+    // Blacklist the old refresh token
+    addTokenToBlacklist(refreshToken, 7 * 24 * 60 * 60 * 1000); // 7 days
+
     // Send the new access token in an HTTP-only cookie
     res.cookie('token', newAccessToken, { httpOnly: true, secure: true, sameSite: 'strict' });
     res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'strict' });
