@@ -1,6 +1,8 @@
 import mysql from 'mysql';
 import DBConnector from '../dbConnector'; // Assuming this file handles the MySQL connection
 import { Session } from '../models/Session';
+import { addTokenToBlacklist } from '../utils/tokenBlacklist';
+import jwt from 'jsonwebtoken';
 
 
 // 1. Create a new user and store the hashed password
@@ -199,7 +201,7 @@ export async function registerUser(req: Request, res: Response) {
 // needs review
 // code for user login
 // consider creating separate controller
-import jwt from 'jsonwebtoken';
+
 
 
 export async function loginUser(req: Request, res: Response) {
@@ -279,32 +281,24 @@ export async function loginUser(req: Request, res: Response) {
 //gpt generated 
 // needs review
 // user logout code
-import { addTokenToBlacklist } from '../utils/tokenBlacklist';
-import redisClient from '../utils/redisClient';
-
 
 export async function logoutUser(req: Request, res: Response) {
   try {
     const token = req.cookies.token;
-
-    // Add the token to the blacklist
-    if (token) {
-      addTokenToBlacklist(token);
-    }
-
     const refreshToken = req.cookies.refreshToken;
-    // Blacklist the refresh token
+
+    // Add tokens to blacklist with appropriate expiration times
+    if (token) {
+      addTokenToBlacklist(token, 24 * 60 * 60 * 1000); // 24 hours
+    }
     if (refreshToken) {
       const decoded: any = jwt.decode(refreshToken);
-      const expiry = decoded.exp;  // Expiration time of the refresh token
-      await redisClient.set(refreshToken, 'blacklisted', {
-        EX: expiry - Math.floor(Date.now() / 1000),  // Set expiration to match token expiry
-      });
+      const expiry = decoded.exp;
+      const timeUntilExpiry = (expiry * 1000) - Date.now(); // Convert to milliseconds
+      addTokenToBlacklist(refreshToken, timeUntilExpiry);
     }
-    //need to figure out what the difference is between the two functions above
     
-    // Clear the JWT token from the cookie
-     // Clear the access token and refresh token from the cookies
+    // Clear the cookies
     res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'strict' });
     res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'strict' });
 
