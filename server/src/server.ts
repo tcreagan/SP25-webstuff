@@ -29,7 +29,7 @@ env.config()
 //const app: Express = express();
 const app = express();
 app.use(express.json());
-const port = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || '3000', 10);
 
 // Enable CORS to allow frontend requests
 app.use(cors());
@@ -173,6 +173,16 @@ app.use((err: any, req: Request, res: Response, next: any) => {
   res.status(500).json({ message: 'Internal Server Error' });
 });
 
-app.listen(port, ()=> {
-console.log(`[Server]: Listening on port: ${port}`);
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+}).on('error', (err: any) => {
+  if (err.code === 'EADDRINUSE') {
+    console.log(`Port ${PORT} is busy, trying ${PORT + 1}...`);
+    server.close();
+    app.listen(PORT + 1, () => {
+      console.log(`Server is running on port ${PORT + 1}`);
+    });
+  } else {
+    console.error('Server error:', err);
+  }
 });
