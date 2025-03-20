@@ -142,7 +142,7 @@ const ElementSidebar = (props: Props) => {
           })}
         </select>
       );
-    }
+    }}
 
     return (
       <div className="element-attribute-input" key={index}>
@@ -206,7 +206,7 @@ const ElementSidebar = (props: Props) => {
       </>
       )}
 
-      {/* Handles tooltip display for widget attributes - ChatGPT assisted */}
+      // Handles tooltip display for widget attributes - ChatGPT assisted
       {Object.keys(attributes).map((key) => {
         const tooltipText = attributes[key]?.input?.tooltip;
         return (
@@ -225,6 +225,5 @@ const ElementSidebar = (props: Props) => {
     </aside>
   );
 };
-}
 
 export default ElementSidebar;
