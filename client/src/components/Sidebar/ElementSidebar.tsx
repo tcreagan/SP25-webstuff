@@ -63,26 +63,25 @@ const ElementSidebar = (props: Props) => {
             ["clean"],
           ],
         },
-        readOnly: attributes["richtext"]?.readonly || false, // Readonly based on attribute
       });
 
       quillInstance.current.on("text-change", () => {
         dispatch({
           type: ActionType.ATTRIBUTE_CHANGED,
           target: "attributes",
-          attribute: "richtext",
+          attribute: "text",
           newValue: quillInstance.current?.root.innerHTML || "",
         });
       });
 
       // Set initial value
-      quillInstance.current.root.innerHTML = attributes["richtext"]?.value || "";
+      quillInstance.current.root.innerHTML = attributes["text"]?.value || "";
     }
 
     return () => {
       quillInstance.current?.off("text-change");
     };
-  }, [attributes["richtext"]?.value]);
+  }, [attributes["text"]?.value]);
 
 
   const buildInput = (
