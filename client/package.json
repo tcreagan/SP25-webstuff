@@ -3,12 +3,15 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@remix-run/router": "^1.23.0",
         "@testing-library/react": "^16.2.0",
+        "bootstrap": "^5.3.3",
         "pexels": "^1.4.0",
         "quill": "^2.0.3",
         "react": "^19.0.0",
         "react-dnd": "^16.0.1",
         "react-dnd-html5-backend": "^16.0.1",
+        "react-modal": "^3.16.3",
         "react-resizeable": "^0.2.6",
         "react-router-dom": "^7.4.0",
         "react-scripts": "^5.0.1",
@@ -44,7 +47,11 @@
         ]
     },
     "devDependencies": {
+        "@testing-library/jest-dom": "^6.6.3",
+        "@types/jest": "^29.5.14",
         "@types/react": "^19.0.12",
-        "@types/react-dom": "^19.0.4"
+        "@types/react-dom": "^19.0.4",
+        "@types/react-modal": "^3.16.3",
+        "sass": "^1.86.0"
     }
 }
