@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'react-tooltip/dist/react-tooltip.css';
-import 'react-quill/dist/quill.snow.css'; //Quill implementation via ReactQuill
+import 'quill/dist/quill.snow.css'; //Quill's styles
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
