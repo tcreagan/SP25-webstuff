@@ -1,11 +1,11 @@
 import { findPrimaryAttributes } from "components/pages/app/Helpers";
-import React, { ChangeEvent, useState, useRef } from "react"; //Added useRef for ReactQuill handling
+import React, { ChangeEvent, useEffect, useRef } from "react"; //Added useRef, useEffect for Quill handling
 import { ActionType, useEditor } from "state/editor/EditorReducer";
 import { parseId } from "state/editor/Helpers";
 import { NodeAttribute, StorableHtmlNode } from "types/HtmlNodes";
 import ImageGallery from "./ImageGallery";
 import { Tooltip } from "react-tooltip"; // Handles hover-over tooltips
-import ReactQuill from 'react-quill';
+import Quill from 'quill';
 
 type Props = {};
 
@@ -39,7 +39,51 @@ const ElementSidebar = (props: Props) => {
       });
     }
   }
- // const quillRef = useRef<ReactQuill>(null); //Quill reference for later functions
+ 
+  //ChatGPT assisted (not fully generated) until line 85
+  const quillRef = useRef<HTMLDivElement | null>(null); // Reference for Quill container
+  const quillInstance = useRef<Quill | null>(null); // Store Quill instance
+
+  useEffect(() => {
+    if (quillRef.current && !quillInstance.current) {
+      quillInstance.current = new Quill(quillRef.current, {
+        theme: "snow",
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"],
+            ["blockquote", "code-block"],
+            ["link", "image", "video"],
+            [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            [{ direction: "rtl" }],
+            [{ size: ["small", false, "large", "huge"] }],
+            [{ color: [] }, { background: [] }],
+            [{ font: [] }],
+            [{ align: [] }],
+            ["clean"],
+          ],
+        },
+        readOnly: attributes["richtext"]?.readonly || false, // Readonly based on attribute
+      });
+
+      quillInstance.current.on("text-change", () => {
+        dispatch({
+          type: ActionType.ATTRIBUTE_CHANGED,
+          target: "attributes",
+          attribute: "richtext",
+          newValue: quillInstance.current?.root.innerHTML || "",
+        });
+      });
+
+      // Set initial value
+      quillInstance.current.root.innerHTML = attributes["richtext"]?.value || "";
+    }
+
+    return () => {
+      quillInstance.current?.off("text-change");
+    };
+  }, [attributes["richtext"]?.value]);
+
 
   const buildInput = (
     source: { [key: string]: NodeAttribute },
@@ -70,47 +114,9 @@ const ElementSidebar = (props: Props) => {
       isImageElement = true;
     }
 
-    if (val.input && val.input.type === "richtext") {
+    if (val.input && val.input.type === "richtext") { //Pulls Quill editor if richtext needed
       input = (
-        <ReactQuill 
-        className="quill-editor" //To force CSS styling due to visual glitches
-        onChange={(value) => {
-            dispatch({
-              type: ActionType.ATTRIBUTE_CHANGED,
-              target: target,
-              attribute: key,
-              newValue: value,
-            });
-          }}
-          theme = 'snow' //Quill editor theme
-          value={attributes[key]?.value || ""}
-          readOnly={val.readonly ? true : false}
-          data-tooltip-id={key} // Handles tooltip association
-
-          //Toolbar setup for Quill
-          modules={{
-              toolbar: [
-                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                ['blockquote', 'code-block'],
-                ['link', 'image', 'video'],
-              
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-                [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-                [{ 'direction': 'rtl' }],                         // text direction
-              
-                [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-              
-                [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-                [{ 'font': [] }],
-                [{ 'align': [] }],
-              
-                ['clean']                                         // remove formatting button
-              ],
-          }}
-        />
-        
-      );
-    }
+        input = <div ref={quillRef} className="quill-editor" />);
 
     if (
       val.input &&
@@ -219,5 +225,6 @@ const ElementSidebar = (props: Props) => {
     </aside>
   );
 };
+}
 
 export default ElementSidebar;
