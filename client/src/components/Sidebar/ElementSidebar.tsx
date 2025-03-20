@@ -114,35 +114,48 @@ const ElementSidebar = (props: Props) => {
       isImageElement = true;
     }
 
-    if (val.input && val.input.type === "richtext") { //Pulls Quill editor if richtext needed
-      input = (
-        input = <div ref={quillRef} className="quill-editor" />);
-
-    if (
-      val.input &&
-      val.input.type === "select" &&
-      val.input.options !== undefined
-    ) {
+    if (val.input?.type === "richtext") {//Sets up container for Quill editor AND editor itself
+      input = <div className="quill-editor-container"> 
+      <div ref={quillRef} className="quill-editor" />
+    </div>;
+    } 
+    else if (val.input?.type === "select" && val.input.options) {
       input = (
         <select
-          name=""
-          id=""
           onChange={(ev: ChangeEvent<HTMLSelectElement>) => {
             dispatch({
               type: ActionType.ATTRIBUTE_CHANGED,
-              target: target,
+              target,
               attribute: key,
               newValue: ev.currentTarget.value,
             });
           }}
-          data-tooltip-id={key} // Handles tooltip association
+          data-tooltip-id={key}
         >
-          {val.input.options.map((op) => {
-            return <option value={op.value}>{op.text}</option>;
-          })}
+          {val.input.options.map((op) => (
+            <option key={op.value} value={op.value}>{op.text}</option>
+          ))}
         </select>
       );
-    }}
+    } 
+    else {
+      input = (
+        <input
+          onChange={(ev: ChangeEvent<HTMLInputElement>) => {
+            dispatch({
+              type: ActionType.ATTRIBUTE_CHANGED,
+              target,
+              attribute: key,
+              newValue: ev.currentTarget.value,
+            });
+          }}
+          type={val.input?.type ?? "text"}
+          value={val.value}
+          readOnly={val.readonly || false}
+          data-tooltip-id={key}
+        />
+      );
+    }
 
     return (
       <div className="element-attribute-input" key={index}>
@@ -206,7 +219,7 @@ const ElementSidebar = (props: Props) => {
       </>
       )}
 
-      // Handles tooltip display for widget attributes - ChatGPT assisted
+      {/* Handles tooltip display for widget attributes - ChatGPT assisted*/}
       {Object.keys(attributes).map((key) => {
         const tooltipText = attributes[key]?.input?.tooltip;
         return (
