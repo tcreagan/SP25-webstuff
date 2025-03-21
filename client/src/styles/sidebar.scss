@@ -279,35 +279,16 @@ div.element-style{
 }
  
 //Quill editor override styles for visibility in-app and proper sizing
-.quill-editor-container{
+.quill-editor{
+  background-color: white;
+  color:#333;
+  border-color: #333;
+  border-width: 2px;
+  
   height: auto;
   margin-top: 5px;
   margin-left: 10px;
   min-height: 200px;
   max-height: 500px;
   overflow-y: auto;
-}
-.ql-toolbar.ql-snow{
-  background-color: white;
-  color:#333;
-  border-color: #333;
-  border-width: 2px;
-  height: 150px;
-  overflow-y: auto;
-}
-.ql-container.ql-snow{
-  background-color: white;
-  color:#333;
-  border-color: #333;
-  border-width: 2px;
-
-  height: auto;
-  min-height: 200px;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.ql-editor.ql-blank{
-  height: auto;
-  min-height: 200px;
 }
