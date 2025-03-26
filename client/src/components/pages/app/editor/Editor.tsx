@@ -49,7 +49,6 @@ export const Editor = () => {
   // Pass widget behavior (resizing, snapping, z-index) to child components
   return (
     <div className="editor-page">
-      <Sidebar />
       <div id="editor-window" className="editor">
         <div className="editor-container">
           <div className="header-section">
