@@ -10,7 +10,11 @@
           {
             "element": "div",
             "attributes": {
-              "className": {"value": "audioContainer", "readonly": true}
+              "className": {
+                "value": "audioContainer", 
+                "readonly": true,
+                "tooltip": "This cannot be changed."
+              }
             },
             "style": {},
             "children": [1],
@@ -22,10 +26,24 @@
           {
             "element": "audio",
             "attributes": {
-              "className": {"value": "audio", "readonly": true},
-              "src": {"value": "https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav"},
+              "className": {
+                "value": "audio", 
+                "readonly": true,
+                "input": {
+                    "type": "text",
+                    "displayName":"Class Name",
+                    "tooltip": "This cannot be changed."
+                }
+              },
+              "src": {
+                "value": "https://kimhandysidesvoiceover.com/wp-content/uploads/2024/01/Kim-Handysides-e-Learning-Demo.mp3",
+                "input": {
+                    "type": "text",
+                    "displayName":"File"
+                }
+              },
               "type": {"value": "audio/wav", "hidden": true},
-              "controls": {"value": "true"}
+              "controls": {"value": "true", "hidden": true}
             },
             "style": {},
             "metadata": {
