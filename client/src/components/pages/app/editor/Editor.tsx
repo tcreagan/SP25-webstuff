@@ -1,199 +1,76 @@
-import { Children, default as React, ReactHTMLElement, cloneElement, useEffect, useRef, useState } from "react";
-import { Header } from "./Header"
-import { Body } from "./Body"
-import { Footer } from "./Footer"
-import { HtmlObject } from "types/HtmlObject"
+// Editor.tsx
+import React, { useState, useRef, useEffect } from "react";
+import { Header } from "./Header";
+import { Body } from "./Body";
+import { Footer } from "./Footer";
 import { useEditor } from "state/editor/EditorReducer";
-import { StorableHtmlNode } from "types/HtmlNodes";
-import { getDropChildId, insertDroppedElement, parseId } from "state/editor/Helpers";
 import { useMouse } from "state/mouse/MouseReducer";
 import { useDragAndDropContext } from "state/dragAndDrop/DragAndDropReducer";
 import { ActionType } from "state/editor/EditorReducer";
+import Sidebar from "components/Sidebar/Sidebar";
+import "styles/Editor.scss";
 
-type Props = {};
-
-// Helper function to ensure dropped elements have proper metadata and style
-const prepareDroppedElement = (element: HtmlObject): HtmlObject => {
-  // Create a deep clone to avoid modifying the original
-  const processedElement = structuredClone(element);
-  
-  // Ensure the root element has the required metadata
-  processedElement.metadata = {
-    ...processedElement.metadata,
-    type: "WIDGET",
-    preview: undefined // Clear any preview data
-  };
-
-  // Process each node in the widget to add draggable/droppable capabilities
-  // but preserve their original structure and properties
-  processedElement.html.nodes = processedElement.html.nodes.map(node => ({
-    ...node,
-    metadata: {
-      ...node.metadata,
-      draggable: true,
-      droppable: true
-    },
-    // Preserve all other properties
-    element: node.element,
-    attributes: node.attributes,
-    style: node.style,
-    children: node.children || []
-  }));
-
-  return processedElement;
-};
-
-export const Editor = (props: Props) => {
+export const Editor = () => {
   const { state: editor, dispatch: editorDispatch } = useEditor();
-  const {state: mouseState} = useMouse();
-  const {dragState} = useDragAndDropContext();
+  const { state: mouseState } = useMouse();
+  const { dragState } = useDragAndDropContext();
 
-  let data = {
-    header: editor.header,
-    body: editor.body,
-    footer: editor.footer
-  }
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Check if the target is an input or textarea
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
 
-  if(dragState.isDragging && editor.hoveredItemId && dragState.canDrop){
-    const {section, index} = parseId(editor.hoveredItemId);
-    const predictedIndex = getDropChildId(mouseState, editor, editor.hoveredItemId);
+      // Undo: Ctrl/Cmd + Z
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        editorDispatch({ type: ActionType.UNDO });
+      }
+      
+      // Redo: Ctrl/Cmd + Shift + Z
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && e.shiftKey) {
+        e.preventDefault();
+        editorDispatch({ type: ActionType.REDO });
+      }
 
-    // Create preview with proper sizing metadata
-    const previewObject: HtmlObject = {
-      metadata: {
-        type: "WIDGET",
-        preview: {
-          obj: dragState.dragPayload,
-          parentId: index,
-          targetId: predictedIndex
-        }
-      },
-      html: {
-        nodes: [{
-          element: "div",
-          style: {
-            width: { value: '200px' },
-            height: { value: '100px' },
-            position: { value: 'relative' },
-            border: { value: '2px dashed #4a90e2' },
-            backgroundColor: { value: 'rgba(74, 144, 226, 0.1)' },
-            boxShadow: { value: '0 0 10px rgba(74, 144, 226, 0.2)' },
-            margin: { value: '4px' },
-            padding: { value: '8px' }
-          },
-          attributes: {
-            "className": {value: "preview-container"}
-          },
-          metadata: {
-            preview: true,
-            draggable: true,
-            droppable: true
-          },
-          children: []
-        }]
+      // Redo: Ctrl/Cmd + Y
+      if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+        e.preventDefault();
+        editorDispatch({ type: ActionType.REDO });
       }
     };
 
-    data[section] = structuredClone(editor[section]);
-    data[section] = insertDroppedElement(predictedIndex, editor, previewObject, editor.hoveredItemId)[section];
-  }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [editorDispatch]);
 
+  // Pass widget behavior (resizing, snapping, z-index) to child components
   return (
-    <div id="editor-window" className="editor">
-      <div className="editor-container">
-        <div 
-          className="header-section" 
-          onDragOver={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (dragState.isDragging) {
-              editorDispatch({
-                type: ActionType.DRAG_OVER,
-                targetId: "h-0",
-                payload: dragState.dragPayload,
-                mouseState: mouseState
-              });
-            }
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            if (dragState.isDragging && dragState.dragPayload) {
-              const droppedWidget = prepareDroppedElement(dragState.dragPayload);
-              editorDispatch({
-                type: ActionType.DROP,
-                mouseState: mouseState,
-                payload: droppedWidget,
-                targetId: "h-0"
-              });
-            }
-          }}
-        >
-          <div className="tab">Header</div>
-          <Header content={data.header} /> 
-        </div> 
-        <div 
-          className="body-section"
-          onDragOver={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (dragState.isDragging) {
-              editorDispatch({
-                type: ActionType.DRAG_OVER,
-                targetId: "b-0",
-                payload: dragState.dragPayload,
-                mouseState: mouseState
-              });
-            }
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            if (dragState.isDragging && dragState.dragPayload) {
-              const droppedWidget = prepareDroppedElement(dragState.dragPayload);
-              editorDispatch({
-                type: ActionType.DROP,
-                mouseState: mouseState,
-                payload: droppedWidget,
-                targetId: "b-0"
-              });
-            }
-          }}
-        >
-          <div className="tab">Body</div>
-          <div className="body-content">
-            <Body content={data.body} />
+    <div className="editor-page">
+      <Sidebar />
+      <div id="editor-window" className="editor">
+        <div className="editor-container">
+          <div className="header-section">
+            <Header
+              content={editor.header}
+            />
           </div>
-        </div> 
-        <div 
-          className="footer-section"
-          onDragOver={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (dragState.isDragging) {
-              editorDispatch({
-                type: ActionType.DRAG_OVER,
-                targetId: "f-0",
-                payload: dragState.dragPayload,
-                mouseState: mouseState
-              });
-            }
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            if (dragState.isDragging && dragState.dragPayload) {
-              const droppedWidget = prepareDroppedElement(dragState.dragPayload);
-              editorDispatch({
-                type: ActionType.DROP,
-                mouseState: mouseState,
-                payload: droppedWidget,
-                targetId: "f-0"
-              });
-            }
-          }}
-        >
-          <div className="tab">Footer</div>
-          <Footer content={data.footer} /> 
-        </div> 
+          <div className="body-section">
+            <Body
+              content={editor.body}
+            />
+          </div>
+          <div className="footer-section">
+            <Footer
+              content={editor.footer}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
+export default Editor;
