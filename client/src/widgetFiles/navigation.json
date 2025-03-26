@@ -1,0 +1,137 @@
+{
+    "metadata": {
+      "name": "Navigation",
+      "tooltip": "Creates a navigation bar",
+      "type": "WIDGET",
+      "icon": "text-icon"
+    },
+    "html": {
+      "nodes": [
+        {
+          "element": "div",
+          "attributes": {
+            "className": {
+              "value": "navigation", 
+              "readonly": true,
+              "input": {
+                  "type": "text",
+                  "displayName":"Class Name",
+                  "tooltip": "This cannot be changed."
+              }
+            }
+          },
+          "style": {},
+          "children": [1,2,3],
+          "metadata": {
+            "droppable": true,
+            "draggable": true,
+            "childDirection": "horizontal",
+            "childPosition": "center",
+            "selectable": true
+          }
+        },
+        {
+          "element": "a",
+          "attributes": {
+            "text": {
+              "value": "About Me",
+              "input": {
+                "type": "text",
+                "displayName": "Text"
+              }
+            },
+            "className": {
+              "value": "link",
+              "readonly": true,
+              "tooltip": "This cannot be changed."
+            },
+            "href": {
+              "value": "https://www.w3schools.com",
+              "input": {
+                "type": "text",
+                "displayName": "Link"
+              }
+            },
+            "target": {
+              "value": "_blank",
+              "hidden": true
+            }
+          },
+          "style": {
+            
+          },
+          "metadata": {
+            "draggable": true,
+            "selectable": true
+          }
+        },
+        {
+          "element": "a",
+          "attributes": {
+            "text": {
+              "value": "Contact",
+              "input": {
+                "type": "text",
+                "displayName": "Text"
+              }
+            },
+            "className": {
+              "value": "link",
+              "readonly": true
+            },
+            "href": {
+              "value": "https://www.w3schools.com",
+              "input": {
+                "type": "text",
+                "displayName": "Link"
+              }
+            },
+            "target": {
+              "value": "_blank",
+              "hidden": true
+            }
+          },
+          "style": {
+            
+          },
+          "metadata": {
+            "draggable": true,
+            "selectable": true
+          }
+        },
+        {
+          "element": "a",
+          "attributes": {
+            "text": {
+              "value": "Testimonials",
+              "input": {
+                "type": "text",
+                "displayName": "Text"
+              }
+            },
+            "className": {
+              "value": "link",
+              "readonly": true,
+              "tooltip": "This cannot be changed."
+            },
+            "href": {
+              "value": "https://www.w3schools.com",
+              "input": {
+                "type": "text",
+                "displayName": "Link"
+              }
+            },
+            "target": {
+              "value": "_blank",
+              "hidden": true
+            }
+          },
+          "style": {
+          },
+          "metadata": {
+            "draggable": true,
+            "selectable": true
+          }}
+      ]
+    }
+  }
