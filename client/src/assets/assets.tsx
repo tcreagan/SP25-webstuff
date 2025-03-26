@@ -11,6 +11,7 @@ import { ReactComponent as LogoIcon } from "./images/logo-icon.svg";
 import { ReactComponent as TwoColumnsIcon } from "./images/two-columns-icon.svg";
 //import { ReactComponent as ThreeColumnsIcon } from "./images/three-columns-icon.svg";
 import { ReactComponent as VideoIcon } from "./images/video-icon.svg";
+import { ReactComponent as GalleryIcon } from "./images/image-icon.svg"; // Using image icon for gallery temporarily
 
 
 export const Assets = {
@@ -27,7 +28,7 @@ export const Assets = {
     "Blocks-Icon": <BlocksIcon className="BlocksIcon"/>,
     "Element-Icon": <ElementIcon className="ElementIcon"/>,
     "Mapping-Icon": <MappingIcon className="MappingIcon"/>,
-    "SEO-Icon": <SEOIcon className="SEOIcon"/>
-
+    "SEO-Icon": <SEOIcon className="SEOIcon"/>,
+    "Gallery-Icon": <GalleryIcon className="GalleryIcon"/>
   }
 }
