@@ -44,39 +44,29 @@
   background-color: #FFF; /* White background for the dropdown */
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-right .undo-redo-container {
+  margin-right: 8px;
+}
 
 .save-button,
 .load-button {
   padding: 8px 16px;
-  margin-right: 8px;
-  border: none;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  font-weight: bold;
+  background-color: white;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
- 
-.save-button {
-  background-color: greenyellow;  
-  color: #333; 
-}
- 
-.save-button.success {
-  background-color: #8bc34a; /* Green background for save success */
-  color: #fff;  
-}
-
-.save-button:hover {
-  background-color: #D5D5D5;  
-}
-
+.save-button:hover,
 .load-button:hover {
-  background-color: #357db5;  
-}
-
-.load-button {
-  background-color: #4A90E2;  
-  color: white;
+  background-color: #f0f0f0;
 }
 
 .header-left {
