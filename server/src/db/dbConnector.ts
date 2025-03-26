@@ -7,128 +7,101 @@
  */
 
 import mysql from 'mysql'
+import dotenv from 'dotenv'
 
-require("dotenv").config()
+dotenv.config()
 
-export default class DBConnector {
-  connectionPool!: mysql.Pool
-
-  constructor() {
-    this.connectionPool = mysql.createPool({
-      connectionLimit: 10,
-      host: process.env.dbhost,
-      user: process.env.dbuser,
-      password: process.env.dbpass,
-      database: process.env.dbname
-    })
-  }
-
-  close() {
-    this.connectionPool.end()
-  }
-
-  async create(tableName: string, payload: { [key: string]: any }) {
-    let sql = mysql.format(`INSERT INTO ?? SET ?`, [tableName, payload], false)
-
-    const res = await this.runQuery(sql)
-
-    const newRecord = await this.runQuery(`SELECT * FROM ${tableName} WHERE id = ${res.insertId}`)
-
-    return newRecord[0]
-  }
-
-  update(tableName: string, payload: { [key: string]: string }) {
-    let sql = mysql.format("UPDATE ?? SET ? WHERE id = ?", [tableName, payload, payload["id" as keyof object]])
-
-    return this.runQuery(sql)
-  }
-
-  delete(tableName: string, id: number | string) {
-    let query = mysql.format(`DELETE FROM ? WHERE id = ?`, [tableName, id])
-
-    return this.runQuery(query)
-  }
-
-  async find(tableName: string, id: number | string) {
-    let query = mysql.format(`SELECT * FROM ? WHERE ID = ?`, [tableName, id])
-
-    let res = await this.runQuery(query)
-
-    return res[0]
-  }
-
-  findAll(tableName: string, args?:{[key:string]:any}) {
-    let query = !!args ? mysql.format("SELECT * FROM ? WHERE ?", [tableName, args]):mysql.format("SELECT * FROM ?",[tableName]);
-
-    return this.runQuery(query);
-  }
-
-  /**
-   * Gets all records from targetTable such that each ID corresponds to a row
-   * in the relation table also pointing to source table
-   * @param targetTable Table containing data which will be returned
-   * @param sourceTable Table containing the search ID to be used agains the relation table
-   * @param relationTable Name of the table used to define the relation
-   * @param relationTargetId name of the Column on the relation table which points to the target table
-   * @param relationSourceId name of the column on the relation table which points to the source table
-   * @returns 
-   */
-  findAllVia(targetTable:string, sourceTable:string, relationTable:string, relationTargetId:number, relationSourceId:number){
-    const prototype = "SELECT DISTINCT ?.*\n" + 
-                      "FROM ??\n" + 
-                      "JOIN ?? on ?.? = ?.id\n" + 
-                      "JOIN ?? on ?.? = ?.id"
-    /**
-     * SELECT DISTINCT targetTable.*
-     * FROM relationTable
-     * JOIN targetTable on relationTable.relationTargetId = targetTable.id
-     * JOIN sourceTable on relationTable.relationSourceId = sourceTable.id
-     */
-    const sql = mysql.format(prototype, [targetTable, relationTable, targetTable,
-                                         relationTable, relationTargetId, targetTable,
-                                         sourceTable, relationTable, relationSourceId,
-                                         sourceTable])
-
-    return this.runQuery(sql)
-  }
-
-  //#region helpers
-
-  /**
-   * A wrapper function to ensure safe connection management of executed sql queries
-   */
-  executionWrapper(func: (con: mysql.Connection) => void) {
-    this.connectionPool.getConnection((err, connection) => {
-      if (err) {
-        console.error('error connecting to db: ' + err.stack)
-        return;
-      }
-
-      console.log(`Connected as id: ${connection.threadId}`)
-      func(connection)
-      connection.release()
-    })
-  }
-
-  /**
-   * Run the given query against the database
-   * @param query 
-   * @returns 
-   */
-  async runQuery(query: string) {
-    let result: any;
-    console.log(`Executing query:\n${query}`)
-    await new Promise<void>((resolve) => {
-      this.executionWrapper((connection) => {
-        connection.query(query, (err, res, fields) => {
-          if (err) throw err;
-          result = res;
-          resolve()
-        })
-      })
-    })
-    return result;
-  }
-
-  //#endregion
+export interface DBUser {
+  id: number;
+  email: string;
+  password: string;
+  name: string;
+  created_at: Date;
+  updated_at: Date;
 }
+
+class DBConnector {
+  private static instance: DBConnector;
+  private pool: mysql.Pool;
+
+  private constructor() {
+    this.pool = mysql.createPool({
+      connectionLimit: 10,
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'webstuff_user',
+      password: process.env.DB_PASSWORD || 'Webstuff@123456',
+      database: process.env.DB_NAME || 'webstuff_db'
+    });
+
+    // Test the connection
+    this.pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Database connection error:', err);
+      } else {
+        console.log('Database connected successfully');
+        connection.release();
+      }
+    });
+  }
+
+  public static getInstance(): DBConnector {
+    if (!DBConnector.instance) {
+      DBConnector.instance = new DBConnector();
+    }
+    return DBConnector.instance;
+  }
+
+  private query(sql: string, params?: any[]): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.pool.query(sql, params, (error, results) => {
+        if (error) {
+          console.error('Database query error:', error);
+          reject(error);
+          return;
+        }
+        resolve(results);
+      });
+    });
+  }
+
+  async createUser(user: Omit<DBUser, 'id' | 'created_at' | 'updated_at'>): Promise<DBUser> {
+    const result = await this.query(
+      'INSERT INTO users (email, password, name) VALUES (?, ?, ?)',
+      [user.email, user.password, user.name]
+    );
+    
+    const newUser = await this.query(
+      'SELECT * FROM users WHERE id = ?',
+      [result.insertId]
+    );
+    
+    return newUser[0];
+  }
+
+  async findUserByEmail(email: string): Promise<DBUser | null> {
+    const users = await this.query(
+      'SELECT * FROM users WHERE email = ?',
+      [email]
+    );
+    return users.length > 0 ? users[0] : null;
+  }
+
+  async findUserById(id: number): Promise<DBUser | null> {
+    const users = await this.query(
+      'SELECT * FROM users WHERE id = ?',
+      [id]
+    );
+    return users.length > 0 ? users[0] : null;
+  }
+
+  async close(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.pool.end(err => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+  }
+}
+
+export default DBConnector.getInstance();
