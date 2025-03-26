@@ -31,8 +31,6 @@ import Prism from "prismjs"; // Used to highlight HTML code
 import DOMPurify from "dompurify"; // Uses to sanitize HTML content and safeguard against XSS attacks
 import "prismjs/themes/prism.css"; // Import the Prism CSS file
 import { css_beautify, html_beautify } from "js-beautify";
-import { ResizableBox } from "react-resizable";
-import "react-resizable/css/styles.css";
 
 export type Props = {
   content: StorableHtmlNode[];
@@ -55,10 +53,6 @@ export const HtmlInterpreter = (props: Props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({ html: "", css: "" });
-
-  // Add state for element dimensions
-  const [elementWidth, setElementWidth] = useState(props.content[props.root ?? 0]?.attributes?.width?.value ? parseInt(props.content[props.root ?? 0].attributes.width.value) : 200);
-  const [elementHeight, setElementHeight] = useState(props.content[props.root ?? 0]?.attributes?.height?.value ? parseInt(props.content[props.root ?? 0].attributes.height.value) : 100);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -211,6 +205,11 @@ export const HtmlInterpreter = (props: Props) => {
     editorDispatch({ type: ActionType.COPY_ELEMENT, elementId });
   };
 
+  const handleAddClick = (elementId: string) => {
+    // Dispatch an add action to add a new section
+    editorDispatch({ type: ActionType.ADD_ELEMENT, elementId });
+  };
+
   const parentRef = useRef(null);
   const refs: Array<React.MutableRefObject<HTMLDivElement | null>> = [];
 
@@ -257,7 +256,46 @@ export const HtmlInterpreter = (props: Props) => {
         onClick={() => handleViewClick(id)}
       />
     </div>
+  );  
+  const elementSectionOperations = ( //Same as elementOperations but with an added "Add" button
+    <div className="selected-element-ops">
+      <img
+        src={TrashIcon}
+        alt="Delete Icon"
+        title="Delete"
+        className="icon delete-icon"
+        onClick={() => {
+          console.log("clicked!");
+          handleDeleteClick(id);
+        }}
+      />
+
+      <img
+        src={CopyIcon}
+        alt="Copy Icon"
+        title="Copy"
+        className="icon copy-icon"
+        onClick={() => handleCopyClick(id)}
+      />
+
+      <img
+        src={CodeIcon}
+        alt="View Code"
+        title="View"
+        className="icon view-code-icon"
+        onClick={() => handleViewClick(id)}
+      />
+
+      <img
+        src={CodeIcon}//CHANGE TO A + ICON ASAP
+        alt="Add Section"
+        title="Add"
+        className="icon view-code-icon"
+        onClick={() => handleAddClick(id)}
+      />
+    </div>
   );
+  
 
   // const className:string = content.attributes["class"]
   let Element: ReactElement;
@@ -427,15 +465,33 @@ export const HtmlInterpreter = (props: Props) => {
     mouseOutCallbacks.forEach((f) => f(e));
   };
 
-  let children = content.attributes["text"]
-    ? [content.attributes["text"].value, ...(Children ?? [])]
-    : [...(Children ?? [])];
+  let children = [];
 
+  //ChatGPT generated until line 478 - allows HTML display for Quill editing, while also sanitizing all input for safety
+  if (content.attributes["text"]) {
+    const cleanHTML = DOMPurify.sanitize(content.attributes["text"].value);
+    children.push(
+      <React.Fragment key="richtext">
+        {cleanHTML && <span dangerouslySetInnerHTML={{ __html: cleanHTML }} />}
+      </React.Fragment>
+    );
+  }
+  
+  if (Children) {
+    children = [...children, ...Children];
+  }
+  
+//Displays options when element is selected - navigation and section elements get an additional "Add" button
   if (editorState.selectedElementId === id) {
-    children = [elementOperations, ...children];
+    if (content.attributes["className"].value ==="vertical" || content.attributes["className"].value === "navigation"){
+    children = [elementSectionOperations, ...children];
+    }
+    else{
+      children = [elementOperations, ...children];
+    }
   }
 
-  const element = content.element;
+  const element = content.attributes.headingtype?.value || content.element || "div"; //Allows for dynamic changing of element
   const outputAttributes = Object.keys(content.attributes).map((k) => {
     const attribute = content.attributes[k];
     return attribute.suppress ? null : k;
@@ -467,56 +523,12 @@ export const HtmlInterpreter = (props: Props) => {
     ...args,
   };
 
-  // Function to render the element with optional resize wrapper
-  const renderElement = () => {
-    const element = (
-      <div
-        id={id}
-        ref={(el) => {
-          if (dropRef.current) dropRef.current = el;
-          if (dragRef.current) dragRef.current = el;
-        }}
-        style={{
-          ...content.style,
-          width: elementWidth ? `${elementWidth}px` : undefined,
-          height: elementHeight ? `${elementHeight}px` : undefined,
-        }}
-        className={content.attributes?.["className"]?.value}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragOut}
-      >
-        {Children}
-        {editorState.selectedElementId === id && elementOperations}
-      </div>
-    );
-
-    // Only wrap in ResizableBox if the element is draggable/droppable
-    if (content.metadata?.draggable || content.metadata?.droppable) {
-      return (
-        <ResizableBox
-          width={elementWidth}
-          height={elementHeight}
-          minConstraints={[50, 50]}
-          maxConstraints={[1000, 1000]}
-          resizeHandles={['se']}
-          onResize={(_e: React.SyntheticEvent, { size }: { size: { width: number; height: number } }) => {
-            setElementWidth(size.width);
-            setElementHeight(size.height);
-            // Update the element's style directly
-            if (content.style) {
-              content.style.width = { value: `${size.width}px` };
-              content.style.height = { value: `${size.height}px` };
-            }
-          }}
-        >
-          {element}
-        </ResizableBox>
-      );
-    }
-
-    return element;
-  };
+  //if there is a child element create a react element, otherwise create an empty array and return
+  //tell htmlinterpreter that i have dropped an element
+  Element =
+    children.filter((c) => c !== null).length > 0
+      ? React.createElement(element, finalArgs, children)
+      : React.createElement(element, finalArgs);
 
   useEffect(() => {
     refs.forEach((ref) => {
@@ -578,7 +590,7 @@ export const HtmlInterpreter = (props: Props) => {
 
   return (
     <>
-      {renderElement()}
+      {Element}
       {viewCodeModal}
     </>
   );
