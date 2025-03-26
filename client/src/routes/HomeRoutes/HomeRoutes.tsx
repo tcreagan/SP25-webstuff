@@ -1,4 +1,3 @@
-import { RouteData } from "@remix-run/router/dist/utils";
 import {
   createBrowserRouter,
   RouteObject,
