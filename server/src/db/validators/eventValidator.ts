@@ -1,6 +1,6 @@
 //gpt generated 
 //needs review
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 import Joi from 'joi';
 
 // Joi schema to validate event data
