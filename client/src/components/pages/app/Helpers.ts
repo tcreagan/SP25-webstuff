@@ -105,10 +105,7 @@ export function sanitizeImageUrl(value: string, defaultValue: string) {
   }
 }
 
-//gpt 
-//review
 //used to help handle child widgets update their own styles, positions, etc
-//fix the any types in parameters
 export function updateWidgetStyle(widgetId: number, styles: React.CSSProperties, dispatch: any) {
   dispatch({
     type: 'UPDATE_WIDGET_STYLE',
@@ -126,8 +123,7 @@ export function updateWidgetPosition(widgetId: number, x: number, y: number, dis
     y,
   });
 }
-//gpt
-//review
+
 //added the ability to reset inherited values incase it happens so they are independent
 // Removes inherited styles from child widgets, ensuring independence from the parent
 export const resetInheritedStyles = (widgetId: number, editor: EditorState, section: string) => {
@@ -147,4 +143,4 @@ export const resetInheritedStyles = (widgetId: number, editor: EditorState, sect
 
   return widget.style;
 };
-
+ 
