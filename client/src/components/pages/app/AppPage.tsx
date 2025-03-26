@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./PageHeader";
+import PageHeader from "./PageHeader";
 import { Editor } from "./editor/Editor";
 import Sidebar from "components/Sidebar/Sidebar";
 import { EditorProvider } from "state/editor/EditorContext";
@@ -15,7 +15,7 @@ const AppPage = (props: Props) => {
       <DragAndDropProvider>
         <TextEditingProvider>
           <EditorProvider>
-            <Header />
+            <PageHeader />
             <div className="page-content">
               <Editor />
               <Sidebar />
