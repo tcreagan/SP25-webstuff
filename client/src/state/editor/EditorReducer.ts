@@ -1,4 +1,3 @@
-
 // #region reducer definition
 
 import { Key, useContext } from "react";
@@ -29,6 +28,11 @@ export enum ActionType {
   CANCEL_DRAG = "CANCEL_DRAG",
   DELETE_ELEMENT = "DELETE_ELEMENT",  
   COPY_ELEMENT = "COPY_ELEMENT",
+  ADD_ELEMENT = "ADD_ELEMENT",
+  UNDO = "UNDO",
+  REDO = "REDO",
+  SAVE = "SAVE",
+  LOAD = "LOAD",
 
   VIEW_CODE = "VIEW_CODE",
   LOAD_STATE = "LOAD_STATE",
@@ -63,7 +67,12 @@ export type EditorAction =
   | { type: ActionType.COPY_ELEMENT; elementId: string }
   | { type: ActionType.VIEW_CODE; elementId: string }
   | { type: ActionType.ATTRIBUTE_CHANGED; target:"style"|"attributes"; attribute:string; newValue:string }
-  | { type: ActionType.LOAD_STATE; payload: EditorState };
+  | { type: ActionType.LOAD_STATE; payload: EditorState }
+  | { type: ActionType.ADD_ELEMENT; elementId: string}
+  | { type: ActionType.UNDO }
+  | { type: ActionType.REDO }
+  | { type: ActionType.SAVE }
+  | { type: ActionType.LOAD };
 
 
 export type EditorState = {
@@ -77,6 +86,8 @@ export type EditorState = {
   header: HtmlObject;
   body: HtmlObject;
   footer: HtmlObject;
+  history: EditorState[];
+  historyIndex: number;
 };
 
 export type DropTargetData = {
@@ -86,9 +97,76 @@ export type DropTargetData = {
 
 // #endregion
 
+// Helper function to create a deep clone of the state
+const createCleanState = (state: EditorState): EditorState => {
+  const cleanState = {
+    isDragging: state.isDragging,
+    isEditing: state.isEditing,
+    draggedItemId: state.draggedItemId,
+    hoveredItemId: state.hoveredItemId,
+    selectedElementId: state.selectedElementId,
+    cursorPosition: state.cursorPosition ? { ...state.cursorPosition } : null,
+    widgets: state.widgets.map(widget => ({ ...widget })),
+    header: JSON.parse(JSON.stringify(state.header)),
+    body: JSON.parse(JSON.stringify(state.body)),
+    footer: JSON.parse(JSON.stringify(state.footer)),
+    history: state.history,
+    historyIndex: state.historyIndex
+  };
+  return cleanState;
+};
+
+// Helper function to compare states without using JSON.stringify
+const areStatesEqual = (state1: EditorState, state2: EditorState): boolean => {
+  // Compare primitive values first
+  if (state1.isDragging !== state2.isDragging ||
+      state1.isEditing !== state2.isEditing ||
+      state1.draggedItemId !== state2.draggedItemId ||
+      state1.hoveredItemId !== state2.hoveredItemId ||
+      state1.selectedElementId !== state2.selectedElementId ||
+      state1.historyIndex !== state2.historyIndex) {
+    return false;
+  }
+
+  // Compare cursor position
+  if (state1.cursorPosition && state2.cursorPosition) {
+    if (state1.cursorPosition.row !== state2.cursorPosition.row ||
+        state1.cursorPosition.col !== state2.cursorPosition.col) {
+      return false;
+    }
+  } else if (state1.cursorPosition || state2.cursorPosition) {
+    return false;
+  }
+
+  // Compare sections
+  const compareSection = (section1: HtmlObject, section2: HtmlObject): boolean => {
+    if (section1.html.nodes.length !== section2.html.nodes.length) {
+      return false;
+    }
+    return section1.html.nodes.every((node, index) => {
+      const otherNode = section2.html.nodes[index];
+      if (node.element !== otherNode.element) return false;
+      
+      // Compare attributes
+      const attrKeys1 = Object.keys(node.attributes);
+      const attrKeys2 = Object.keys(otherNode.attributes);
+      if (attrKeys1.length !== attrKeys2.length) return false;
+      
+      return attrKeys1.every(key => {
+        const attr1 = node.attributes[key];
+        const attr2 = otherNode.attributes[key];
+        return attr1.value === attr2.value;
+      });
+    });
+  };
+
+  return compareSection(state1.header, state2.header) &&
+         compareSection(state1.body, state2.body) &&
+         compareSection(state1.footer, state2.footer);
+};
+
 // Define a reducer to manage the state of the editor
 export function editorReducer(state: EditorState, action: EditorAction): EditorState {
-
   // Group actions for action handler delegation //
   const MouseMovementActions = [
     ActionType.HOVER,
@@ -113,7 +191,6 @@ export function editorReducer(state: EditorState, action: EditorAction): EditorS
     ActionType.ELEMENT_BLURRED
   ]
 
-  
   const DeleteElementActions = [
     ActionType.DELETE_ELEMENT
   ]
@@ -126,70 +203,116 @@ export function editorReducer(state: EditorState, action: EditorAction): EditorS
     ActionType.LOAD_STATE
   ]
 
-  if(MouseMovementActions.includes(action.type)){
-    return handleMouseMovementAction(state, action)
-  } else
-  {
-    if(DragAndDropActions.includes(action.type)){
-      return handleDragAndDropAction(state, action)
-    } else
-    if(DataFetchingActions.includes(action.type)){
-      return handleDataFetchingAction(state, action)
-    } else
-    if(FocusedElementActions.includes(action.type)){
-      return handleFocusedElementAction(state, action)
-    } else
-    if(DeleteElementActions.includes(action.type)){
-      return handleDeleteAction(state, action)
-    }
-    if(CopyElementActions.includes(action.type)){
-      return handleCopyAction(state, action)
-    }
-    if(LoadStateActions.includes(action.type)){
-      return handleLoadStateAction(state, action)
-    }
-  }
+  const handleAddAction = [
+    ActionType.ADD_ELEMENT
+  ]
 
-  if(action.type === ActionType.ATTRIBUTE_CHANGED){
-    if(!state.selectedElementId){
-      return state;
-    }
+  const UndoRedoActions = [
+    ActionType.UNDO,
+    ActionType.REDO
+  ]
 
-    console.log("attribute ", action.attribute)
-    console.log('target id', state.selectedElementId)
-
-    const {section, index} = parseId(state.selectedElementId)
-
-    const primaryIndex = findPrimaryNode(index, state, section)
-
-    const node = state[section].html.nodes[primaryIndex ?? index]
-
-    const attr = node[action.target][action.attribute]
+  // Handle undo/redo actions
+  if (UndoRedoActions.includes(action.type)) {
+    // Create a clean copy of the current history
+    const cleanHistory = state.history.map(historyState => createCleanState(historyState));
     
-    let sanitizedValue;
-    switch(action.attribute) {
-      case 'className':
-        sanitizedValue = sanitizeClassName(action.newValue, attr.value);
-        break;
-      case 'height':
-      case 'width':
-        sanitizedValue = sanitizeWidthOrHeight(action.newValue, attr.value);
-        break;
-      case 'src':
-        sanitizedValue = sanitizeImageUrl(action.newValue, attr.value);
-        break;
-      default:
-        sanitizedValue = action.newValue; // Default case if no specific sanitization is needed
+    if (action.type === ActionType.UNDO && state.historyIndex > 0) {
+      const previousState = cleanHistory[state.historyIndex - 1];
+      return {
+        ...previousState,
+        history: cleanHistory,
+        historyIndex: state.historyIndex - 1
+      };
     }
-  
-    if(attr){
-      attr.value = sanitizedValue;
+    if (action.type === ActionType.REDO && state.historyIndex < cleanHistory.length - 1) {
+      const nextState = cleanHistory[state.historyIndex + 1];
+      return {
+        ...nextState,
+        history: cleanHistory,
+        historyIndex: state.historyIndex + 1
+      };
     }
-
-    return {...state}
+    return state;
   }
 
-  return state;
+  // For all other actions, create a new history entry
+  const newState = (() => {
+    if(MouseMovementActions.includes(action.type)){
+      return handleMouseMovementAction(state, action)
+    } else if(DragAndDropActions.includes(action.type)){
+      return handleDragAndDropAction(state, action)
+    } else if(DataFetchingActions.includes(action.type)){
+      return handleDataFetchingAction(state, action)
+    } else if(FocusedElementActions.includes(action.type)){
+      return handleFocusedElementAction(state, action)
+    } else if(DeleteElementActions.includes(action.type)){
+      return handleDeleteAction(state, action)
+    } else if(CopyElementActions.includes(action.type)){
+      return handleCopyAction(state, action)
+    } else if(LoadStateActions.includes(action.type)){
+      return handleLoadStateAction(state, action)
+    } else if(action.type === ActionType.ATTRIBUTE_CHANGED){
+      if(!state.selectedElementId){
+        return state;
+      }
+
+      const {section, index} = parseId(state.selectedElementId)
+      const primaryIndex = findPrimaryNode(index, state, section)
+      const node = state[section].html.nodes[primaryIndex ?? index]
+
+      const attr = node[action.target][action.attribute]
+      
+      let sanitizedValue;
+      switch(action.attribute) {
+        case 'className':
+          sanitizedValue = sanitizeClassName(action.newValue, attr.value);
+          break;
+        case 'height':
+        case 'width':
+          sanitizedValue = sanitizeWidthOrHeight(action.newValue, attr.value);
+          break;
+        case 'src':
+          sanitizedValue = sanitizeImageUrl(action.newValue, attr.value);
+          break;
+        default:
+          sanitizedValue = action.newValue;
+      }
+    
+      if(attr){
+        attr.value = sanitizedValue;
+      }
+
+      return {...state}
+    }
+    return state;
+  })();
+
+  // Only add to history if the state has actually changed
+  if (!areStatesEqual(newState, state)) {
+    // Create a clean copy of the current history
+    const cleanHistory = state.history.slice(0, state.historyIndex + 1).map(historyState => createCleanState(historyState));
+    
+    // Create a clean version of the new state
+    const cleanNewState = createCleanState(newState);
+    
+    // Add the clean state to history
+    cleanHistory.push(cleanNewState);
+    
+    // Limit history size to prevent memory issues
+    const maxHistorySize = 50;
+    if (cleanHistory.length > maxHistorySize) {
+      cleanHistory.shift();
+    }
+    
+    return {
+      ...cleanNewState,
+      history: cleanHistory,
+      historyIndex: cleanHistory.length - 1
+    };
+  }
+
+  return newState;
 }
 
  
