@@ -14,74 +14,65 @@ export type EditorContext = {
   dispatch: React.Dispatch<EditorAction>;
 } | null;
 
-const initialEditorState: EditorState = {
+// Create a base state object to avoid circular references
+const createBaseState = (): EditorState => ({
   isDragging: false,
   isEditing: false,
   draggedItemId: null,
   hoveredItemId: null,
   selectedElementId: null,
-  widgets: [],
   cursorPosition: null,
+  widgets: [],
   header: {
-    metadata: {
-      type: "PAGE_SECTION",
-    },
+    metadata: { type: "PAGE_SECTION" },
     html: {
-      nodes: [
-        {
-          element: "div",
-          attributes: {
-            className: { value: "header-root" },
-          },
-          style: {},
-          children: [],
-          metadata: { childDirection: "horizontal", droppable: true },
-        },
-      ],
-    },
+      nodes: [{
+        element: "div",
+        attributes: { className: { value: "header-root" } },
+        style: {},
+        children: [],
+        metadata: { childDirection: "horizontal", droppable: true }
+      }]
+    }
   },
   body: {
-    metadata: {
-      type: "PAGE_SECTION",
-    },
+    metadata: { type: "PAGE_SECTION" },
     html: {
-      nodes: [
-        {
-          element: "div",
-          children: [],
-          attributes: {
-            className: { value: "body-root" },
-          },
-          style: {},
-          metadata: { childDirection: "vertical", droppable: true },
-        },
-      ],
-    },
+      nodes: [{
+        element: "div",
+        attributes: { className: { value: "body-root" } },
+        style: {},
+        children: [],
+        metadata: { childDirection: "vertical", droppable: true }
+      }]
+    }
   },
   footer: {
-    metadata: {
-      type: "PAGE_SECTION",
-    },
+    metadata: { type: "PAGE_SECTION" },
     html: {
-      nodes: [
-        {
-          element: "div",
-          children: [],
-          attributes: {
-            className: { value: "footer-root" },
-          },
-          style: {},
-          metadata: { childDirection: "horizontal", droppable: true },
-        },
-      ],
-    },
-  }
+      nodes: [{
+        element: "div",
+        attributes: { className: { value: "footer-root" } },
+        style: {},
+        children: [],
+        metadata: { childDirection: "horizontal", droppable: true }
+      }]
+    }
+  },
+  history: [],
+  historyIndex: 0
+});
+
+const initialState: EditorState = {
+  ...createBaseState(),
+  history: [createBaseState()],
+  historyIndex: 0
 };
 
 export const EditorContext = createContext<EditorContext>(null);
 
 export function EditorProvider({ children }: { children: ReactNode }) {
-  const [editor, dispatch] = useReducer(editorReducer, initialEditorState);
+  const [editor, dispatch] = useReducer(editorReducer, initialState);
   const { state: mouseState, dispatch: mouseDispatch } = useMouse();
 
   useEffect(() => {
