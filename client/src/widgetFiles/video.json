@@ -7,7 +7,65 @@
       },
       "html": {
         "nodes": [
+          {{
+    "metadata": {
+        "name": "Video",
+        "tooltip": "A place to upload and display your video",
+        "type": "WIDGET",
+        "icon": "video-icon"
+      },
+      "html": {
+        "nodes": [
           {
+            "element": "div",
+            "attributes": {
+              "className": {
+                "value": "videoContainer"
+              }
+            },
+            "style": {},
+            "children": [1],
+            "metadata": {
+              "draggable": true,
+              "selectable": true
+            }
+          },
+          {
+            "element": "iframe",
+            "attributes": {
+              "className": {
+                "value": "video",
+                "readonly": true,
+                "input": {
+                    "type": "text",
+                    "displayName":"Class Name",
+                    "tooltip": "This cannot be changed."
+                }
+              },
+              "src": {
+                "value":"https://www.youtube.com/embed/ezsH2zebsYE",
+                "input": {
+                    "type": "text",
+                    "displayName":"Link"
+                }
+              },
+              "autoplay": {
+                "value":"true",
+                "input":{
+                  "type":"text",
+                  "displayName":"AutoPlay"
+                }
+              }
+            },
+            "style": {},
+            "metadata": {
+              "selectable": true,
+              "primary": true
+            }
+          }
+        ]
+      }
+}
             "element": "div",
             "attributes": {
               "className": {
