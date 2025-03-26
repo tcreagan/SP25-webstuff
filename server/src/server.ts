@@ -5,94 +5,42 @@
  */
 
 //#region imports
-import express, {Express, Request, Response} from 'express';
-import path from 'path';
-import env from 'dotenv'
+const express = require('express');
+import cors from 'cors';
+import { authRouter } from './auth/authRouter';
 
-import EventRouter from "./routers/EventRouter"
-import PageLayoutRouter from "./routers/PageLayoutRouter"
-import PageRouter from "./routers/PageRouter"
-import ProjectRouter from "./routers/ProjectRouter"
-import RoleRouter from "./routers/EventRouter"
-import SectionLayoutRouter from "./routers/SectionLayoutRouter"
-import UserRouter from "./routers/UserRouter"
-import UserTypesRouter from "./routers/UserTypesRouter"
-import WidgetRouter from "./routers/WidgetRouter"
 //#endregion
 
-env.config()
-
-const app: Express = express();
-
-const port = process.env.PORT
-
-// Base Routers
-const rootRouter = express.Router();
-const apiRouter = express.Router();
-
-
-
-// Configure to use static files from the React build
-const buildPath = path.normalize(path.join(__dirname, './client'));
-app.use(express.static(buildPath));
-
-app.use((req, res, next) => {
-  console.log(req.url)
-  next();
-})
-
-// Configure a final fallback middleware for the api router
-apiRouter.use((req, res, next) => {
-  try{
-    next()
-  }
-  catch{
-    res.sendStatus(500)
-  }
-})
-
-// Configure all the routing for the backend api
-apiRouter.use("/events", EventRouter);
-apiRouter.use("/pagelayouts", PageLayoutRouter);
-apiRouter.use("/pages", PageRouter);
-apiRouter.use("/projects", ProjectRouter);
-apiRouter.use("/roles", RoleRouter);
-apiRouter.use("/sectionlayouts", SectionLayoutRouter);
-apiRouter.use("/users", UserRouter);
-apiRouter.use("/usertypes", UserTypesRouter);
-apiRouter.use("/widgets", WidgetRouter);
-
-rootRouter.use("/api", apiRouter);
-
-// Default all other paths to be handled by the react router
-rootRouter.get('(/*)?', async (req, res, next) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
-
-app.use(rootRouter);
-
-app.listen(port, ()=> {
-console.log(`[Server]: Listening on port:${port}`);
-});
-
-//gpt generated 
-//needs review
-//recommended additions for the full user implementation
-//import express from 'express';
-//import env from 'dotenv';
-import userRoutes from './routes/userRoutes';
-
-// Initialize environment variables
-dotenv.config();
-
 const app = express();
-app.use(express.json()); // Parse JSON requests
-
-// Define routes
-app.use('/api/users', userRoutes);
-
-// Start the server
 const PORT = process.env.PORT || 3000;
+
+// Configure middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Configure CORS for development
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+};
+
+app.use(cors(corsOptions));
+
+// Enable pre-flight requests for all routes
+app.options('*', cors(corsOptions));
+
+// Mount auth router
+app.use('/api/auth', authRouter);
+
+// Error handling middleware
+app.use((err: any, req: any, res: any, next: any) => {
+  console.error('Server error:', err);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
