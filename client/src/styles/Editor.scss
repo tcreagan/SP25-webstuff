@@ -1,13 +1,19 @@
-
 .preview, .preview *{
   background-color: black !important;
   outline: 1px dashed black !important;
+}
+
+.editor-page {
+  display: flex;
+  width: 100%;
+  height: 100vh;
 }
 
 div.editor{
   display: flex;
   width: 80%;
   justify-content: center;
+  margin-left: auto;
 }
 
 div.editor-container {
@@ -19,7 +25,15 @@ div.editor-container {
   height: fit-content;
   min-height: 1500px;
   width: 95%;
+  background-color: white;
+  color: black;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
+  font-style: normal;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   user-select: none;
+  overflow: auto;
   .selected{
     outline: 3px solid #70a3e2;
     border-radius: 2px;
@@ -59,6 +73,7 @@ div.editor-container {
     background: #f7f7f7;
     max-width: 100%;
     overflow-x: hidden;
+    overflow: auto;
   }
 
   div.tab {
@@ -142,6 +157,7 @@ div.horizontal{
   flex-direction: row;
   padding: 0;
   margin: 3px;
+  overflow: auto;
 }
 
 div.vertical{
@@ -152,6 +168,7 @@ div.vertical{
   overflow-x: hidden;
   flex-direction: column;
   margin: 3px;
+  overflow: auto;
 }
 
 div.elementContainer{
@@ -161,6 +178,7 @@ div.elementContainer{
   width: fit-content;
   justify-content: center;
   padding: 0 !important;
+  overflow: auto;
 }
 
 div.audioContainer{
