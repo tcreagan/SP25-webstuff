@@ -12,6 +12,7 @@
             "attributes": {
               "className": {"value": "elementContainer"}
             },
+            "style": {},
             "children": [1],
             "metadata": {
               "draggable": true,
@@ -21,16 +22,24 @@
           {
             "element": "img",
             "attributes": {
-              "className": {"value": "image"},
+              "className": {
+                "value": "image", 
+                "readonly": true,
+                "input": {
+                    "type": "text",
+                    "displayName":"Class Name",
+                    "tooltip": "This cannot be changed."
+                }
+              },
               "src": {
-                "value":"<dynamic URL>" 
+                "value":"https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
+                "input": {
+                    "type": "text",
+                    "displayName":"File"
+                }
               }
             },
-            "style": {  
-                "maxWidth": "100%",
-                "height": "auto",
-                "border": "1px solid #ccc"
-            },
+            "style": {},
             "metadata": {
               "primary": true
             }
