@@ -1,6 +1,7 @@
 import "styles/layout.css";
 import { useSaveLoadActions } from "../../../state/editor/Helpers";
 import { useState } from "react";
+import { UndoRedoButtons } from "../../UndoRedoButtons";
 
 const PageHeader = () => {
   const { saveToLocalStorage, loadFromLocalStorage } = useSaveLoadActions();
@@ -53,6 +54,7 @@ const PageHeader = () => {
       </div>
 
       <div className="header-right">
+        <UndoRedoButtons />
         <button className="save-button" onClick={handleSaveClick}>
           {saveMessage}
         </button>
