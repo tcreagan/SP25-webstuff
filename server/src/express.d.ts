@@ -6,5 +6,12 @@ declare global {
     interface Request {
       user?: JwtPayload | string;  // Add your user property here
     }
+    interface Response {
+      locals: {
+        user?: JwtPayload | string;
+      };
+    }
   }
 }
+
+export {};
