@@ -8,31 +8,61 @@
 div.widget{
   background-color: lightgray;
   user-select: none;
-  cursor: grab;
   &:hover{
-    cursor: grab;
+    cursor: pointer;
     background-color: gray;
   }
-  &:active {
-    cursor: grabbing;
-  }
 }
 
-.widget-drag-preview {
-  pointer-events: none;
+.editor-toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  align-items: center;
+}
+
+.toolbar-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.undo-redo-container {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  opacity: 0.8;
-  z-index: 1000;
+  align-items: center;
 }
 
-.editor-header-container,
-.editor-body-container,
-.editor-footer-container {
-  &.can-drop {
-    cursor: copy;
+.toolbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #f0f0f0;
   }
-}
 
-.preview-container {
-  cursor: grabbing;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
 }
