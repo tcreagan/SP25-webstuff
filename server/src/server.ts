@@ -8,8 +8,12 @@
 const express = require('express');
 import cors from 'cors';
 import { authRouter } from './auth/authRouter';
+import dotenv from 'dotenv';
 
 //#endregion
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configure CORS for development
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
