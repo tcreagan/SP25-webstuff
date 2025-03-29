@@ -1,5 +1,6 @@
 import {HtmlObject} from "types/HtmlObject"
 import {HtmlInterpreter} from "../HtmlInterpreter"
+//import {buildPreview} from "./Editor"
 
 type Props = {
   content: HtmlObject;
@@ -11,15 +12,14 @@ interface DroppedItem {
 }
 
 export const Footer = (props: Props) => {
-  // Get the nodes to render, either from preview or actual content
-  const nodesToRender = props.content.metadata.preview?.obj?.html.nodes || props.content.html.nodes;
+  let content = [...props.content.html.nodes]
+  if(props.content.metadata.preview){
+    //content = buildPreview(props.content)
+  }
 
   return (
     <div className="editor-footer-container" >
-      <HtmlInterpreter 
-        prefix="f" 
-        content={nodesToRender}
-      />
+      <HtmlInterpreter prefix="f" content={props.content.html.nodes}/>
     </div>
   )
 };
