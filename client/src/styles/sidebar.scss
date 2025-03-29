@@ -220,5 +220,75 @@ div.element-style{
   transform: scale(1.05);  
    
 }
+//added styling for image gallery
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.load-more-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.sidebar-gallery-link {
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+
+  a {
+    display: inline-block;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+}
+.style-sidebar {
+  padding: 20px;
+  background-color: #333;
+
+  .sidebar-header {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .image-gallery-container {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  //Added to ensure tooltips remain visible against sidebar
+  .sidebarTooltip{
+    background-color: #70a3e2;
+    color:#333;
+  }
+}
  
- 
+//Quill editor override styles for visibility in-app and proper sizing
+.quill-editor{
+  background-color: white;
+  color:#333;
+  border-color: #333;
+  border-width: 2px;
+  
+  height: auto;
+  margin-top: 5px;
+  margin-left: 10px;
+  min-height: 200px;
+  max-height: 500px;
+  overflow-y: auto;
+}
