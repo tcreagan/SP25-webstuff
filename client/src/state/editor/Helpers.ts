@@ -485,6 +485,17 @@ export const useSaveLoadActions = () => {
     }
   };
 
+  const loadFromTemplate = (temp: string) => {
+    const jsonString = temp;
+    if (jsonString) {
+      const newState = JSON.parse(jsonString);
+      editorDispatch({
+        type: ActionType.LOAD_STATE,   
+        payload: newState
+      });
+    }
+  };
+
   // Return the save and load functions for external use
-  return { saveToLocalStorage, loadFromLocalStorage };
+  return { saveToLocalStorage, loadFromLocalStorage, loadFromTemplate };
 }
