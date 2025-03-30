@@ -13,3 +13,31 @@ div.widget{
     background-color: gray;
   }
 }
+
+.auth-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  
+  .toggle-button {
+    background: none;
+    border: none;
+    color: #0066cc;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0.5rem 1rem;
+    transition: color 0.2s;
+    
+    &:hover {
+      color: #0055aa;
+    }
+    
+    &:focus {
+      outline: none;
+    }
+  }
+}
