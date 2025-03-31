@@ -90,6 +90,18 @@
             "margin": {
               "value": "0 10px",
               "suppress": true
+            },
+            "display": {
+              "value": "inline",
+              "suppress": true
+            },
+            "width": {
+              "value": "auto",
+              "suppress": true
+            },
+            "height": {
+              "value": "auto",
+              "suppress": true
             }
           },
           "metadata": {
@@ -126,6 +138,18 @@
           "style": {
             "margin": {
               "value": "0 10px",
+              "suppress": true
+            },
+            "display": {
+              "value": "inline",
+              "suppress": true
+            },
+            "width": {
+              "value": "auto",
+              "suppress": true
+            },
+            "height": {
+              "value": "auto",
               "suppress": true
             }
           },
@@ -164,6 +188,18 @@
           "style": {
             "margin": {
               "value": "0 10px",
+              "suppress": true
+            },
+            "display": {
+              "value": "inline",
+              "suppress": true
+            },
+            "width": {
+              "value": "auto",
+              "suppress": true
+            },
+            "height": {
+              "value": "auto",
               "suppress": true
             }
           },
