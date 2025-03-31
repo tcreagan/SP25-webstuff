@@ -1,4 +1,3 @@
-
 // #region reducer definition
 
 import { Key, useContext } from "react";
@@ -13,6 +12,8 @@ import { handleDeleteAction } from "./actionHandlers/DeleteHandler";
 import { MouseState } from "state/mouse/MouseReducer";
 import { handleCopyAction } from "./actionHandlers/copyHandler";
 import { handleLoadStateAction } from "./actionHandlers/LoadStateHandler";
+import { handleUndoRedoAction } from "./actionHandlers/UndoRedoHandler";
+import { handleAddAction } from "./actionHandlers/addHandler";
 import { DragAndDropState } from "state/dragAndDrop/DragAndDropReducer";
 import { parseId } from "./Helpers";
 import { findPrimaryNode, sanitizeClassName, sanitizeImageUrl, sanitizeWidthOrHeight } from "components/pages/app/Helpers";
@@ -44,7 +45,9 @@ export enum ActionType {
   ELEMENT_BLURRED = "ELEMENT_BLURRED",
   ELEMENT_UNSELECTED = "ELEMENT_UNSELECTED",
 
-  ATTRIBUTE_CHANGED = "ATTRIBUTE_CHANGED"
+  ATTRIBUTE_CHANGED = "ATTRIBUTE_CHANGED",
+  UNDO = "UNDO",
+  REDO = "REDO"
 }
 
 export type EditorAction =
@@ -65,7 +68,9 @@ export type EditorAction =
   | { type: ActionType.VIEW_CODE; elementId: string }
   | { type: ActionType.ATTRIBUTE_CHANGED; target:"style"|"attributes"; attribute:string; newValue:string }
   | { type: ActionType.LOAD_STATE; payload: EditorState }
-  | { type: ActionType.ADD_ELEMENT; elementId: string};
+  | { type: ActionType.ADD_ELEMENT; elementId: string}
+  | { type: ActionType.UNDO }
+  | { type: ActionType.REDO }
 
 
 export type EditorState = {
@@ -79,6 +84,8 @@ export type EditorState = {
   header: HtmlObject;
   body: HtmlObject;
   footer: HtmlObject;
+  history: EditorState[];
+  historyIndex: number;
 };
 
 export type DropTargetData = {
@@ -90,6 +97,13 @@ export type DropTargetData = {
 
 // Define a reducer to manage the state of the editor
 export function editorReducer(state: EditorState, action: EditorAction): EditorState {
+  // Handle undo/redo actions first
+  if (action.type === ActionType.UNDO || action.type === ActionType.REDO) {
+    return handleUndoRedoAction(state, action);
+  }
+
+  // For all other actions, create a new state
+  let newState: EditorState;
 
   // Group actions for action handler delegation //
   const MouseMovementActions = [
@@ -115,7 +129,6 @@ export function editorReducer(state: EditorState, action: EditorAction): EditorS
     ActionType.ELEMENT_BLURRED
   ]
 
-  
   const DeleteElementActions = [
     ActionType.DELETE_ELEMENT
   ]
@@ -127,74 +140,36 @@ export function editorReducer(state: EditorState, action: EditorAction): EditorS
   const LoadStateActions = [
     ActionType.LOAD_STATE
   ]
-  const handleAddAction =[
-    ActionType.ADD_ELEMENT
-  ]
 
   if(MouseMovementActions.includes(action.type)){
-    return handleMouseMovementAction(state, action)
-  } else
-  {
-    if(DragAndDropActions.includes(action.type)){
-      return handleDragAndDropAction(state, action)
-    } else
-    if(DataFetchingActions.includes(action.type)){
-      return handleDataFetchingAction(state, action)
-    } else
-    if(FocusedElementActions.includes(action.type)){
-      return handleFocusedElementAction(state, action)
-    } else
-    if(DeleteElementActions.includes(action.type)){
-      return handleDeleteAction(state, action)
-    }
-    if(CopyElementActions.includes(action.type)){
-      return handleCopyAction(state, action)
-    }
-    if(LoadStateActions.includes(action.type)){
-      return handleLoadStateAction(state, action)
-    }
+    newState = handleMouseMovementAction(state, action);
+  } else if(DragAndDropActions.includes(action.type)){
+    newState = handleDragAndDropAction(state, action);
+  } else if(DataFetchingActions.includes(action.type)){
+    newState = handleDataFetchingAction(state, action);
+  } else if(FocusedElementActions.includes(action.type)){
+    newState = handleFocusedElementAction(state, action);
+  } else if(DeleteElementActions.includes(action.type)){
+    newState = handleDeleteAction(state, action);
+  } else if(CopyElementActions.includes(action.type)){
+    newState = handleCopyAction(state, action);
+  } else if(LoadStateActions.includes(action.type)){
+    newState = handleLoadStateAction(state, action);
+  } else if(action.type === ActionType.ADD_ELEMENT){
+    newState = handleAddAction(state, action);
+  } else {
+    return state;
   }
 
-  if(action.type === ActionType.ATTRIBUTE_CHANGED){
-    if(!state.selectedElementId){
-      return state;
-    }
-
-    console.log("attribute ", action.attribute)
-    console.log('target id', state.selectedElementId)
-
-    const {section, index} = parseId(state.selectedElementId)
-
-    const primaryIndex = findPrimaryNode(index, state, section)
-
-    const node = state[section].html.nodes[primaryIndex ?? index]
-
-    const attr = node[action.target][action.attribute]
-    
-    let sanitizedValue;
-    switch(action.attribute) {
-      case 'className':
-        sanitizedValue = sanitizeClassName(action.newValue, attr.value);
-        break;
-      case 'height':
-      case 'width':
-        sanitizedValue = sanitizeWidthOrHeight(action.newValue, attr.value);
-        break;
-      case 'src':
-        sanitizedValue = sanitizeImageUrl(action.newValue, attr.value);
-        break;
-      default:
-        sanitizedValue = action.newValue; // Default case if no specific sanitization is needed
-    }
+  // Update history for all actions except undo/redo
+  const historyEntry = { ...newState, history: [], historyIndex: 0 };
+  const newHistory = [...state.history.slice(0, state.historyIndex + 1), historyEntry];
   
-    if(attr){
-      attr.value = sanitizedValue;
-    }
-
-    return {...state}
-  }
-
-  return state;
+  return {
+    ...newState,
+    history: newHistory,
+    historyIndex: newHistory.length - 1
+  };
 }
 
  
