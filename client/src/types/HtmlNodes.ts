@@ -42,4 +42,6 @@ export type NodeMetadata = {
   preview?:boolean
   primary?:boolean
   childDirection?: "vertical" | "horizontal"
+  resizable?: boolean
+  type?: string
 }
