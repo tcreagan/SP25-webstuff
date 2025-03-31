@@ -542,6 +542,50 @@ export const HtmlInterpreter = (props: Props) => {
   // Determine if the element is resizable
   const isResizable = content.metadata?.resizable !== false && editorState.selectedElementId === id && content.metadata?.type === "WIDGET";
 
+  // Check if this is a special container type that needs custom resizing behavior
+  const isLayout = content.attributes.className?.value === "horizontal" || 
+                   content.attributes.className?.value === "vertical" || 
+                   content.attributes.className?.value === "navigation";
+                   
+  // Check if this is a heading element
+  const isHeading = content.element === "h1" || content.element === "h2" || content.element === "h3" || 
+                    content.attributes.headingtype?.value;
+  
+  // Determine the appropriate resize handles based on the widget type
+  const getResizeHandles = () => {
+    if (isLayout) {
+      // For layout containers, allow resizing from all sides and corners
+      return ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'] as ('s' | 'w' | 'e' | 'n' | 'sw' | 'nw' | 'se' | 'ne')[];
+    } else if (isHeading) {
+      // For headings, only allow width resizing
+      return ['e', 'w'] as ('s' | 'w' | 'e' | 'n' | 'sw' | 'nw' | 'se' | 'ne')[];
+    }
+    // Default to all corners for standard widgets
+    return ['se'] as ('s' | 'w' | 'e' | 'n' | 'sw' | 'nw' | 'se' | 'ne')[];
+  };
+
+  // Determine min/max constraints based on widget type
+  const getMinConstraints = () => {
+    if (isLayout) {
+      return [50, 20] as [number, number]; // Layout containers can be smaller
+    } else if (isHeading) {
+      return [100, 20] as [number, number]; // Headings can be shorter
+    }
+    return [100, 100] as [number, number]; // Default for regular widgets
+  };
+
+  const getMaxConstraints = () => {
+    // Allow layout containers to be much larger
+    if (isLayout) {
+      return [2000, 2000] as [number, number]; // Allow larger containers
+    }
+    // Allow navigation to go full width
+    else if (content.attributes.className?.value === "navigation") {
+      return [2000, 500] as [number, number]; // Navigation bars can be taller now
+    }
+    return [1000, 1000] as [number, number]; // Default
+  };
+
   //if there is a child element create a react element, otherwise create an empty array and return
   //tell htmlinterpreter that i have dropped an element
   if (isResizable) {
@@ -551,18 +595,37 @@ export const HtmlInterpreter = (props: Props) => {
         width={currentWidth}
         height={currentHeight}
         onResizeStop={(_e: React.SyntheticEvent, data: ResizeCallbackData) => {
-          handleResizeStop(id, data.size.width, data.size.height);
+          // For heading elements, use a special resize handler
+          if (isHeading) {
+            // Update width, maintain auto height
+            editorDispatch({ 
+              type: ActionType.RESIZE_ELEMENT, 
+              elementId: id, 
+              width: data.size.width, 
+              height: data.size.height
+            });
+          } else {
+            // Standard resize
+            handleResizeStop(id, data.size.width, data.size.height);
+          }
         }}
-        minConstraints={[100, 100]}
-        maxConstraints={[1000, 1000]}
-        resizeHandles={['se']}
+        minConstraints={getMinConstraints()}
+        maxConstraints={getMaxConstraints()}
+        resizeHandles={getResizeHandles()}
         draggableOpts={{ grid: [5, 5] }}
+        axis={isHeading ? 'both' : 'both'} // Allow both x and y movement for headings
       >
         {React.createElement(
           element,
           {
             ...finalArgs,
-            style: { ...outputStyleObject, width: '100%', height: '100%' }
+            style: { 
+              ...outputStyleObject, 
+              width: '100%', 
+              height: isHeading ? 'auto' : '100%',
+              overflow: isLayout ? 'auto' : 'visible',
+              cursor: 'move'
+            }
           },
           children
         )}
