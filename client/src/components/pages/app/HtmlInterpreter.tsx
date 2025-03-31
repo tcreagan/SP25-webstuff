@@ -31,6 +31,8 @@ import Prism from "prismjs"; // Used to highlight HTML code
 import DOMPurify from "dompurify"; // Uses to sanitize HTML content and safeguard against XSS attacks
 import "prismjs/themes/prism.css"; // Import the Prism CSS file
 import { css_beautify, html_beautify } from "js-beautify";
+import { ResizableBox, ResizeCallbackData } from 'react-resizable';
+import 'react-resizable/css/styles.css';
 
 export type Props = {
   content: StorableHtmlNode[];
@@ -208,6 +210,16 @@ export const HtmlInterpreter = (props: Props) => {
   const handleAddClick = (elementId: string) => {
     // Dispatch an add action to add a new section
     editorDispatch({ type: ActionType.ADD_ELEMENT, elementId });
+  };
+
+  const handleResizeStop = (elementId: string, width: number, height: number) => {
+    // Dispatch a resize action
+    editorDispatch({ 
+      type: ActionType.RESIZE_ELEMENT, 
+      elementId, 
+      width, 
+      height 
+    });
   };
 
   const parentRef = useRef(null);
@@ -523,12 +535,45 @@ export const HtmlInterpreter = (props: Props) => {
     ...args,
   };
 
+  // Get the current dimensions of the element from the style properties
+  const currentWidth = parseInt(content.style.width?.value || "200");
+  const currentHeight = parseInt(content.style.height?.value || "200");
+
+  // Determine if the element is resizable
+  const isResizable = content.metadata?.resizable !== false && editorState.selectedElementId === id && content.metadata?.type === "WIDGET";
+
   //if there is a child element create a react element, otherwise create an empty array and return
   //tell htmlinterpreter that i have dropped an element
-  Element =
-    children.filter((c) => c !== null).length > 0
-      ? React.createElement(element, finalArgs, children)
-      : React.createElement(element, finalArgs);
+  if (isResizable) {
+    // When the element is resizable and selected, wrap it in a ResizableBox
+    Element = (
+      <ResizableBox
+        width={currentWidth}
+        height={currentHeight}
+        onResizeStop={(_e: React.SyntheticEvent, data: ResizeCallbackData) => {
+          handleResizeStop(id, data.size.width, data.size.height);
+        }}
+        minConstraints={[100, 100]}
+        maxConstraints={[1000, 1000]}
+        resizeHandles={['se']}
+        draggableOpts={{ grid: [5, 5] }}
+      >
+        {React.createElement(
+          element,
+          {
+            ...finalArgs,
+            style: { ...outputStyleObject, width: '100%', height: '100%' }
+          },
+          children
+        )}
+      </ResizableBox>
+    );
+  } else {
+    Element =
+      children.filter((c) => c !== null).length > 0
+        ? React.createElement(element, finalArgs, children)
+        : React.createElement(element, finalArgs);
+  }
 
   useEffect(() => {
     refs.forEach((ref) => {
