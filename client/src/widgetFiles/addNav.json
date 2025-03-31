@@ -20,11 +20,44 @@
                 }
               }
             },
-            "style": {},
+            "style": {
+              "width": {
+                "value": "auto",
+                "input": {
+                  "type": "text",
+                  "displayName": "Width"
+                }
+              },
+              "height": {
+                "value": "auto",
+                "input": {
+                  "type": "text",
+                  "displayName": "Height"
+                }
+              },
+              "display": {
+                "value": "flex",
+                "suppress": true
+              },
+              "justify-content": {
+                "value": "center",
+                "suppress": true
+              },
+              "align-items": {
+                "value": "center",
+                "suppress": true
+              },
+              "margin": {
+                "value": "0 10px",
+                "suppress": true
+              }
+            },
             "children": [1],
             "metadata": {
               "draggable": true,
-              "selectable": true
+              "selectable": true,
+              "resizable": true,
+              "type": "WIDGET"
             }
           },
           {
@@ -101,6 +134,28 @@
                    {"value": "6px", "text": "Extra Thick"}
                   ]
                 }
+              },
+              "width": {
+                "value": "100%",
+                "input": {
+                  "type": "text",
+                  "displayName": "Width"
+                }
+              },
+              "height": {
+                "value": "100%",
+                "input": {
+                  "type": "text",
+                  "displayName": "Height"
+                }
+              },
+              "padding": {
+                "value": "8px 16px",
+                "suppress": true
+              },
+              "text-decoration": {
+                "value": "none",
+                "suppress": true
               }
             },
             "metadata": {
