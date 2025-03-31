@@ -14,74 +14,140 @@ export type EditorContext = {
   dispatch: React.Dispatch<EditorAction>;
 } | null;
 
-const initialEditorState: EditorState = {
-  isDragging: false,
-  isEditing: false,
-  draggedItemId: null,
-  hoveredItemId: null,
-  selectedElementId: null,
-  widgets: [],
-  cursorPosition: null,
-  header: {
-    metadata: {
-      type: "PAGE_SECTION",
-    },
-    html: {
-      nodes: [
-        {
-          element: "div",
-          attributes: {
-            className: { value: "header-root" },
-          },
-          style: {},
-          children: [],
-          metadata: { childDirection: "horizontal", droppable: true },
-        },
-      ],
-    },
-  },
-  body: {
-    metadata: {
-      type: "PAGE_SECTION",
-    },
-    html: {
-      nodes: [
-        {
-          element: "div",
-          children: [],
-          attributes: {
-            className: { value: "body-root" },
-          },
-          style: {},
-          metadata: { childDirection: "vertical", droppable: true },
-        },
-      ],
-    },
-  },
-  footer: {
-    metadata: {
-      type: "PAGE_SECTION",
-    },
-    html: {
-      nodes: [
-        {
-          element: "div",
-          children: [],
-          attributes: {
-            className: { value: "footer-root" },
-          },
-          style: {},
-          metadata: { childDirection: "horizontal", droppable: true },
-        },
-      ],
-    },
-  }
-};
-
 export const EditorContext = createContext<EditorContext>(null);
 
-export function EditorProvider({ children }: { children: ReactNode }) {
-  const [editor, dispatch] = useReducer(editorReducer, initialEditorState);
+export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const initialState: EditorState = {
+    header: {
+      metadata: {
+        type: "PAGE_SECTION",
+      },
+      html: {
+        nodes: [
+          {
+            element: "div",
+            attributes: {
+              className: { value: "header-root" },
+            },
+            style: {},
+            children: [],
+            metadata: { childDirection: "horizontal", droppable: true },
+          },
+        ],
+      },
+    },
+    body: {
+      metadata: {
+        type: "PAGE_SECTION",
+      },
+      html: {
+        nodes: [
+          {
+            element: "div",
+            children: [],
+            attributes: {
+              className: { value: "body-root" },
+            },
+            style: {},
+            metadata: { childDirection: "vertical", droppable: true },
+          },
+        ],
+      },
+    },
+    footer: {
+      metadata: {
+        type: "PAGE_SECTION",
+      },
+      html: {
+        nodes: [
+          {
+            element: "div",
+            children: [],
+            attributes: {
+              className: { value: "footer-root" },
+            },
+            style: {},
+            metadata: { childDirection: "horizontal", droppable: true },
+          },
+        ],
+      },
+    },
+    widgets: [],
+    selectedElementId: null,
+    hoveredItemId: null,
+    isDragging: false,
+    isEditing: false,
+    cursorPosition: null,
+    draggedItemId: null,
+    history: [{
+      isDragging: false,
+      isEditing: false,
+      draggedItemId: null,
+      hoveredItemId: null,
+      selectedElementId: null,
+      cursorPosition: null,
+      widgets: [],
+      header: {
+        metadata: {
+          type: "PAGE_SECTION",
+        },
+        html: {
+          nodes: [
+            {
+              element: "div",
+              attributes: {
+                className: { value: "header-root" },
+              },
+              style: {},
+              children: [],
+              metadata: { childDirection: "horizontal", droppable: true },
+            },
+          ],
+        },
+      },
+      body: {
+        metadata: {
+          type: "PAGE_SECTION",
+        },
+        html: {
+          nodes: [
+            {
+              element: "div",
+              children: [],
+              attributes: {
+                className: { value: "body-root" },
+              },
+              style: {},
+              metadata: { childDirection: "vertical", droppable: true },
+            },
+          ],
+        },
+      },
+      footer: {
+        metadata: {
+          type: "PAGE_SECTION",
+        },
+        html: {
+          nodes: [
+            {
+              element: "div",
+              children: [],
+              attributes: {
+                className: { value: "footer-root" },
+              },
+              style: {},
+              metadata: { childDirection: "horizontal", droppable: true },
+            },
+          ],
+        },
+      },
+      history: [],
+      historyIndex: 0
+    }],
+    historyIndex: 0
+  };
+
+  const [state, dispatch] = useReducer(editorReducer, initialState);
   const { state: mouseState, dispatch: mouseDispatch } = useMouse();
 
   useEffect(() => {
@@ -110,7 +176,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // declare logic for setting cursor based on drag state
     const updateCursor = () => {
-      if (editor.isDragging) {
+      if (state.isDragging) {
         document.body.style.cursor = "move";
       } else {
         document.body.style.cursor = "default";
@@ -123,26 +189,26 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       // Reset cursor when component unmounts
       document.body.style.cursor = "default";
     };
-  }, [editor.isDragging]);
+  }, [state.isDragging]);
 
   useEffect(() => {
-    if (!editor.selectedElementId || !editor.cursorPosition) return;
+    if (!state.selectedElementId || !state.cursorPosition) return;
 
-    const { section, index } = parseId(editor.selectedElementId);
+    const { section, index } = parseId(state.selectedElementId);
 
-    const nodes = editor[section].html.nodes;
+    const nodes = state[section].html.nodes;
     const containerNode = nodes[index];
 
     if (!containerNode || !containerNode.children) return;
 
-    const rowIndex = containerNode.children[editor.cursorPosition.row];
+    const rowIndex = containerNode.children[state.cursorPosition.row];
 
     console.log(rowIndex);
 
     const rowNode = nodes[rowIndex];
 
     const rowElement = document.getElementById(
-      editor.selectedElementId[0] + "-" + rowIndex.toString()
+      state.selectedElementId[0] + "-" + rowIndex.toString()
     );
 
     if (!rowElement) return;
@@ -154,7 +220,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       rowElement.textContent = " ";
     }
 
-    console.log(editor.cursorPosition);
+    console.log(state.cursorPosition);
     console.log(rowElement);
 
     const textNode = rowElement.firstChild;
@@ -164,16 +230,16 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     if (textNode && textNode.nodeType === Node.TEXT_NODE) {
       rowElement.contentEditable = "true";
       rowElement.focus();
-      range.setStart(textNode, editor.cursorPosition.col);
-      range.setEnd(textNode, editor.cursorPosition.col);
+      range.setStart(textNode, state.cursorPosition.col);
+      range.setEnd(textNode, state.cursorPosition.col);
       ///range.collapse(true)
       selection?.removeAllRanges();
       selection?.addRange(range);
     }
-  }, [editor.cursorPosition]);
+  }, [state.cursorPosition]);
 
   return (
-    <EditorContext.Provider value={{ state: editor, dispatch: dispatch }}>
+    <EditorContext.Provider value={{ state: state, dispatch: dispatch }}>
       {children}
     </EditorContext.Provider>
   );
