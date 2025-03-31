@@ -21,7 +21,32 @@
             }
           },
           "style": {
-            
+            "width": {
+              "value": "100%",
+              "input": {
+                "type": "text",
+                "displayName": "Width"
+              }
+            },
+            "height": {
+              "value": "60px",
+              "input": {
+                "type": "text",
+                "displayName": "Height"
+              }
+            },
+            "display": {
+              "value": "flex",
+              "suppress": true
+            },
+            "justify-content": {
+              "value": "center",
+              "suppress": true
+            },
+            "align-items": {
+              "value": "center",
+              "suppress": true
+            }
           },
           "children": [1,2,3],
           "metadata": {
@@ -29,7 +54,9 @@
             "draggable": true,
             "childDirection": "horizontal",
             "childPosition": "center",
-            "selectable": true
+            "selectable": true,
+            "resizable": true,
+            "type": "WIDGET"
           }
         },
         {
@@ -60,7 +87,10 @@
             }
           },
           "style": {
-            
+            "margin": {
+              "value": "0 10px",
+              "suppress": true
+            }
           },
           "metadata": {
             "draggable": true,
@@ -94,7 +124,10 @@
             }
           },
           "style": {
-            
+            "margin": {
+              "value": "0 10px",
+              "suppress": true
+            }
           },
           "metadata": {
             "draggable": true,
@@ -129,6 +162,10 @@
             }
           },
           "style": {
+            "margin": {
+              "value": "0 10px",
+              "suppress": true
+            }
           },
           "metadata": {
             "draggable": true,
