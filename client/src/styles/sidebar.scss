@@ -292,3 +292,25 @@ div.element-style{
   max-height: 500px;
   overflow-y: auto;
 }
+
+//Quill class override styles for proper HTML styling
+//Indent Fixes
+.ql-indent-1{
+  text-indent: 1em;
+}
+.ql-indent-2{
+  text-indent: 2em;
+}
+//Text Align Fixes
+.ql-align-center {
+  text-align: center;
+}
+.ql-align-left {
+  text-align: left;
+}
+.ql-align-right {
+  text-align: right;
+}
+.ql-align-justify {
+  text-align: justify;
+}
