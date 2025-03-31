@@ -68,6 +68,20 @@
            {"value": "6px", "text": "Extra Thick"}
           ]
         }
+      },
+      "width": {
+        "value": "300px",
+        "input": {
+          "type": "text",
+          "displayName": "Width"
+        }
+      },
+      "height": {
+        "value": "200px",
+        "input": {
+          "type": "text",
+          "displayName": "Height"
+        }
       }
     },
         "children": [
@@ -76,7 +90,9 @@
           "draggable": true,
           "droppable": true,
           "childDirection": "horizontal",
-          "selectable": true
+          "selectable": true,
+          "resizable": true,
+          "type": "WIDGET"
         }
       }
     ]
