@@ -18,16 +18,16 @@ type Props = {};
 const BlockSidebar = (props: Props) => {
   const { state: editor, dispatch: editorDispatch } = useEditor();
 
-  const horizontalD: HtmlObject = horizontalContainer as HtmlObject;
-  const twoColD: HtmlObject = twoCol as HtmlObject;
-  const threeColD: HtmlObject = threeCol as HtmlObject;
-  const textboxD: HtmlObject = textbox as HtmlObject;
-  const heading1D: HtmlObject = heading as HtmlObject;
-  const imageD: HtmlObject = image as HtmlObject;
-  const logoD: HtmlObject = logo as HtmlObject;
-  const nav: HtmlObject = navigation as HtmlObject;
-  const videoD: HtmlObject = video as HtmlObject;
-  const audioD: HtmlObject = audio as HtmlObject;
+  const horizontalD: HtmlObject = horizontalContainer as unknown as HtmlObject;
+  const twoColD: HtmlObject = twoCol as unknown as HtmlObject;
+  const threeColD: HtmlObject = threeCol as unknown as HtmlObject;
+  const textboxD: HtmlObject = textbox as unknown as HtmlObject;
+  const heading1D: HtmlObject = heading as unknown as HtmlObject;
+  const imageD: HtmlObject = image as unknown as HtmlObject;
+  const logoD: HtmlObject = logo as unknown as HtmlObject;
+  const nav: HtmlObject = navigation as unknown as HtmlObject;
+  const videoD: HtmlObject = video as unknown as HtmlObject;
+  const audioD: HtmlObject = audio as unknown as HtmlObject;
 
 
   useEffect(() => {
