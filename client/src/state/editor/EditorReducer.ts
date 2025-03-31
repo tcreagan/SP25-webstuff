@@ -14,6 +14,7 @@ import { handleCopyAction } from "./actionHandlers/copyHandler";
 import { handleLoadStateAction } from "./actionHandlers/LoadStateHandler";
 import { handleUndoRedoAction } from "./actionHandlers/UndoRedoHandler";
 import { handleAddAction } from "./actionHandlers/addHandler";
+import { handleResizeAction } from "./actionHandlers/ResizeHandler";
 import { DragAndDropState } from "state/dragAndDrop/DragAndDropReducer";
 import { parseId } from "./Helpers";
 import { findPrimaryNode, sanitizeClassName, sanitizeImageUrl, sanitizeWidthOrHeight } from "components/pages/app/Helpers";
@@ -31,6 +32,7 @@ export enum ActionType {
   DELETE_ELEMENT = "DELETE_ELEMENT",  
   COPY_ELEMENT = "COPY_ELEMENT",
   ADD_ELEMENT = "ADD_ELEMENT",
+  RESIZE_ELEMENT = "RESIZE_ELEMENT",
 
   VIEW_CODE = "VIEW_CODE",
   LOAD_STATE = "LOAD_STATE",
@@ -69,6 +71,7 @@ export type EditorAction =
   | { type: ActionType.ATTRIBUTE_CHANGED; target:"style"|"attributes"; attribute:string; newValue:string }
   | { type: ActionType.LOAD_STATE; payload: EditorState }
   | { type: ActionType.ADD_ELEMENT; elementId: string}
+  | { type: ActionType.RESIZE_ELEMENT; elementId: string; width: number; height: number }
   | { type: ActionType.UNDO }
   | { type: ActionType.REDO }
 
@@ -141,6 +144,10 @@ export function editorReducer(state: EditorState, action: EditorAction): EditorS
     ActionType.LOAD_STATE
   ]
 
+  const ResizeElementActions = [
+    ActionType.RESIZE_ELEMENT
+  ]
+
   if(MouseMovementActions.includes(action.type)){
     newState = handleMouseMovementAction(state, action);
   } else if(DragAndDropActions.includes(action.type)){
@@ -157,6 +164,8 @@ export function editorReducer(state: EditorState, action: EditorAction): EditorS
     newState = handleLoadStateAction(state, action);
   } else if(action.type === ActionType.ADD_ELEMENT){
     newState = handleAddAction(state, action);
+  } else if(ResizeElementActions.includes(action.type)){
+    newState = handleResizeAction(state, action);
   } else {
     return state;
   }
