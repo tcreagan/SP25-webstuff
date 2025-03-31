@@ -1,11 +1,32 @@
 import "styles/layout.css";
 import { useSaveLoadActions } from "../../../state/editor/Helpers";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useEditor } from "state/editor/EditorReducer";
+import { ActionType } from "state/editor/EditorReducer";
 
 const PageHeader = () => {
   const { saveToLocalStorage, loadFromLocalStorage } = useSaveLoadActions();
+  const { state: editorState, dispatch: editorDispatch } = useEditor();
   const [saveMessage, setSaveMessage] = useState("Save");
   const [loadMessage, setLoadMessage] = useState("Load");
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Undo: Ctrl+Z
+      if (e.ctrlKey && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        editorDispatch({ type: ActionType.UNDO });
+      }
+      // Redo: Ctrl+Y or Ctrl+Shift+Z
+      if ((e.ctrlKey && e.key === 'y') || (e.ctrlKey && e.shiftKey && e.key === 'z')) {
+        e.preventDefault();
+        editorDispatch({ type: ActionType.REDO });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [editorDispatch]);
 
   const handleSaveClick = () => {
     saveToLocalStorage();
@@ -19,6 +40,14 @@ const PageHeader = () => {
     loadFromLocalStorage();
     setLoadMessage("Loaded!");
     setTimeout(() => setLoadMessage("Load"), 2000); // Reset load message after 2 seconds
+  };
+
+  const handleUndoClick = () => {
+    editorDispatch({ type: ActionType.UNDO });
+  };
+
+  const handleRedoClick = () => {
+    editorDispatch({ type: ActionType.REDO });
   };
 
   return (
@@ -53,6 +82,20 @@ const PageHeader = () => {
       </div>
 
       <div className="header-right">
+        <button 
+          className="undo-button" 
+          onClick={handleUndoClick}
+          disabled={editorState.historyIndex <= 0}
+        >
+          Undo
+        </button>
+        <button 
+          className="redo-button" 
+          onClick={handleRedoClick}
+          disabled={editorState.historyIndex >= editorState.history.length - 1}
+        >
+          Redo
+        </button>
         <button className="save-button" onClick={handleSaveClick}>
           {saveMessage}
         </button>
