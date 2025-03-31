@@ -49,7 +49,7 @@
                 }
               },
               "target": {
-                "value":"_blank",
+                "value":"_self",
                 "hidden": true
               }
             },
