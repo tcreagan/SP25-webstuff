@@ -14,11 +14,28 @@
                 "value": "videoContainer"
               }
             },
-            "style": {},
+            "style": {
+              "width": {
+                "value": "560px",
+                "input": {
+                  "type": "text",
+                  "displayName": "Width"
+                }
+              },
+              "height": {
+                "value": "315px",
+                "input": {
+                  "type": "text",
+                  "displayName": "Height"
+                }
+              }
+            },
             "children": [1],
             "metadata": {
               "draggable": true,
-              "selectable": true
+              "selectable": true,
+              "resizable": true,
+              "type": "WIDGET"
             }
           },
           {
@@ -48,7 +65,22 @@
                 }
               }
             },
-            "style": {},
+            "style": {
+              "width": {
+                "value": "100%",
+                "input": {
+                  "type": "text",
+                  "displayName": "Width"
+                }
+              },
+              "height": {
+                "value": "100%",
+                "input": {
+                  "type": "text",
+                  "displayName": "Height"
+                }
+              }
+            },
             "metadata": {
               "selectable": true,
               "primary": true
