@@ -12,11 +12,28 @@
             "attributes": {
               "className": {"value": "elementContainer"}
             },
-            "style": {},
+            "style": {
+              "width": {
+                "value": "200px",
+                "input": {
+                  "type": "text",
+                  "displayName": "Width"
+                }
+              },
+              "height": {
+                "value": "150px",
+                "input": {
+                  "type": "text",
+                  "displayName": "Height"
+                }
+              }
+            },
             "children": [1],
             "metadata": {
               "draggable": true,
-              "selectable": true
+              "selectable": true,
+              "resizable": true,
+              "type": "WIDGET"
             }
           },
           {
@@ -39,7 +56,29 @@
                 }
               }
             },
-            "style": {},
+            "style": {
+              "width": {
+                "value": "100%",
+                "input": {
+                  "type": "text",
+                  "displayName": "Width"
+                }
+              },
+              "height": {
+                "value": "100%",
+                "input": {
+                  "type": "text",
+                  "displayName": "Height"
+                }
+              },
+              "object-fit": {
+                "value": "contain",
+                "input": {
+                  "type": "text",
+                  "displayName": "Object Fit"
+                }
+              }
+            },
             "metadata": {
               "primary": true
             }
