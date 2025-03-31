@@ -16,11 +16,28 @@
                 "tooltip": "This cannot be changed."
               }
             },
-            "style": {},
+            "style": {
+              "width": {
+                "value": "400px",
+                "input": {
+                  "type": "text",
+                  "displayName": "Width"
+                }
+              },
+              "height": {
+                "value": "80px",
+                "input": {
+                  "type": "text",
+                  "displayName": "Height"
+                }
+              }
+            },
             "children": [1],
             "metadata": {
               "draggable": true,
-              "selectable": true
+              "selectable": true,
+              "resizable": true,
+              "type": "WIDGET"
             }
           },
           {
@@ -45,7 +62,15 @@
               "type": {"value": "audio/wav", "hidden": true},
               "controls": {"value": "true", "hidden": true}
             },
-            "style": {},
+            "style": {
+              "width": {
+                "value": "100%",
+                "input": {
+                  "type": "text",
+                  "displayName": "Width"
+                }
+              }
+            },
             "metadata": {
               "selectable": true,
               "primary": true
