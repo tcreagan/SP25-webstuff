@@ -57,6 +57,20 @@
                            {"value": "6px", "text": "Extra Thick"}
                           ]
                         }
+                      },
+                      "width": {
+                        "value": "400px",
+                        "input": {
+                          "type": "text",
+                          "displayName": "Width"
+                        }
+                      },
+                      "height": {
+                        "value": "200px",
+                        "input": {
+                          "type": "text",
+                          "displayName": "Height"
+                        }
                       }
                 },
                 
@@ -81,7 +95,10 @@
                 "metadata":{
                     "selectable": true,
                     "editable": true,
-                    "draggable": true
+                    "draggable": true,
+                    "resizable": true,
+                    "type": "WIDGET",
+                    "textbox": true
                 }
             }
         ]
