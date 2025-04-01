@@ -75,7 +75,7 @@ const MappingSidebar = (props: Props) => {
   };
 
   const handleDeletePage = (pageNum: number) => {
-    setPages(pages.filter(p => p !== pageNum));
+    setPages(pages.filter((p: number) => p !== pageNum));
     setSelectedPage(null);
   };
 
@@ -101,7 +101,7 @@ const MappingSidebar = (props: Props) => {
         flexDirection: 'column',
         gap: '10px'
       }}>
-        {pages.map((pageNum) => (
+        {pages.map((pageNum: number) => (
           <div key={pageNum} className="page-container">
             <button 
               className={`page-button ${selectedPage === pageNum ? 'selected' : ''}`}
