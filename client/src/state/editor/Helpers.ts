@@ -505,6 +505,8 @@ export const useSaveLoadActions = () => {
       selectedElementId: null,
       cursorPosition: null,
       widgets: [],
+      history: [],
+      historyIndex: -1,
       header: templateData.header || { metadata: { type: "PAGE_SECTION" }, html: { nodes: [] } },
       body: templateData.body || { metadata: { type: "PAGE_SECTION" }, html: { nodes: [] } },
       footer: templateData.footer || { metadata: { type: "PAGE_SECTION" }, html: { nodes: [] } }
