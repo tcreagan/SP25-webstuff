@@ -459,7 +459,7 @@ export const useSaveLoadActions = () => {
   const { state: editorState, dispatch: editorDispatch } = useEditor();
   
   // Function to save the editor state to local storage
-  const saveToLocalStorage = () => {
+  const saveToLocalStorage = (name: string) => {
     // Serialize the editor state to JSON
     const jsonString = JSON.stringify({
       header: editorState.header,
@@ -467,13 +467,13 @@ export const useSaveLoadActions = () => {
       footer: editorState.footer
     });
     // Store the serialized state in local storage
-    localStorage.setItem('editorState', jsonString);
+    localStorage.setItem(name, jsonString);
   };
 
   // Function to load the editor state from local storage
-  const loadFromLocalStorage = () => {
+  const loadFromLocalStorage = (input: string) => {
     // Retrieve the serialized editor state from local storage
-    const jsonString = localStorage.getItem('editorState');
+    const jsonString = localStorage.getItem(input);
     if (jsonString) {
       // Parse the serialized state into a JavaScript object
       const newState = JSON.parse(jsonString);
@@ -485,15 +485,35 @@ export const useSaveLoadActions = () => {
     }
   };
 
-  const loadFromTemplate = (temp: string) => {
-    const jsonString = temp;
-    if (jsonString) {
-      const newState = JSON.parse(jsonString);
-      editorDispatch({
-        type: ActionType.LOAD_STATE,   
-        payload: newState
-      });
+  const loadFromTemplate = (temp: string | any) => {
+    let newState;
+    if (typeof temp === 'string') {
+      newState = JSON.parse(temp);
+    } else {
+      newState = temp;
     }
+
+    // handle template wrappers
+    const templateData = newState;
+
+    // Ensure the state has the correct structure
+    const formattedState: EditorState = {
+      isDragging: false,
+      isEditing: false,
+      draggedItemId: null,
+      hoveredItemId: null,
+      selectedElementId: null,
+      cursorPosition: null,
+      widgets: [],
+      header: templateData.header || { metadata: { type: "PAGE_SECTION" }, html: { nodes: [] } },
+      body: templateData.body || { metadata: { type: "PAGE_SECTION" }, html: { nodes: [] } },
+      footer: templateData.footer || { metadata: { type: "PAGE_SECTION" }, html: { nodes: [] } }
+    };
+
+    editorDispatch({
+      type: ActionType.LOAD_STATE,   
+      payload: formattedState
+    });
   };
 
   // Return the save and load functions for external use

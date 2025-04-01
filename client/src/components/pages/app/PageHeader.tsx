@@ -29,7 +29,7 @@ const PageHeader = () => {
   }, [editorDispatch]);
 
   const handleSaveClick = () => {
-    saveToLocalStorage();
+    saveToLocalStorage("editorState");
     setSaveMessage("Saved!");
     setTimeout(() => {
       setSaveMessage("Save");
@@ -37,7 +37,7 @@ const PageHeader = () => {
   };
 
   const handleLoadClick = () => {
-    loadFromLocalStorage();
+    loadFromLocalStorage("editorState");
     setLoadMessage("Loaded!");
     setTimeout(() => setLoadMessage("Load"), 2000); // Reset load message after 2 seconds
   };

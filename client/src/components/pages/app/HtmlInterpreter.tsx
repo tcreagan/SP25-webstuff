@@ -667,7 +667,7 @@ export const HtmlInterpreter = (props: Props) => {
           outline: "none",
           padding: "20px",
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
           resize: "both" /* Enables resizing */,
         },
       }}
