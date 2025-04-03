@@ -40,7 +40,6 @@ export const Assets = {
     "Mapping-Icon": <PiTreeViewFill className="MappingIcon" size = "30" style={{color:"#f0d1ff"}}/>,
     "Gallery-Icon": <BsImage size="30" style={{ color: "#f0d1ff" }}/>,
     "SEO-Icon": <LuZoomIn className="SEOIcon" size = "30" style={{color:"#f0d1ff"}}/>,
-    "add-icon": <BsPlusLg className = "AddIcon" size="45" style={{color:"333333"}}/>
-
+    "add-icon": <BsPlusLg className = "AddIcon" size="45" style={{color:"#1c274c"}}/>
   }
 }
