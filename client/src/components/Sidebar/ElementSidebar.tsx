@@ -39,7 +39,6 @@ const ElementSidebar = (props: Props) => {
       });
     }
   }
- // const quillRef = useRef<ReactQuill>(null); //Quill reference for later functions
 
   const buildInput = (
     source: { [key: string]: NodeAttribute },
