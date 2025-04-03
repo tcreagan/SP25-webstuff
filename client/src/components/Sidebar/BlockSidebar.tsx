@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import twoCol from "widgetFiles/twoCol.json"
 import threeCol from "widgetFiles/threeCol.json"
-import horizontalContainer from "widgetFiles/container.json"
+import horizontalContainer from "widgetFiles/row.json"
 import textbox from "widgetFiles/textbox.json"
 import heading from "widgetFiles/heading.json"
 import image from "widgetFiles/image.json"

@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "name": "Section",
-    "tooltip": "Creates a section to drop widgets in",
+    "name": "Row",
+    "tooltip": "Creates a row to drop widgets in",
     "type": "WIDGET",
     "icon": "text-icon"
   },
