@@ -6,6 +6,8 @@ import { Footer } from "./Footer";
 import { useEditor } from "state/editor/EditorReducer";
 import { useMouse } from "state/mouse/MouseReducer";
 import { useDragAndDropContext } from "state/dragAndDrop/DragAndDropReducer";
+import { HtmlObject } from "types/HtmlObject";
+import { getDropChildId, insertDroppedElement, parseId } from "state/editor/Helpers";
 
 export const Editor = () => {
   const { state: editor, dispatch: editorDispatch } = useEditor();
@@ -16,11 +18,10 @@ export const Editor = () => {
     header: editor.header,
     body: editor.body,
     footer: editor.footer
-  }
+  };
 
-  if(dragState.isDragging && editor.hoveredItemId && dragState.canDrop){
-    const {section, index} = parseId(editor.hoveredItemId)
-
+  if (dragState.isDragging && editor.hoveredItemId && dragState.canDrop) {
+    const {section, index} = parseId(editor.hoveredItemId);
     const predictedIndex = getDropChildId(mouseState, editor, editor.hoveredItemId)
 
 
@@ -50,29 +51,26 @@ export const Editor = () => {
         }
       ]
       }
-    }
+    };
 
-    data[section] = structuredClone(editor[section])
-
-    data[section] = insertDroppedElement(predictedIndex, editor, previewObject, editor.hoveredItemId)[section]
+    data[section] = structuredClone(editor[section]);
+    data[section] = insertDroppedElement(predictedIndex, editor, previewObject, editor.hoveredItemId)[section];
   }
+
   return (
     <div id="editor-window" className="editor">
       <div className="editor-container">
         <div className="header-section">
-          <Header
-            content={editor.header}
-          />
+          <div className="tab">Header</div>
+          <Header content={data.header} />
         </div>
         <div className="body-section">
-          <Body
-            content={editor.body}
-          />
+          <div className="tab">Body</div>
+          <Body content={data.body} />
         </div>
         <div className="footer-section">
-          <Footer
-            content={editor.footer}
-          />
+          <div className="tab">Footer</div>
+          <Footer content={data.footer} />
         </div>
       </div>
     </div>
