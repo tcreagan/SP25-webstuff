@@ -3,7 +3,7 @@
       "name": "Navigation",
       "tooltip": "Creates a navigation bar",
       "type": "WIDGET",
-      "icon": "text-icon"
+      "icon": "nav-icon"
     },
     "html": {
       "nodes": [

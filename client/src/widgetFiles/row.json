@@ -3,7 +3,7 @@
     "name": "Row",
     "tooltip": "Creates a row to drop widgets in",
     "type": "WIDGET",
-    "icon": "text-icon"
+    "icon": "row-icon"
   },
   "html": {
     "nodes": [

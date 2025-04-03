@@ -3,7 +3,7 @@
         "name": "Navigation Child",
         "tooltip": "A place to add any link of your choice",
         "type": "WIDGET",
-        "icon": "link-icon"
+        "icon": "nav-icon"
       },
       "html": {
         "nodes": [

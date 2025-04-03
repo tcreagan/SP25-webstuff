@@ -3,7 +3,7 @@
       "name": "Column Child",
       "tooltip": "Creates new column",
       "type": "WIDGET",
-      "icon": "text-icon"
+      "icon": "two-columns-icon"
     },
     "html": {
       "nodes": [
