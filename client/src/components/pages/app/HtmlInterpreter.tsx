@@ -17,6 +17,7 @@ import { ActionType, useEditor } from "state/editor/EditorReducer";
 import TrashIcon from "../../../assets/images/trash-icon.svg";
 import CopyIcon from "../../../assets/images/copy-icon.svg";
 import CodeIcon from "../../../assets/images/code-icon.svg";
+import { BsPlusSquareFill } from "react-icons/bs";
 import { useDragAndDropContext } from "state/dragAndDrop/DragAndDropReducer";
 import { useDraggable } from "state/dragAndDrop/hooks/useDraggable";
 import { useDroppable } from "state/dragAndDrop/hooks/useDroppable";
@@ -298,11 +299,10 @@ export const HtmlInterpreter = (props: Props) => {
         onClick={() => handleViewClick(id)}
       />
 
-      <img
-        src={CodeIcon}//CHANGE TO A + ICON ASAP
-        alt="Add Section"
-        title="Add"
-        className="icon view-code-icon"
+      <BsPlusSquareFill
+        className="icon add-item"
+        title = "Add Section"
+        color = "#1c274c"
         onClick={() => handleAddClick(id)}
       />
     </div>
