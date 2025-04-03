@@ -5,6 +5,7 @@
     "dependencies": {
         "@remix-run/router": "^1.23.0",
         "@testing-library/react": "^16.2.0",
+        "@tinymce/tinymce-react": "^6.1.0",
         "bootstrap": "^5.3.3",
         "pexels": "^1.4.0",
         "react": "^19.0.0",
@@ -16,6 +17,7 @@
         "react-router-dom": "^7.4.0",
         "react-scripts": "^5.0.1",
         "react-tooltip": "^5.28.0",
+        "tinymce": "^7.7.2",
         "typescript": "^5.8.2",
         "web-vitals": "^4.2.4"
     },
